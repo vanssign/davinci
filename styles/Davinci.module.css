@@ -1,0 +1,12 @@
+.textareaInherit{
+    color:inherit;
+    font:inherit;
+    border:inherit;
+    background:inherit;
+    padding:0;
+    margin:0;
+    overflow-y: hidden;
+}
+.textareaInherit{
+    width:95%;
+}
