@@ -40,7 +40,7 @@ export async function getStaticPaths() {
             params: { id: doc.id },
         })
     });
-    return { paths, fallback: false }
+    return { paths, fallback: true }
 }
 
 export async function getStaticProps({params}) {
