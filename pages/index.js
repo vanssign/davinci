@@ -25,10 +25,10 @@ export default function Home() {
             <p>Post a new blog using block editor</p>
           </a></Link>
 
-          <a className={styles.card}>
-            <h3>Blogs &rarr;</h3>
-            <p>Blogs are live at /blog/:id</p>
-          </a>
+          <Link href="/auth/login">
+            <a className={styles.card}><h3>Login &rarr;</h3>
+              <p>Login using email address and password</p></a>
+          </Link>
 
           <a
             className={styles.card}

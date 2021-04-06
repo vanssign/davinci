@@ -6,7 +6,29 @@
     padding:0;
     margin:0;
     overflow-y: hidden;
+    resize:none;
+    width:100%;
 }
-.textareaInherit{
-    width:95%;
+.textareaInherit:focus{
+    outline-color: #21759b;
+    background-color: transparent !important;   
+}
+.textareaInherit:hover{
+    background-color: whitesmoke;
+}
+
+.delBtn{
+    position: absolute;
+    width:20px;
+    height:20px;
+    right:0;
+    top:-10px;
+    background-color: red;
+    opacity: 0.6;
+    color:white;
+    border-radius:100%;
+    border-width: 0;
+}
+.delBtn:hover{
+opacity: 1;
 }
