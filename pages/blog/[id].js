@@ -40,17 +40,22 @@ export async function getStaticPaths() {
             params: { id: doc.id },
         })
     });
-    return { paths, fallback: true }
+    return { paths, fallback: 'blocking' }
 }
 
-export async function getStaticProps({params}) {
+export async function getStaticProps({ params }) {
     var postData;
     const blogRef = fire.firestore().collection('blog').doc(params.id);
     const doc = await blogRef.get();
     if (!doc.exists) {
+        postData={
+            tagsArray:[],
+            contentArray:[],
+            title:'error'
+        }
     }
     else {
-        var postData = doc.data();
+        postData = doc.data();
     }
     return {
         props: {
