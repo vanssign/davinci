@@ -32,3 +32,13 @@
 .delBtn:hover{
 opacity: 1;
 }
+.delBtn:focus{
+    outline:none !important;
+}
+/* .aidBtn{
+    position:absolute;
+    width:20px;
+    height:20px;
+    top:-10px;
+    right:20px;
+} */

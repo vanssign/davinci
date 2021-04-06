@@ -18,13 +18,23 @@ export default function Post({ postData }) {
         if (tag == "h4") {
             return (<h4 key={tag + index}>{content}</h4>)
         }
+        if(tag=="ul"){
+            return(
+                <ul key={tag + index} style={{ position: 'relative' }}>
+                {content.map((c, i) =>
+                    <li key={tag + index + "c" + i}>{c}</li>
+                )
+                }
+                </ul>
+            )
+        }
     }
     return (
         <div>
             <h1>{postData.title}</h1>
             {
-                postData.tagsArray.map((tag, index) =>
-                    buildHTML(tag, postData.contentArray[index], index)
+                postData.elementArray.map((element, index) =>
+                    buildHTML(element.tag, element.content, index)
                 )
             }
         </div>
@@ -49,9 +59,8 @@ export async function getStaticProps({ params }) {
     const doc = await blogRef.get();
     if (!doc.exists) {
         postData={
-            tagsArray:[],
-            contentArray:[],
-            title:'error'
+            title:'Unexpected Error',
+            elementArray:[],
         }
     }
     else {

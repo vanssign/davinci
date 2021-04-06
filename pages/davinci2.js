@@ -7,9 +7,9 @@ import Link from 'next/link';
 
 export default function DaVinci() {
     const [Title, setTitle] = useState("");
-    const [TagsArray, setTagsArray] = useState([]);
-    const [ContentArray, setContentArray] = useState([]);
-    const [ElementArray,setElementArray]=useState({})
+    // const [TagsArray, setTagsArray] = useState([]);
+    // const [ContentArray, setContentArray] = useState([]);
+    const [ElementArray, setElementArray] = useState([])
     const [Notification, setNotification] = useState("");
     const [LiveBlogId, setLiveBlogId] = useState("");
 
@@ -30,8 +30,7 @@ export default function DaVinci() {
             .collection('blog')
             .add({
                 title: Title,
-                tagsArray: TagsArray,
-                contentArray: ContentArray,
+                elementArray: ElementArray
             }).then(function (docRef) {
                 setNotification("Blog live at /blog/" + docRef.id);
             })
@@ -40,52 +39,64 @@ export default function DaVinci() {
             });
     }
     function addElement(tag) {
-        setTagsArray(TagsArray.concat(tag));
-        var copyContentArray = cloneState(ContentArray);
+        let newElementArray = [...ElementArray];
+        let element;
         if (tag == "ul") {
-            copyContentArray.push(["", "", ""])
+            element = {
+                tag: tag,
+                content: ["", "", ""]
+            }
         }
         else {
-            copyContentArray.push("");
+            element = {
+                tag: tag,
+                content: ""
+            }
         }
-        setContentArray(copyContentArray);
+        newElementArray.push(element);
+        setElementArray(newElementArray);
     }
     function deleteElement(index) {
-        let newtagsArray = TagsArray.filter((tag, i) => i !== index);
-        let newContentArray = ContentArray.filter((content, i) => i !== index);
-        setTagsArray(newtagsArray);
-        setContentArray(newContentArray);
+        let newElementArray = ElementArray.filter((e, i) => i !== index);
+        setElementArray(newElementArray);
     }
 
+    function updateContent(index, value) {
+        let newElementArray = [...ElementArray];
+        newElementArray[index].content = value;
+        setElementArray(newElementArray);
+    }
     function updateContentArray(index, value, index2) {
-        let newContentArray = [...ContentArray];
-        console.log("newContentArray",newContentArray);
-        if (index2) {
-            newContentArray[index][index2] = value;
+        let newElementArray = [...ElementArray];
+        if (index2 == "increase") {
+            newElementArray[index].content.push("");
+        }
+        else if (index2 == "decrease") {
+            newElementArray[index].content.pop();
         }
         else {
-            newContentArray[index] = value;
+            newElementArray[index].content[index2] = value;
         }
-        setContentArray(newContentArray);
+        setElementArray(newElementArray);
     }
 
     function buildtextareaHTML(tag, content, index) {
         if (tag == "h2") {
-            return (<h2 key={tag + index} style={{ position: 'relative' }} style={{ position: 'relative' }}><TextareaAutosize value={content} className={styles.textareaInherit} onChange={(e) => updateContentArray(index, e.target.value, "")} placeholder="Heading" /><button onClick={() => deleteElement(index)} className={styles.delBtn}>X</button></h2>)
+            return (<h2 key={tag + index} style={{ position: 'relative' }} style={{ position: 'relative' }}><TextareaAutosize value={content} className={styles.textareaInherit} onChange={(e) => updateContent(index, e.target.value)} placeholder="Heading" /><button onClick={() => deleteElement(index)} className={styles.delBtn}>X</button></h2>)
         }
         if (tag == "p") {
-            return (<p key={tag + index} style={{ position: 'relative' }}><TextareaAutosize value={content} className={styles.textareaInherit} onChange={(e) => updateContentArray(index, e.target.value, "")} placeholder="Paragraph" />
+            return (<p key={tag + index} style={{ position: 'relative' }}><TextareaAutosize value={content} className={styles.textareaInherit} onChange={(e) => updateContent(index, e.target.value)} placeholder="Paragraph" />
                 <button onClick={() => deleteElement(index)} className={styles.delBtn}>X</button></p>)
         }
         if (tag == "h3") {
-            return (<h3 key={tag + index} style={{ position: 'relative' }}><TextareaAutosize value={content} className={styles.textareaInherit} onChange={(e) => updateContentArray(index, e.target.value, "")} placeholder="Sub-Heading" />
+            return (<h3 key={tag + index} style={{ position: 'relative' }}><TextareaAutosize value={content} className={styles.textareaInherit} onChange={(e) => updateContent(index, e.target.value)} placeholder="Sub-Heading" />
                 <button onClick={() => deleteElement(index)} className={styles.delBtn}>X</button></h3>)
         }
         if (tag == "img") {
             return (
                 <div key={tag + index} style={{ position: 'relative' }}>
                     <small>
-                        <TextareaAutosize value={content} className={styles.textareaInherit} onChange={(e) => updateContentArray(index, e.target.value, "")} placeholder="Image Link" />
+                        <TextareaAutosize value={content} className={styles.textareaInherit} onChange={(e) => updateContent(index, e.target.value)} placeholder="Image Link" />
                         <button onClick={() => deleteElement(index)} className={styles.delBtn}>X</button>
                     </small>
                     <br />
@@ -97,9 +108,13 @@ export default function DaVinci() {
         if (tag == "ul") {
             return (
                 <ul key={tag + index} style={{ position: 'relative' }}>
-                    <li><TextareaAutosize value={content[0]} className={styles.textareaInherit} onChange={(e) => updateContentArray(index, e.target.value, 0)} placeholder="List Item" /></li>
-                    <li><TextareaAutosize value={content[1]} className={styles.textareaInherit} onChange={(e) => updateContentArray(index, e.target.value, 1)} placeholder="List Item" /></li>
-                    <li><TextareaAutosize value={content[2]} className={styles.textareaInherit} onChange={(e) => updateContentArray(index, e.target.value, 2)} placeholder="List Item" /></li>
+                    {ElementArray[index].content.map((c, i) =>
+                        <li key={tag + index + "c" + i}><TextareaAutosize value={c} className={styles.textareaInherit} onChange={(e) => updateContentArray(index, e.target.value, i)} placeholder="List Item" /></li>
+                    )
+                    }
+                    <button onClick={() => deleteElement(index)} className={styles.delBtn}>X</button>
+                    <button onClick={() => updateContentArray(index, "", "increase")}>+</button>
+                        <button onClick={() => updateContentArray(index, "", "decrease")}>𝁇</button>
                 </ul>
             )
         }
@@ -115,12 +130,11 @@ export default function DaVinci() {
         //     )
         // }
         if (tag == "h4") {
-            return (<h4 key={tag + index} style={{ position: 'relative' }}><TextareaAutosize value={content} className={styles.textareaInherit} onChange={(e) => updateContentArray(index, e.target.value, "")} placeholder="Mini-Heading" />
+            return (<h4 key={tag + index} style={{ position: 'relative' }}><TextareaAutosize value={content} className={styles.textareaInherit} onChange={(e) => updateContent(index, e.target.value)} placeholder="Mini-Heading" />
                 <button onClick={() => deleteElement(index)} className={styles.delBtn}>X</button></h4>)
         }
     }
-    console.log(TagsArray);
-    console.log(ContentArray);
+    console.log(ElementArray);
     return (
         <>
             <Head>
@@ -134,8 +148,8 @@ export default function DaVinci() {
                 </div>
                 <div style={{ width: '75%' }}>
                     <h1><TextareaAutosize value={Title} className={styles.textareaInherit} onChange={(e) => setTitle(e.target.value)} placeholder="Title" /></h1>
-                    {TagsArray.map((tag, index) =>
-                        buildtextareaHTML(tag, ContentArray[index], index)
+                    {ElementArray.map((e, index) =>
+                        buildtextareaHTML(e.tag, e.content, index)
                     )
                     }
                 </div>
