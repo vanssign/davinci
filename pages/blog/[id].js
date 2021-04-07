@@ -33,6 +33,7 @@ export default function Post({ postData }) {
         <div className="container-fluid">
             <Head>
                 <title>{postData.title} | DaVinci</title>
+                <meta name="viewport" content="initial-scale=1.0, width=device-width" />
             </Head>
             <h1>{postData.title}</h1>
             {

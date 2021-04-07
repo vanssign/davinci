@@ -18,3 +18,10 @@ a {
   background-color:#21759b;
   border-color: #21759b;
 }
+.btn:focus{
+  outline:none;
+  box-shadow: none;
+}
+.container{
+  padding-top: 16px;
+}

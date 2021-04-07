@@ -7,6 +7,7 @@ export default function BlogIndex({ allPostsData }) {
         <div className="container">
             <Head>
                 <title>Blogs | Painted with Davinci</title>
+                <meta name="viewport" content="initial-scale=1.0, width=device-width" />
             </Head>
             <section>
                 <h2>Blogs</h2>

@@ -138,6 +138,7 @@ export default function DaVinci() {
         <>
             <Head>
                 <title>DaVinci | Paint blog posts</title>
+                <meta name="viewport" content="initial-scale=1.0, width=device-width" />
             </Head>
             {LoginStatus ? (
                 <div className="container-fluid">
@@ -145,14 +146,14 @@ export default function DaVinci() {
                         {Notification + " at "}
                         <Link href={`/blog/${LiveBlogId}`}><a>https://davinci.vercel.app/blog/{LiveBlogId}</a></Link>
                     </div>
-                    <div>
+                    <div style={{minHeight:'100vh'}}>
                         <h1><TextareaAutosize value={Title} className={styles.textareaInherit} onChange={(e) => setTitle(e.target.value)} placeholder="Title" /></h1>
                         {ElementArray.map((e, index) =>
                             buildtextareaHTML(e.tag, e.content, index)
                         )
                         }
                     </div>
-                    <div className="fixed-bottom container-fluid">
+                    <div  style={{position:'sticky',bottom:0}}>
                         <div>
                             <button className="btn btn-outline-secondary" onClick={() => setPreviewStatus(!PreviewStatus)}>{PreviewStatus ? ("ᨑ") : ("ᨉ")}</button>
                             <button className="btn btn-primary" onClick={(e) => handlePublish(e)}>Publish</button>
@@ -171,7 +172,7 @@ export default function DaVinci() {
                         </div>
                     </div>
                 </div>
-            ) : (<><h3>You are not logged in! </h3> <Link href="/auth/login"><a>Login here</a></Link></>)}
+            ) : (<div className="container"><h3>You are not logged in! </h3> <Link href="/auth/login"><a>Login here</a></Link></div>)}
         </>
     )
 }

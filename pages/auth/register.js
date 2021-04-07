@@ -40,12 +40,13 @@ export default function Register() {
     <div className="container">
       <Head>
         <title>Register | Blog</title>
+        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
       <h1>Create new user</h1>
       <small>{notification}</small>
       <form onSubmit={handleLogin}>
         Email<br /> <input type="text" value={userName}
-          onChange={({ target }) => setUsername(target.value)} />
+          onChange={({ target }) => setUsername(target.value)} placeholder="name@example.com" />
         <br />
         Password<br /> <input type="password" value={password}
           onChange={({ target }) => setPassword(target.value)} />
@@ -54,7 +55,7 @@ export default function Register() {
           onChange={({ target }) => setPassConf(target.value)} />
         <br />
         <br />
-        <button type="submit">SignUp</button>
+        <button type="submit" className="btn btn-primary">SignUp</button>
       </form>
       <br/>
       <br/>

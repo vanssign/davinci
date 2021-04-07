@@ -27,18 +27,19 @@ export default function Login(){
     <div className="container">
       <Head>
         <title>Login | Blog</title>
+        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
       <h1>Login</h1>
       {notify}
       <form onSubmit={handleLogin}>
         Email<br/><input type="text" value={username} 
-        onChange={({target}) => setUsername(target.value)} /> 
+        onChange={({target}) => setUsername(target.value)} placeholder="name@example.com" /> 
         <br />
         Password<br/><input type="password" value={password} 
         onChange={({target}) => setPassword(target.value)} /> 
         <br />
         <br/>
-        <button type="submit">Login</button>
+        <button type="submit" className="btn btn-primary">Login</button>
       </form>
       <small>Don't have an account? <Link href="/auth/register"><a>Register now !</a></Link></small>
       <br/>
