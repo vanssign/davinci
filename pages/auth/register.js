@@ -2,6 +2,7 @@ import { useState } from 'react';
 import fire from '../../config/fire-config';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
+import Link from 'next/link';
 
 export default function Register() {
   const router = useRouter();
@@ -24,7 +25,7 @@ export default function Register() {
     }
     fire.auth()
       .createUserWithEmailAndPassword(userName, password)
-      .then(()=>router.push("/"))
+      .then(() => router.push("/"))
       .catch((err) => {
         setNotification(err.message);
         setTimeout(() => {
@@ -36,7 +37,7 @@ export default function Register() {
       });
   }
   return (
-    <>
+    <div className="container">
       <Head>
         <title>Register | Blog</title>
       </Head>
@@ -55,6 +56,10 @@ export default function Register() {
         <br />
         <button type="submit">SignUp</button>
       </form>
-    </>
+      <br/>
+      <br/>
+      <Link href="/"><a>⟵ Back to Home</a></Link>
+
+    </div>
   )
 }

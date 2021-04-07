@@ -30,7 +30,10 @@ export default function Post({ postData }) {
         }
     }
     return (
-        <div>
+        <div className="container-fluid">
+            <Head>
+                <title>{postData.title} | DaVinci</title>
+            </Head>
             <h1>{postData.title}</h1>
             {
                 postData.elementArray.map((element, index) =>
@@ -59,7 +62,7 @@ export async function getStaticProps({ params }) {
     const doc = await blogRef.get();
     if (!doc.exists) {
         postData={
-            title:'Unexpected Error',
+            title:'Unexpected Error Occured',
             elementArray:[],
         }
     }

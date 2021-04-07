@@ -24,7 +24,7 @@ export default function Login(){
     setPassword('')
   }
   return (
-    <>
+    <div className="container">
       <Head>
         <title>Login | Blog</title>
       </Head>
@@ -41,6 +41,9 @@ export default function Login(){
         <button type="submit">Login</button>
       </form>
       <small>Don't have an account? <Link href="/auth/register"><a>Register now !</a></Link></small>
-    </>
+      <br/>
+      <br/>
+      <Link href="/"><a>⟵ Back to Home</a></Link>
+    </div>
   )
 }

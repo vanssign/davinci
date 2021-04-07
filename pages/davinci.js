@@ -10,8 +10,9 @@ export default function DaVinci() {
     // const [TagsArray, setTagsArray] = useState([]);
     // const [ContentArray, setContentArray] = useState([]);
     const [ElementArray, setElementArray] = useState([])
-    const [Notification, setNotification] = useState("");
+    const [Notification, setNotification] = useState("Check out all blogs");
     const [LiveBlogId, setLiveBlogId] = useState("");
+    const [PreviewStatus,setPreviewStatus]=useState(false);
 
     const [LoginStatus, setLoginStatus] = useState(false);
     fire.auth()
@@ -26,17 +27,26 @@ export default function DaVinci() {
 
     const handlePublish = (event) => {
         event.preventDefault();
-        fire.firestore()
-            .collection('blog')
-            .add({
-                title: Title,
-                elementArray: ElementArray
-            }).then(function (docRef) {
-                setNotification("Blog live at /blog/" + docRef.id);
-            })
-            .catch(function (error) {
-                setNotification("Error adding document: " + error);
-            });
+        if (Title) {
+            fire.firestore()
+                .collection('blog')
+                .add({
+                    title: Title,
+                    elementArray: ElementArray
+                }).then((docRef) => {
+                    setNotification("Blog live");
+                    setLiveBlogId(docRef.id)
+                })
+                .catch(function (error) {
+                    setNotification("Error adding document: " + error);
+                });
+        }
+        else{
+            setNotification("Title not added! Checking all blogs")
+            setTimeout(() => {
+                setNotification("Check out all blogs")
+              }, 7000)
+        }
     }
     function addElement(tag) {
         let newElementArray = [...ElementArray];
@@ -114,21 +124,10 @@ export default function DaVinci() {
                     }
                     <button onClick={() => deleteElement(index)} className={styles.delBtn}>X</button>
                     <button onClick={() => updateContentArray(index, "", "increase")}>+</button>
-                        <button onClick={() => updateContentArray(index, "", "decrease")}>𝁇</button>
+                    <button onClick={() => updateContentArray(index, "", "decrease")}>𝁇</button>
                 </ul>
             )
         }
-        // if (tag == "a") {
-        //     return (
-        //         <a key={tag + index} style={{position:'relative'}}>
-        //             <TextareaAutosize value={content[0]} className={styles.textareaInherit} onChange={(e) => updateContentArray(index, e.target.value,"")} placeholder="Anchor text" />
-        //             <button onClick={() => deleteElement(index)} className={styles.delBtn}>X</button>
-        //             <br />
-        //             <small><TextareaAutosize value={content[1]} className={styles.textareaInherit} onChange={(e) => updateContentArray(index, e.target.value,"")} placeholder="Anchor Link" /></small>
-        //             <br />
-        //         </a>
-        //     )
-        // }
         if (tag == "h4") {
             return (<h4 key={tag + index} style={{ position: 'relative' }}><TextareaAutosize value={content} className={styles.textareaInherit} onChange={(e) => updateContent(index, e.target.value)} placeholder="Mini-Heading" />
                 <button onClick={() => deleteElement(index)} className={styles.delBtn}>X</button></h4>)
@@ -140,31 +139,39 @@ export default function DaVinci() {
             <Head>
                 <title>DaVinci | Paint blog posts</title>
             </Head>
-            {LoginStatus ? (<div style={{ padding: '2px' }}>
-                <div>
-                    {Notification}
-                    {LiveBlogId ? (<Link href={`/blog/${LiveBlogId}`}>https://davinci.vercel.app/blog/{LiveBlogId}</Link>
-                    ) : (<></>)}
+            {LoginStatus ? (
+                <div className="container-fluid">
+                    <div className="row">
+                        <div className={PreviewStatus?("col-11"):("col-8")} style={{ minHeight: '100vh' }}>
+                            <h1><TextareaAutosize value={Title} className={styles.textareaInherit} onChange={(e) => setTitle(e.target.value)} placeholder="Title" /></h1>
+                            {ElementArray.map((e, index) =>
+                                buildtextareaHTML(e.tag, e.content, index)
+                            )
+                            }
+                        </div>
+                        <div className={PreviewStatus?("col-1 border-left overflow-hidden"):("col-4 border-left")} style={{ height: '100vh' }} >
+                            <div>
+                                {Notification + " at "}
+                                <Link href={`/blog/${LiveBlogId}`}><a>https://davinci.vercel.app/blog/{LiveBlogId}</a></Link>
+                            </div>
+                            <button className="btn btn-secondary" onClick={()=>setPreviewStatus(!PreviewStatus)}>{PreviewStatus?("Edit"):("Preview")}</button>
+                            <button className="btn btn-primary" onClick={(e) => handlePublish(e)}>Publish</button>
+                            <br />
+                            <br />
+                            <div className="d-flex justify-content-between">
+                                <button className="btn btn-light" onClick={() => addElement("h2")}>Heading</button>
+                                <button className="btn btn-light" onClick={() => addElement("h3")}>Sub-Heading</button>
+                                <button className="btn btn-light" onClick={() => addElement("h4")}>Mini-Heading</button>
+                            </div>
+                            <div className="d-flex justify-content-between">
+                                <button className="btn btn-light" onClick={() => addElement("p")}>Paragraph</button>
+                                <button className="btn btn-light" onClick={() => addElement("ul")}>List</button>
+                                <button className="btn btn-light" onClick={() => addElement("img")}>Image</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div style={{ width: '75%' }}>
-                    <h1><TextareaAutosize value={Title} className={styles.textareaInherit} onChange={(e) => setTitle(e.target.value)} placeholder="Title" /></h1>
-                    {ElementArray.map((e, index) =>
-                        buildtextareaHTML(e.tag, e.content, index)
-                    )
-                    }
-                </div>
-                <div style={{ width: '25%', position: 'fixed', right: 0, top: 0 }}>
-                    <button onClick={(e) => handlePublish(e)}>Publish</button>
-                    <br />
-                    <button onClick={() => addElement("h2")}>Heading</button>
-                    <button onClick={() => addElement("h3")}>Sub-Heading</button>
-                    <button onClick={() => addElement("h4")}>Mini-Heading</button>
-                    <button onClick={() => addElement("p")}>Paragraph</button>
-                    <button onClick={() => addElement("ul")}>List</button>
-                    <button onClick={() => addElement("img")}>Image</button>
-                </div>
-            </div>
-            ) : (<><h4>You are not logged in! </h4> <Link href="/auth/login"><a>Login here</a></Link></>)}
+            ) : (<><h3>You are not logged in! </h3> <Link href="/auth/login"><a>Login here</a></Link></>)}
         </>
     )
 }

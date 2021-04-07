@@ -22,33 +22,23 @@ export default function Home() {
         <div className={styles.grid}>
           <Link href="/davinci"><a className={styles.card}>
             <h3>Editor &rarr;</h3>
-            <p>Post a new blog using block editor</p>
+            <p>Post a new blog using DaVinci block editor</p>
           </a></Link>
+
+          <Link href="/blog">
+            <a className={styles.card}><h3>Blogs &rarr;</h3>
+              <p>List of all blogs painted with DaVinci</p></a>
+          </Link>
 
           <Link href="/auth/login">
             <a className={styles.card}><h3>Login &rarr;</h3>
               <p>Login using email address and password</p></a>
           </Link>
 
-          <a
-            className={styles.card}
-          >
-            <h3>Database &rarr;</h3>
-            <p>Firebase's Firestore is used for Database.</p>
-          </a>
-
-          <a
-            className={styles.card}
-          >
-            <h3>Coming Soon &rarr;</h3>
-            <p>
-              <ul>
-                <li>Authentication based posts</li>
-                <li>Edit already published posts</li>
-                <li>DaVinci features</li>
-              </ul>
-            </p>
-          </a>
+          <Link href="/auth/register">
+            <a className={styles.card}><h3>Register &rarr;</h3>
+              <p>Register using email address and password</p></a>
+          </Link>
         </div>
       </main>
 
