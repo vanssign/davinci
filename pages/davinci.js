@@ -12,7 +12,7 @@ export default function DaVinci() {
     const [ElementArray, setElementArray] = useState([])
     const [Notification, setNotification] = useState("Check out all blogs");
     const [LiveBlogId, setLiveBlogId] = useState("");
-    const [PreviewStatus,setPreviewStatus]=useState(false);
+    const [PreviewStatus, setPreviewStatus] = useState(false);
 
     const [LoginStatus, setLoginStatus] = useState(false);
     fire.auth()
@@ -41,11 +41,11 @@ export default function DaVinci() {
                     setNotification("Error adding document: " + error);
                 });
         }
-        else{
+        else {
             setNotification("Title not added! Checking all blogs")
             setTimeout(() => {
                 setNotification("Check out all blogs")
-              }, 7000)
+            }, 7000)
         }
     }
     function addElement(tag) {
@@ -123,8 +123,8 @@ export default function DaVinci() {
                     )
                     }
                     <button onClick={() => deleteElement(index)} className={styles.delBtn}>X</button>
-                    <button onClick={() => updateContentArray(index, "", "increase")}>+</button>
-                    <button onClick={() => updateContentArray(index, "", "decrease")}>𝁇</button>
+                    <button onClick={() => updateContentArray(index, "", "increase")} className="btn-outline-secondary btn btn-sm py-0 px-1">+</button>
+                    <button onClick={() => updateContentArray(index, "", "decrease")} className="btn-outline-secondary btn btn-sm py-0 px-1">−</button>
                 </ul>
             )
         }
@@ -141,23 +141,23 @@ export default function DaVinci() {
             </Head>
             {LoginStatus ? (
                 <div className="container-fluid">
-                    <div className="row">
-                        <div className={PreviewStatus?("col-11"):("col-8")} style={{ minHeight: '100vh' }}>
-                            <h1><TextareaAutosize value={Title} className={styles.textareaInherit} onChange={(e) => setTitle(e.target.value)} placeholder="Title" /></h1>
-                            {ElementArray.map((e, index) =>
-                                buildtextareaHTML(e.tag, e.content, index)
-                            )
-                            }
-                        </div>
-                        <div className={PreviewStatus?("col-1 border-left overflow-hidden"):("col-4 border-left")} style={{ height: '100vh' }} >
-                            <div>
-                                {Notification + " at "}
-                                <Link href={`/blog/${LiveBlogId}`}><a>https://davinci.vercel.app/blog/{LiveBlogId}</a></Link>
-                            </div>
-                            <button className="btn btn-secondary" onClick={()=>setPreviewStatus(!PreviewStatus)}>{PreviewStatus?("Edit"):("Preview")}</button>
+                    <div>
+                        {Notification + " at "}
+                        <Link href={`/blog/${LiveBlogId}`}><a>https://davinci.vercel.app/blog/{LiveBlogId}</a></Link>
+                    </div>
+                    <div>
+                        <h1><TextareaAutosize value={Title} className={styles.textareaInherit} onChange={(e) => setTitle(e.target.value)} placeholder="Title" /></h1>
+                        {ElementArray.map((e, index) =>
+                            buildtextareaHTML(e.tag, e.content, index)
+                        )
+                        }
+                    </div>
+                    <div className="fixed-bottom container-fluid">
+                        <div>
+                            <button className="btn btn-outline-secondary" onClick={() => setPreviewStatus(!PreviewStatus)}>{PreviewStatus ? ("ᨑ") : ("ᨉ")}</button>
                             <button className="btn btn-primary" onClick={(e) => handlePublish(e)}>Publish</button>
-                            <br />
-                            <br />
+                        </div>
+                        <div className={PreviewStatus ? ("d-none") : ("bg-light rounded")}>
                             <div className="d-flex justify-content-between">
                                 <button className="btn btn-light" onClick={() => addElement("h2")}>Heading</button>
                                 <button className="btn btn-light" onClick={() => addElement("h3")}>Sub-Heading</button>
