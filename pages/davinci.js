@@ -5,7 +5,6 @@ import TextareaAutosize from 'react-textarea-autosize';
 import fire from '../config/fire-config';
 import Link from 'next/link';
 import { DropdownButton, Dropdown, SplitButton } from 'react-bootstrap';
-import DropdownItem from 'react-bootstrap/esm/DropdownItem';
 
 export default function DaVinci() {
     const [Title, setTitle] = useState("");
@@ -305,7 +304,7 @@ export default function DaVinci() {
                 <meta name="viewport" content="initial-scale=1.0, width=device-width" />
             </Head>
             {LoginStatus ? (
-                <div className="container-fluid pt-2">
+                <div className="container-fluid">
                     <div className="d-flex justify-content-between">
                         <div>
                             {Notification + " at "}
