@@ -30,6 +30,16 @@ export default function Post({ postData }) {
                 </ul>
             )
         }
+        if(tag=="ol"){
+            return(
+                <ol key={tag + index} style={{ position: 'relative' }}>
+                {element.content.map((c, i) =>
+                    <li key={tag + index + "c" + i}>{c}</li>
+                )
+                }
+                </ol>
+            )
+        }
         if(tag=="code"){
             return(<code key={tag+index}>{element.content}</code>)
         }
