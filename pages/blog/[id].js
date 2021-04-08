@@ -15,7 +15,7 @@ export default function Post({ postData }) {
             return (<h3 key={tag + index}>{content}</h3>)
         }
         if (tag == "img") {
-            return (<img key={tag + index} src={src} />)
+            return (<img key={tag + index} src={element.src} />)
         }
         if (tag == "h4") {
             return (<h4 key={tag + index}>{content}</h4>)
