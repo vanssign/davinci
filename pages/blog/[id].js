@@ -2,7 +2,9 @@ import Head from "next/head";
 import fire from "../../config/fire-config";
 
 export default function Post({ postData }) {
-    function buildHTML(tag, content, index) {
+    function buildHTML(element, index) {
+        let tag=element.tag;
+        let content=element.content;
         if (tag == "h2") {
             return (<h2 key={tag + index}>{content}</h2>)
         }
@@ -13,7 +15,7 @@ export default function Post({ postData }) {
             return (<h3 key={tag + index}>{content}</h3>)
         }
         if (tag == "img") {
-            return (<img key={tag + index} src={content} />)
+            return (<img key={tag + index} src={src} />)
         }
         if (tag == "h4") {
             return (<h4 key={tag + index}>{content}</h4>)
@@ -21,12 +23,18 @@ export default function Post({ postData }) {
         if(tag=="ul"){
             return(
                 <ul key={tag + index} style={{ position: 'relative' }}>
-                {content.map((c, i) =>
+                {element.content.map((c, i) =>
                     <li key={tag + index + "c" + i}>{c}</li>
                 )
                 }
                 </ul>
             )
+        }
+        if(tag=="code"){
+            return(<code key={tag+index}>{element.content}</code>)
+        }
+        if(tag=="blockquote"){
+            return(<blockquote key={tag+index} cite={element.cite}>{element.content}</blockquote>)
         }
     }
     return (
@@ -38,7 +46,7 @@ export default function Post({ postData }) {
             <h1>{postData.title}</h1>
             {
                 postData.elementArray.map((element, index) =>
-                    buildHTML(element.tag, element.content, index)
+                    buildHTML(element, index)
                 )
             }
         </div>
