@@ -7,10 +7,14 @@
     margin:0;
     overflow-y: hidden;
     resize:none;
+}
+
+.textareaInherit{
     width:100%;
 }
+
 .textareaInherit:focus{
-    outline-color: #21759b;
+    outline: transparent;
     background-color: transparent !important;   
 }
 .textareaInherit:hover{
@@ -22,11 +26,11 @@
     right:0;
     width:18px;
     height:18px;
-    font-size: 12px;
-    top:-9px;
-    background-color: red;
-    opacity: 0.5;
-    color:white;
+    font-size: 14px;
+    top:0px;
+    background-color:transparent;
+    opacity: 0.7;
+    color:black;
     border-radius:25%;
     border-width: 0;
 }

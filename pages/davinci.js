@@ -1,6 +1,6 @@
 import Head from 'next/head'
 import styles from '../styles/Davinci.module.css'
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import TextareaAutosize from 'react-textarea-autosize';
 import fire from '../config/fire-config';
 import Link from 'next/link';
@@ -10,9 +10,16 @@ export default function DaVinci() {
     const [ElementArray, setElementArray] = useState([])
     const [FocusedIndex, setFocusedIndex] = useState(-1);
 
+    const FocusedElement = useRef();
+
     const [Notification, setNotification] = useState("Check out all blogs");
     const [LiveBlogId, setLiveBlogId] = useState("");
     const [PreviewStatus, setPreviewStatus] = useState(false);
+
+    useEffect(() => {
+        if (FocusedElement.current)
+            FocusedElement.current.focus();
+    })
 
     const [LoginStatus, setLoginStatus] = useState(false);
     fire.auth()
@@ -55,13 +62,20 @@ export default function DaVinci() {
         if (tag == "ul") {
             element = {
                 tag: tag,
-                content: ["", ""]
+                content: [""]
             }
         }
         else if (tag == "img") {
             element = {
                 tag: tag,
                 src: "",
+            }
+        }
+        else if (tag == "button") {
+            element = {
+                tag: tag,
+                href: "",
+                content: ""
             }
         }
         else if (tag == "blockquote") {
@@ -84,7 +98,7 @@ export default function DaVinci() {
 
     function deleteElement(index) {
         let newElementArray = ElementArray.filter((e, i) => i !== index);
-        setFocusedIndex(FocusedIndex - 1);
+        setFocusedIndex(index - 1);
         setElementArray(newElementArray);
     }
 
@@ -114,7 +128,7 @@ export default function DaVinci() {
         let content = element.content;
 
         if (tag == "h2") {
-            return (<h2 key={tag + index} style={{ position: 'relative' }} style={{ position: 'relative' }}><TextareaAutosize value={content} className={styles.textareaInherit} onChange={(e) => updateElement(index, "content", e.target.value)} placeholder="Heading" onKeyPress={function (e) {
+            return (<h2 key={tag + index} style={{ position: 'relative' }} style={{ position: 'relative' }}><TextareaAutosize value={content} ref={FocusedIndex == index ? (FocusedElement) : (null)} className={styles.textareaInherit} onChange={(e) => updateElement(index, "content", e.target.value)} placeholder="Heading" onKeyPress={function (e) {
                 if (e.key === 'Enter') {
                     e.preventDefault();
                     addElement("p");
@@ -122,7 +136,7 @@ export default function DaVinci() {
             }} onFocus={() => setFocusedIndex(index)} /><button onClick={() => deleteElement(index)} className={styles.delBtn}>X</button ></h2>)
         }
         if (tag == "p") {
-            return (<p key={tag + index} style={{ position: 'relative' }}><TextareaAutosize value={content} className={styles.textareaInherit} onChange={(e) => updateElement(index, "content", e.target.value)} placeholder="Paragraph" onKeyPress={function (e) {
+            return (<p key={tag + index} style={{ position: 'relative' }}><TextareaAutosize ref={FocusedIndex == index ? (FocusedElement) : (null)} value={content} className={styles.textareaInherit} onChange={(e) => updateElement(index, "content", e.target.value)} placeholder="Paragraph" onKeyPress={function (e) {
                 if (e.key === 'Enter') {
                     e.preventDefault();
                     addElement("p");
@@ -131,8 +145,8 @@ export default function DaVinci() {
                 <button onClick={() => deleteElement(index)} className={styles.delBtn}>X</button></p>)
         }
         if (tag == "h3") {
-            return (<h3 key={tag + index} style={{ position: 'relative' }}><TextareaAutosize value={content} className={styles.textareaInherit} onChange={(e) => updateElement(index, "content", e.target.value)} placeholder="Sub-Heading" onKeyPress={function (e) {
-                if (e.key === 'Enter') {
+            return (<h3 key={tag + index} style={{ position: 'relative' }}><TextareaAutosize value={content} ref={FocusedIndex == index ? (FocusedElement) : (null)} className={styles.textareaInherit} onChange={(e) => updateElement(index, "content", e.target.value)} placeholder="Sub-Heading" onKeyPress={function (e) {
+                if (e.key === "Enter") {
                     e.preventDefault();
                     addElement("p");
                 }
@@ -143,8 +157,8 @@ export default function DaVinci() {
             return (
                 <div key={tag + index} style={{ position: 'relative' }}>
                     <small>
-                        <TextareaAutosize value={element.src} className={styles.textareaInherit} onChange={(e) => updateElement(index, "src", e.target.value)} placeholder="Image Link" onFocus={() => setFocusedIndex(index)} />
-                        <button onClick={() => deleteElement(index)} className={styles.delBtn}>X</button>
+                        <TextareaAutosize value={element.src} ref={FocusedIndex == index ? (FocusedElement) : (null)} className={styles.textareaInherit} onChange={(e) => updateElement(index, "src", e.target.value)} placeholder="Image Link" onFocus={() => setFocusedIndex(index)} />
+                        <button onClick={() => deleteElement(index)} className={styles.delBtn} >X</button>
                     </small>
                     <br />
                     <img src={element.src} />
@@ -156,7 +170,7 @@ export default function DaVinci() {
             return (
                 <ul key={tag + index} style={{ position: 'relative' }}>
                     {ElementArray[index].content.map((c, i) =>
-                        <li key={tag + index + "c" + i}><TextareaAutosize value={c} className={styles.textareaInherit} onChange={(e) => updateContentArray(index, e.target.value, i)} placeholder="List Item" onKeyPress={function (e) {
+                        <li key={tag + index + "c" + i}><TextareaAutosize value={c} ref={FocusedIndex == index ? (FocusedElement) : (null)} className={styles.textareaInherit} onChange={(e) => updateContentArray(index, e.target.value, i)} placeholder="List Item" onKeyPress={function (e) {
                             if (e.key === 'Enter') {
                                 e.preventDefault();
                                 updateContentArray(index, "", "increase")
@@ -170,8 +184,22 @@ export default function DaVinci() {
                 </ul>
             )
         }
+        if (tag == "button") {
+            return (<div key={tag + index} style={{ position: 'relative' }}>
+                <small>
+                    <TextareaAutosize value={element.href} className={styles.textareaInherit} onChange={(e) => updateElement(index, "href", e.target.value)} placeholder="Link" onFocus={() => setFocusedIndex(index)} />
+                    <button onClick={() => deleteElement(index)} className={styles.delBtn}>X</button>
+                </small>
+                <br />
+                <button className="btn btn-light">
+                    <TextareaAutosize value={content} ref={FocusedIndex == index ? (FocusedElement) : (null)} className={styles.textareaInheritBtn} onChange={(e) => updateElement(index, "content", e.target.value)} placeholder="button" onFocus={() => setFocusedIndex(index)} />
+                </button>
+                <br />
+            </div>)
+        }
+
         if (tag == "h4") {
-            return (<h4 key={tag + index} style={{ position: 'relative' }}><TextareaAutosize value={content} className={styles.textareaInherit} onChange={(e) => updateElement(index, "content", e.target.value)} placeholder="Mini-Heading" onKeyPress={function (e) {
+            return (<h4 key={tag + index} style={{ position: 'relative' }}><TextareaAutosize value={content} ref={FocusedIndex == index ? (FocusedElement) : (null)} className={styles.textareaInherit} onChange={(e) => updateElement(index, "content", e.target.value)} placeholder="Mini-Heading" onKeyPress={function (e) {
                 if (e.key === 'Enter') {
                     e.preventDefault();
                     addElement("p");
@@ -182,7 +210,7 @@ export default function DaVinci() {
         if (tag == "code") {
             return (
                 <code key={tag + index} style={{ position: 'relative' }}>
-                    <TextareaAutosize value={content} className={styles.textareaInherit} onChange={(e) => updateElement(index, "content", e.target.value)} placeholder="Code Snippet" onFocus={() => setFocusedIndex(index)} />
+                    <TextareaAutosize value={content} ref={FocusedIndex == index ? (FocusedElement) : (null)} className={styles.textareaInherit} onChange={(e) => updateElement(index, "content", e.target.value)} placeholder="Code Snippet" onFocus={() => setFocusedIndex(index)} />
                     <button onClick={() => deleteElement(index)} className={styles.delBtn}>X</button>
                 </code>
             )
@@ -191,7 +219,7 @@ export default function DaVinci() {
             return (
                 <div key={tag + index} style={{ position: 'relative' }}>
                     <small><TextareaAutosize value={element.cite} className={styles.textareaInherit} onChange={(e) => updateElement(index, "cite", e.target.value)} placeholder="Cite Link or source" onFocus={() => setFocusedIndex(index)} /></small>
-                    <blockquote><TextareaAutosize value={content} className={styles.textareaInherit} onChange={(e) => updateElement(index, "content", e.target.value)} placeholder="BlockQuote text" onFocus={() => setFocusedIndex(index)} /></blockquote>
+                    <blockquote><TextareaAutosize value={content} ref={FocusedIndex == index ? (FocusedElement) : (null)} className={styles.textareaInherit} onChange={(e) => updateElement(index, "content", e.target.value)} placeholder="BlockQuote text" onFocus={() => setFocusedIndex(index)} /></blockquote>
                     <button onClick={() => deleteElement(index)} className={styles.delBtn}>X</button>
                 </div>
             )
@@ -212,7 +240,7 @@ export default function DaVinci() {
                         <Link href={`/blog/${LiveBlogId}`}><a>https://davinci.vercel.app/blog/{LiveBlogId}</a></Link>
                     </div>
                     <div style={{ minHeight: '100vh' }}>
-                        <h1><TextareaAutosize value={Title} className={styles.textareaInherit} onChange={(e) => setTitle(e.target.value)} placeholder="Title" onKeyPress={function (e) {
+                        <h1><TextareaAutosize ref={FocusedIndex == -1 ? (FocusedElement) : (null)} value={Title} className={styles.textareaInherit} onChange={(e) => setTitle(e.target.value)} placeholder="Title" onKeyPress={function (e) {
                             if (e.key === 'Enter') {
                                 e.preventDefault();
                                 addElement("p");
@@ -242,11 +270,13 @@ export default function DaVinci() {
                             <div className="d-flex justify-content-between">
                                 <button className="btn btn-light" onClick={() => addElement("code")}>Code</button>
                                 <button className="btn btn-light" onClick={() => addElement("blockquote")}>BlockQuote</button>
+                                <button className="btn btn-light" onClick={() => addElement("button")}>Button</button>
                             </div>
                         </div>
                     </div>
                 </div>
-            ) : (<div className="container"><h3>You are not logged in! </h3> <Link href="/auth/login"><a>Login here</a></Link></div>)}
+            ) : (<div className="container"><h3>You are not logged in! </h3> <Link href="/auth/login"><a>Login here</a></Link>
+                <textarea ref={FocusedElement} className="d-none" /></div>)}
         </>
     )
 }
