@@ -5,11 +5,13 @@ import TextareaAutosize from 'react-textarea-autosize';
 import fire from '../config/fire-config';
 import Link from 'next/link';
 import { DropdownButton, Dropdown, SplitButton } from 'react-bootstrap';
+import { useRouter } from 'next/router'
 
 export default function DaVinci() {
     const [Title, setTitle] = useState("");
     const [ElementArray, setElementArray] = useState([])
     const [FocusedIndex, setFocusedIndex] = useState(-1);
+    const router = useRouter();
 
     const FocusedElement = useRef();
 
@@ -22,14 +24,15 @@ export default function DaVinci() {
             FocusedElement.current.focus();
     })
 
-    const [LoginStatus, setLoginStatus] = useState(false);
+    const [LoginStatus, setLoginStatus] = useState("");
+
     fire.auth()
         .onAuthStateChanged((user) => {
             if (user) {
-                setLoginStatus(true)
+                setLoginStatus(true);
             }
             else {
-                setLoginStatus(false)
+                setLoginStatus("failure");
             }
         })
 
@@ -50,7 +53,7 @@ export default function DaVinci() {
                 });
         }
         else {
-            setNotification("Title not added! Checking all blogs")
+            setNotification("Title not added! Check all blogs")
             setTimeout(() => {
                 setNotification("Check out all blogs")
             }, 7000)
@@ -175,10 +178,11 @@ export default function DaVinci() {
         if (tag == "img") {
             return (
                 <div key={tag + index} style={{ position: 'relative' }}>
-                    <small>
+                    <div className="d-flex justify-content-start">
+                        <i class="bi bi-link"></i>{" "}
                         <TextareaAutosize value={element.src} ref={FocusedIndex == index ? (FocusedElement) : (null)} className={styles.textareaInherit} onChange={(e) => updateElement(index, "src", e.target.value)} placeholder="Image Link" onFocus={() => setFocusedIndex(index)} />
-                        <button onClick={() => deleteElement(index)} className={styles.delBtn} >X</button>
-                    </small>
+                        <button onClick={() => deleteElement(index)} className={styles.delBtn} ><i class="bi bi-x-circle-fill"></i></button>
+                    </div>
                     <br />
                     <img src={element.src} />
                     <br />
@@ -237,13 +241,14 @@ export default function DaVinci() {
 
         if (tag == "button") {
             return (<div key={tag + index} style={{ position: 'relative' }}>
-                <small>
+                <div className="d-flex justify-content-start">
+                    <i class="bi bi-link"></i>{" "}
                     <TextareaAutosize value={element.href} className={styles.textareaInherit} onChange={(e) => updateElement(index, "href", e.target.value)} placeholder="Link" onFocus={() => setFocusedIndex(index)} />
-                </small>
+                </div>
                 <br />
                 <button className="btn btn-light">
                     <TextareaAutosize value={content} ref={FocusedIndex == index ? (FocusedElement) : (null)} className={styles.textareaInherit} onChange={(e) => updateElement(index, "content", e.target.value)} placeholder="button" onFocus={() => setFocusedIndex(index)} />
-                    <button onClick={() => deleteElement(index)} className={styles.delBtn}>X</button>
+                    <button onClick={() => deleteElement(index)} className={styles.delBtn}><i class="bi bi-x-circle-fill"></i></button>
                 </button>
                 <br />
             </div>)
@@ -262,6 +267,32 @@ export default function DaVinci() {
             }} onFocus={() => setFocusedIndex(index)} />
             </h4>)
         }
+        if (tag == "h5") {
+            return (<h5 key={tag + index} style={{ position: 'relative' }}><TextareaAutosize value={content} ref={FocusedIndex == index ? (FocusedElement) : (null)} className={styles.textareaInherit} onChange={(e) => updateElement(index, "content", e.target.value)} placeholder="H5 headiing" onKeyDown={function (e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    addElement("p");
+                }
+                if (e.key === 'Backspace' && content === "") {
+                    e.preventDefault();
+                    deleteElement(index);
+                }
+            }} onFocus={() => setFocusedIndex(index)} />
+            </h5>)
+        }
+        if (tag == "h6") {
+            return (<h6 key={tag + index} style={{ position: 'relative' }}><TextareaAutosize value={content} ref={FocusedIndex == index ? (FocusedElement) : (null)} className={styles.textareaInherit} onChange={(e) => updateElement(index, "content", e.target.value)} placeholder="H6 Heading" onKeyDown={function (e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    addElement("p");
+                }
+                if (e.key === 'Backspace' && content === "") {
+                    e.preventDefault();
+                    deleteElement(index);
+                }
+            }} onFocus={() => setFocusedIndex(index)} />
+            </h6>)
+        }
         if (tag == "code") {
             return (
                 <code key={tag + index} style={{ position: 'relative' }}>
@@ -278,7 +309,8 @@ export default function DaVinci() {
         if (tag == "blockquote") {
             return (
                 <div key={tag + index} style={{ position: 'relative' }}>
-                    <small><TextareaAutosize value={element.cite} className={styles.textareaInherit} onChange={(e) => updateElement(index, "cite", e.target.value)} placeholder="Cite Link or source" onFocus={() => setFocusedIndex(index)} /></small>
+                    <div className="d-flex justify-content-start">
+                        <i class="bi bi-link"></i>{" "}<TextareaAutosize value={element.cite} className={styles.textareaInherit} onChange={(e) => updateElement(index, "cite", e.target.value)} placeholder="Cite Link or source" onFocus={() => setFocusedIndex(index)} /></div>
                     <blockquote className={classes}><TextareaAutosize value={content} ref={FocusedIndex == index ? (FocusedElement) : (null)} className={styles.textareaInherit} onChange={(e) => updateElement(index, "content", e.target.value)} placeholder="BlockQuote text"
                         onKeyDown={function (e) {
                             if (e.key === "Enter") {
@@ -303,8 +335,8 @@ export default function DaVinci() {
                 <title>DaVinci | Paint blog posts</title>
                 <meta name="viewport" content="initial-scale=1.0, width=device-width" />
             </Head>
-            {LoginStatus ? (
-                <div className="container-fluid">
+            {LoginStatus === true ? (
+                <div className="container-fluid pt-2">
                     <div className="d-flex justify-content-between">
                         <div>
                             {Notification + " at "}
@@ -313,30 +345,32 @@ export default function DaVinci() {
                         <button className="btn btn-primary" onClick={(e) => handlePublish(e)}>Publish</button>
                     </div>
 
-                    <div style={{ position: 'sticky', top: 0 }}>
+                    <div style={{ position: 'sticky', top: 0, zIndex: 10 }}>
                         <div>
-                            <button className="btn btn-outline-dark" onClick={() => setPreviewStatus(!PreviewStatus)}>{PreviewStatus ? ("ᨉ") : ("ᨑ")}</button>
+                            <button className="btn btn-dark" onClick={() => setPreviewStatus(!PreviewStatus)}>{PreviewStatus ? (<i class="bi bi-arrows-collapse"></i>) : (<i class="bi bi-arrows-expand"></i>)}</button>
                         </div>
                         <div className={PreviewStatus ? ("d-none") : ("bg-light rounded")}>
                             <div className="d-flex justify-content-start">
-                                <DropdownButton id="dropdown-basic-button" variant="light" title="Text">
-                                    <Dropdown.Item><button className="btn" onClick={() => addElement("h2")}>Heading</button></Dropdown.Item>
-                                    <Dropdown.Item><button className="btn" onClick={() => addElement("h3")}>Sub-Heading</button></Dropdown.Item>
-                                    <Dropdown.Item><button className="btn" onClick={() => addElement("h4")}>Mini-Heading</button></Dropdown.Item>
-                                    <Dropdown.Item><button className="btn" onClick={() => addElement("p")}>Paragraph</button></Dropdown.Item>
-                                    <Dropdown.Item><button className="btn" onClick={() => addElement("code")}>Code</button></Dropdown.Item>
-                                    <Dropdown.Item><button className="btn" onClick={() => addElement("blockquote")}>BlockQuote</button></Dropdown.Item>
+                                <DropdownButton id="dropdown-basic-button" variant="light" title={<><i class="bi bi-type"></i>{" "}Text</>}>
+                                    <Dropdown.Item><button className="btn" onClick={() => addElement("h2")}><i class="bi bi-type-h2"></i>{" "}Heading</button></Dropdown.Item>
+                                    <Dropdown.Item><button className="btn" onClick={() => addElement("h3")}><i class="bi bi-type-h3"></i>{" "}Sub-Heading</button></Dropdown.Item>
+                                    <Dropdown.Item><button className="btn btn-light" onClick={() => addElement("h4")}>H4</button><button className="btn btn-light" onClick={() => addElement("h5")}>H5</button><button className="btn btn-light" onClick={() => addElement("h6")}>H6</button></Dropdown.Item>
+                                    <Dropdown.Item><button className="btn" onClick={() => addElement("p")}><i class="bi bi-paragraph"></i>{" "}Paragraph</button></Dropdown.Item>
+                                    <Dropdown.Divider />
+                                    <Dropdown.Item><button className="btn" onClick={() => addElement("code")}><i class="bi bi-code"></i>{" "}Code</button></Dropdown.Item>
+                                    <Dropdown.Item><button className="btn" onClick={() => addElement("blockquote")}><i class="bi bi-blockquote-left"></i>{" "}BlockQuote</button></Dropdown.Item>
                                 </DropdownButton>
-                                <SplitButton id="dropdown-split-button" variant="light" title="list" onClick={() => addElement("ul")}>
+                                <SplitButton id="dropdown-split-button" variant="light" title={
+                                    <><i class="bi bi-list-ul"></i>{" "}List</>} onClick={() => addElement("ul")}>
                                     <Dropdown.Item>
-                                        <button className="btn" onClick={() => addElement("ul")}>Bulleted List</button>
+                                        <button className="btn" onClick={() => addElement("ol")}><i class="bi bi-list-ol"></i>{" "}Numbered List</button>
                                     </Dropdown.Item>
                                     <Dropdown.Item>
-                                        <button className="btn" onClick={() => addElement("ol")}>Numbered List</button>
+                                        <button className="btn" onClick={() => addElement("ul")}><i class="bi bi-list-ul"></i>{" "}Bulleted List</button>
                                     </Dropdown.Item>
                                 </SplitButton>
-                                <button className="btn btn-light" onClick={() => addElement("img")}>Image</button>
-                                <button className="btn btn-light" onClick={() => addElement("button")}>Button</button>
+                                <button className="btn btn-light" onClick={() => addElement("img")}><i class="bi bi-image"></i>{" "}Image</button>
+                                <button className="btn btn-light" onClick={() => addElement("button")}><i class="bi bi-stop-btn-fill"></i>{" "}Button</button>
                             </div>
                         </div>
                     </div>
@@ -353,8 +387,19 @@ export default function DaVinci() {
                         }
                     </div>
                 </div>
-            ) : (<div className="container"><h3>You are not logged in! </h3> <Link href="/auth/login"><a>Login here</a></Link>
-                <textarea ref={FocusedElement} className="d-none" /></div>)}
+            ) : (
+                LoginStatus !== "failure" ? (<div className="container d-flex align-items-center justify-content-center text-center" style={{ height: '100vh', width: '100vw' }}>
+                    <div className=""><h3><i className="bi bi-hourglass-split"></i></h3>
+                        <h4>L O A D I N G</h4>
+                        <textarea ref={FocusedElement} className="d-none" /></div>
+                </div>) : (<div className="container d-flex align-items-center justify-content-center text-center" style={{ height: '100vh', width: '100vw' }}>
+                    <div className=""><h3><i className="bi bi-door-open-fill"></i></h3>
+                        <h4>N&nbsp;O&nbsp;T   L&nbsp;O&nbsp;G&nbsp;G&nbsp;E&nbsp;D   I&nbsp;N&nbsp;!</h4>
+                        <h5><Link href="/auth/login"><a>Login here</a></Link></h5>
+                        <textarea ref={FocusedElement} className="d-none" /></div>
+                </div>)
+            )
+            }
         </>
     )
 }

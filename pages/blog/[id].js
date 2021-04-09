@@ -20,6 +20,12 @@ export default function Post({ postData }) {
         if (tag == "h4") {
             return (<h4 key={tag + index}>{content}</h4>)
         }
+        if (tag == "h5") {
+            return (<h5 key={tag + index}>{content}</h5>)
+        }
+        if (tag == "h6") {
+            return (<h6 key={tag + index}>{content}</h6>)
+        }
         if(tag=="ul"){
             return(
                 <ul key={tag + index} style={{ position: 'relative' }}>

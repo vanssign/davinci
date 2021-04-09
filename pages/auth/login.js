@@ -13,7 +13,7 @@ export default function Login(){
     e.preventDefault();
     fire.auth()
       .signInWithEmailAndPassword(username, password)
-      .then(()=>router.push("/"))
+      .then(()=>router.push("/davinci"))
       .catch((err) => {
         setNotification(err.message)
         setTimeout(() => {
