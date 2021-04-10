@@ -5,13 +5,13 @@ import Link from 'next/link';
 import { useState, useRef, useEffect } from 'react';
 
 import TextareaAutosize from 'react-textarea-autosize';
-import { DropdownButton, Dropdown, SplitButton } from 'react-bootstrap';
+import { DropdownButton, Dropdown, SplitButton, Tabs, Tab } from 'react-bootstrap';
 
 import fire from '../config/fire-config';
 
 import styles from '../styles/Davinci.module.css'
 
-const TextTags = [
+var TextTags = [
     {
         tag: "h2",
         shortName: "H2",
@@ -44,7 +44,7 @@ const TextTags = [
     },
     {
         tag: "code",
-        shortName: "Code",
+        shortName: "",
         iconName: "bi-code"
     }
 ];
@@ -170,6 +170,7 @@ export default function DaVinci() {
         let newElementArray = [...ElementArray];
         newElementArray[index][key] = value;
         setElementArray(newElementArray);
+        setFocusedIndex(index);
     }
 
     //update elements content array for lists
@@ -420,21 +421,56 @@ export default function DaVinci() {
     }
 
 
-    // function buildActiveElementProperties(element, index) {
-    //     if (index === FocusedIndex) {
-    //         if (element.tag === "h2" || element.tag === "h3" || element.tag === "p" || element.tag === "h4" || element.tag === "h5" || element.tag === "h6")
-    //             return (
-    //                 <div key={`properties${element.tag}+${index}`}>
-    //                     <DropdownButton id="dropdown-basic-button-properties" variant="light" title={<><i className="bi bi-type"></i>{` ${element.tag}`}</>}>
-    //                         {TextTags.map((t, i) => {
-    //                             <Dropdown.Item key={t.tag + i + element.tag + index}><button className="btn" onClick={() => updateElement(index, "tag", t.tag)}><i className={`bi ${t.iconName}`}></i>{t.shortName}</button>
-    //                             </Dropdown.Item>
-    //                         })}
-    //                     </DropdownButton>
-    //                 </div>
-    //             )
-    //     }
-    // }
+    function buildActiveElementProperties(element, index) {
+        if (index === FocusedIndex) {
+            if (element.tag === "h2" || element.tag === "h3" || element.tag === "p" || element.tag === "h4" || element.tag === "h5" || element.tag === "h6" || element.tag === "code")
+                return (
+                    <div key={index + "properties"} className="d-flex justify-content-start align-items-center">
+                        <div className="px-2 text-center">
+                            <small>TYPE</small>
+                            <DropdownButton title={element.tag} variant="secondary">
+                                {TextTags.map((t, i) =>
+                                    <Dropdown.Item key={index + "propertieschange" + i}>
+                                        <button className="btn" onClick={() => updateElement(FocusedIndex, "tag", t.tag)}>
+                                            <i className={`bi ${t.iconName}`}></i>
+                                            {t.shortName}
+                                        </button>
+                                    </Dropdown.Item>)}
+                            </DropdownButton>
+                        </div>
+
+                        <div className="px-2 text-center">
+                            <small>ALIGN</small>
+                            <br />
+                            <button className="btn btn-light">
+                                <i className="bi  bi-text-left"></i>
+                            </button>
+                            <button className="btn btn-light">
+                                <i className="bi  bi-text-center"></i>
+                            </button>
+                            <button className="btn btn-light">
+                                <i className="bi  bi-text-right"></i>
+                            </button>
+                        </div>
+
+                        <div className="px-2 text-center">
+                            <small>EMPHASIS</small>
+                            <br />
+                            <button className="btn btn-light">
+                                <i className="bi  bi-type-bold"></i>
+                            </button>
+                            <button className="btn btn-light">
+                                <i className="bi  bi-type-italic"></i>
+                            </button>
+                            <button className="btn btn-light">
+                                <i className="bi  bi-type-underline"></i>
+                            </button>
+                        </div>
+                    </div>
+                )
+        }
+        else return (<span key={"none" + index} ></span>)
+    }
 
     //LOGS
     console.log(ElementArray);
@@ -465,53 +501,57 @@ export default function DaVinci() {
                     <div style={{ position: 'sticky', top: 0, zIndex: 10 }}>
                         {/* Toggle button */}
                         <div>
-                            <button className="btn btn-dark" onClick={() => setPreviewStatus(!PreviewStatus)}>{PreviewStatus ? 
-                            (<span><i className="bi bi-arrows-collapse"></i>{" "}Insert</span>) : 
-                            (<i className="bi bi-arrows-expand"></i>)}</button>
+                            <button className="btn btn-dark" onClick={() => setPreviewStatus(!PreviewStatus)}>{PreviewStatus ?
+                                (<span><i className="bi bi-arrows-collapse"></i></span>) :
+                                (<i className="bi bi-arrows-expand"></i>)}</button>
                         </div>
 
-                        <div className={PreviewStatus ? ("d-none") : ("bg-light rounded")}>
-                            <div className="d-flex justify-content-start">
-                                {/* add text elements */}
-                                <DropdownButton id="dropdown-basic-button" variant="light" title={<><i className="bi bi-type"></i>{" "}Text</>}>
-                                    <Dropdown.Item><button className="btn" onClick={() => addElement("h2")}><i className="bi bi-type-h2"></i>{" "}Heading</button></Dropdown.Item>
-                                    <Dropdown.Item><button className="btn" onClick={() => addElement("h3")}><i className="bi bi-type-h3"></i>{" "}Heading</button></Dropdown.Item>
-                                    <Dropdown.Item><button className="btn btn-light" onClick={() => addElement("h4")}>H4</button><button className="btn btn-light" onClick={() => addElement("h5")}>H5</button><button className="btn btn-light" onClick={() => addElement("h6")}>H6</button></Dropdown.Item>
-                                    <Dropdown.Item><button className="btn" onClick={() => addElement("p")}><i className="bi bi-paragraph"></i>{" "}Paragraph</button></Dropdown.Item>
-                                    <Dropdown.Divider />
-                                    <Dropdown.Item><button className="btn" onClick={() => addElement("code")}><i className="bi bi-code"></i>{" "}Code</button></Dropdown.Item>
-                                    <Dropdown.Item><button className="btn" onClick={() => addElement("blockquote")}><i className="bi bi-blockquote-left"></i>{" "}BlockQuote</button></Dropdown.Item>
-                                </DropdownButton>
+                        <div className={PreviewStatus ? ("d-none") : ("rounded")}>
+                            <Tabs defaultActiveKey="profile" id="uncontrolled-tab-example">
+                                <Tab eventKey="home" title="Insert">
+                                    <div className="d-flex justify-content-start align-items-stretch bg-light" >
+                                        {/* add text elements */}
+                                        <DropdownButton id="dropdown-basic-button" variant="light" title={<><i className="bi bi-type"></i>{" "}Text</>}>
+                                            <Dropdown.Item><button className="btn" onClick={() => addElement("h2")}><i className="bi bi-type-h2"></i>{" "}Heading</button></Dropdown.Item>
+                                            <Dropdown.Item><button className="btn" onClick={() => addElement("h3")}><i className="bi bi-type-h3"></i>{" "}Heading</button></Dropdown.Item>
+                                            <Dropdown.Item><button className="btn btn-light" onClick={() => addElement("h4")}>H4</button><button className="btn btn-light" onClick={() => addElement("h5")}>H5</button><button className="btn btn-light" onClick={() => addElement("h6")}>H6</button></Dropdown.Item>
+                                            <Dropdown.Item><button className="btn" onClick={() => addElement("p")}><i className="bi bi-paragraph"></i>{" "}Paragraph</button></Dropdown.Item>
+                                            <Dropdown.Divider />
+                                            <Dropdown.Item><button className="btn" onClick={() => addElement("code")}><i className="bi bi-code"></i>{" "}Code</button></Dropdown.Item>
+                                            <Dropdown.Item><button className="btn" onClick={() => addElement("blockquote")}><i className="bi bi-blockquote-left"></i>{" "}BlockQuote</button></Dropdown.Item>
+                                        </DropdownButton>
 
-                                {/*add List Elements */}
-                                <SplitButton id="dropdown-split-button" variant="light" title={
-                                    <><i className="bi bi-list-ul"></i>{" "}List</>} onClick={() => addElement("ul")}>
-                                    <Dropdown.Item>
-                                        <button className="btn" onClick={() => {
-                                            if (ElementArray[FocusedIndex].tag !== "ul") addElement("ol")
-                                            else updateElement(FocusedIndex, "tag", "ol")
-                                        }}><i className="bi bi-list-ol"></i>{" "}Numbered List</button>
-                                    </Dropdown.Item>
-                                    <Dropdown.Item>
-                                        <button className="btn" onClick={() => {
-                                            if (ElementArray[FocusedIndex].tag !== "ol") addElement("ul")
-                                            else updateElement(FocusedIndex, "tag", "ul")
-                                        }
-                                        }><i className="bi bi-list-ul"></i>{" "}Bulleted List</button>
-                                    </Dropdown.Item>
-                                </SplitButton>
+                                        {/*add List Elements */}
+                                        <SplitButton id="dropdown-split-button" variant="light" title={
+                                            <><i className="bi bi-list-ul"></i>{" "}List</>} onClick={() => addElement("ul")}>
+                                            <Dropdown.Item>
+                                                <button className="btn" onClick={() => { addElement("ol") }}><i className="bi bi-list-ol"></i>{" "}Numbered List</button>
+                                            </Dropdown.Item>
+                                            <Dropdown.Item>
+                                                <button className="btn" onClick={() => { addElement("ul") }}><i className="bi bi-list-ul"></i>{" "}Bulleted List</button>
+                                            </Dropdown.Item>
+                                        </SplitButton>
 
-                                {/* add Image */}
-                                <button className="btn btn-light" onClick={() => addElement("img")}><i className="bi bi-image"></i>{" "}Image</button>
+                                        {/* add Image */}
+                                        <button className="btn btn-light" onClick={() => addElement("img")}><i className="bi bi-image"></i>{" "}Image</button>
 
-                                {/* add Buttons */}
-                                <SplitButton id="dropdown-split-button" variant="light" title={
-                                    <><i className="bi bi-stop-btn-fill"></i>{" "}Button</>} onClick={() => addElement("button")}>
-                                    <Dropdown.Item>
-                                        SOCIAL BUTTONS
+                                        {/* add Buttons */}
+                                        <SplitButton id="dropdown-split-button" variant="light" title={
+                                            <><i className="bi bi-stop-btn-fill"></i>{" "}Button</>} onClick={() => addElement("button")}>
+                                            <Dropdown.Item>
+                                                SOCIAL BUTTONS
                                     </Dropdown.Item>
-                                </SplitButton>
-                            </div>
+                                        </SplitButton>
+                                    </div>
+                                </Tab>
+                                <Tab eventKey="profile" title="Format">
+                                    <div >
+                                        {ElementArray.map((element, index) =>
+                                            buildActiveElementProperties(element, index)
+                                        )}
+                                    </div>
+                                </Tab>
+                            </Tabs>
                         </div>
                     </div>
 
