@@ -22,9 +22,8 @@
 }
 
 .delBtn{
-    position: absolute;
-    right:0;
-    top:0px;
+    position: relative;
+    /* right:0; */
     background-color:transparent;
     opacity: 0.5;
     border-radius:25%;

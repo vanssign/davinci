@@ -18,6 +18,9 @@ a {
   background-color:#21759b;
   border-color: #21759b;
 }
+.text-primary{
+  color: #21759b;
+}
 .btn:focus{
   outline:none;
   box-shadow: none;
