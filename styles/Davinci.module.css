@@ -1,8 +1,8 @@
 .textareaInherit{
     color:inherit !important;
     font:inherit !important;
+    text-align: inherit !important;
     border:inherit !important;
-    text: inherit !important;
     background: inherit !important;
     padding:0;
     margin:0;

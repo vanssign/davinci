@@ -252,8 +252,10 @@ export default function DaVinci() {
         if (element.typography) {
             if (element.typography["bold"]) allClasses = allClasses.concat("styleBold ")
             if (element.typography["italic"]) allClasses = allClasses.concat("styleItalic ")
-            if (element.typography["underline"]) allClasses = allClasses.concat("styleUnderline ")
-            if (element.typography["strikethrough"]) allClasses = allClasses.concat("styleStrikethrough ")
+
+            if (element.typography["underline"] && element.typography["strikethrough"]) allClasses = allClasses.concat("styleUnderlineStrikethrough ")
+            if (element.typography["underline"] && !element.typography["strikethrough"]) allClasses = allClasses.concat("styleUnderline ")
+            if (element.typography["strikethrough"] && !element.typography["underline"]) allClasses = allClasses.concat("styleStrikethrough ")
         }
         if (element.alignment) {
             allClasses = allClasses.concat("text-" + element.alignment);
