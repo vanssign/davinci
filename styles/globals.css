@@ -23,7 +23,6 @@ a {
 }
 .btn:focus{
   outline:none;
-  box-shadow: none;
 }
 .container{
   padding-top: 16px;
@@ -35,6 +34,9 @@ color:black;
 .tab-content {
   display: flex;
 }
+.btn-light-active{
+  background-color: #e2e6ea;
+}
 
 .tab-content > .tab-pane {
   display: block; /* undo "display: none;" */
@@ -45,4 +47,17 @@ color:black;
 
 .tab-content > .active {
   visibility: visible;
+}
+
+.styleBold{
+  font-weight: bold !important;
+}
+.styleItalic{
+  font-style: italic !important;
+}
+.styleUnderline{
+  text-decoration: underline !important;
+}
+.styleStrikethrough{
+  text-decoration: line-through !important;
 }

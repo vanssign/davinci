@@ -3,36 +3,53 @@ import fire from "../../config/fire-config";
 
 export default function Post({ postData }) {
 
+    //Build classNames based on typography, alignment and custom classes
+    function buildClassName(element, index) {
+        var allClasses = " ";
+        //typograhy classes
+        if (element.typography) {
+            if (element.typography["bold"]) allClasses = allClasses.concat("styleBold ")
+            if (element.typography["italic"]) allClasses = allClasses.concat("styleItalic ")
+            if (element.typography["underline"]) allClasses = allClasses.concat("styleUnderline ")
+            if (element.typography["strikethrough"]) allClasses = allClasses.concat("styleStrikethrough ")
+        }
+        if (element.alignment) {
+            allClasses = allClasses.concat("text-" + element.alignment);
+        }
+        return allClasses;
+    }
+
     //BUILD HTML
     function buildHTML(element, index) {
         let tag = element.tag;
         let content = element.content;
+        let allClasses = buildClassName(element, index)
         if (tag == "h2") {
-            return (<h2 key={tag + index}>{content}</h2>)
+            return (<h2 key={tag + index} className={allClasses}>{content}</h2>)
         }
         if (tag == "p") {
-            return (<p key={tag + index}>{content}</p>)
+            return (<p key={tag + index} className={allClasses}>{content}</p>)
         }
         if (tag == "h3") {
-            return (<h3 key={tag + index}>{content}</h3>)
+            return (<h3 key={tag + index} className={allClasses}>{content}</h3>)
         }
         if (tag == "img") {
-            return (<img key={tag + index} src={element.src} />)
+            return (<img key={tag + index} className={allClasses} src={element.src} />)
         }
         if (tag == "h4") {
-            return (<h4 key={tag + index}>{content}</h4>)
+            return (<h4 key={tag + index} className={allClasses}>{content}</h4>)
         }
         if (tag == "h5") {
-            return (<h5 key={tag + index}>{content}</h5>)
+            return (<h5 key={tag + index} className={allClasses}>{content}</h5>)
         }
         if (tag == "h6") {
-            return (<h6 key={tag + index}>{content}</h6>)
+            return (<h6 key={tag + index} className={allClasses}>{content}</h6>)
         }
         if (tag == "ul") {
             return (
-                <ul key={tag + index} style={{ position: 'relative' }}>
+                <ul key={tag + index} className={allClasses} style={{ position: 'relative' }}>
                     {element.content.map((c, i) =>
-                        <li key={tag + index + "c" + i}>{c}</li>
+                        <li key={tag + index + "c" + i}>{c.value}</li>
                     )
                     }
                 </ul>
@@ -40,9 +57,9 @@ export default function Post({ postData }) {
         }
         if (tag == "ol") {
             return (
-                <ol key={tag + index} style={{ position: 'relative' }}>
+                <ol key={tag + index} className={allClasses} style={{ position: 'relative' }}>
                     {element.content.map((c, i) =>
-                        <li key={tag + index + "c" + i}>{c}</li>
+                        <li key={tag + index + "c" + i}>{c.value}</li>
                     )
                     }
                 </ol>
@@ -51,15 +68,15 @@ export default function Post({ postData }) {
         if (tag == "button") {
             return (
                 <a key={tag + index} className="text-reset" href={element.href}>
-                    <button className="btn btn-secondary">{content}</button>
+                    <button className={element.btnOutline ? (`btn btn-outline-${element.btnColor}`) : (`btn btn-${element.btnColor}`)}>{content}</button>
                 </a>
             )
         }
         if (tag == "code") {
-            return (<code key={tag + index} style={{ whiteSpace: 'pre-wrap' }}>{content}</code>)
+            return (<code key={tag + index} className={allClasses} style={{ whiteSpace: 'pre-wrap' }}>{content}</code>)
         }
         if (tag == "blockquote") {
-            return (<blockquote key={tag + index} cite={element.cite}>{content}</blockquote>)
+            return (<blockquote key={tag + index} className={allClasses} cite={element.cite}>{content}</blockquote>)
         }
     }
     return (
@@ -77,7 +94,6 @@ export default function Post({ postData }) {
         </div>
     )
 }
-
 //PATHS
 export async function getStaticPaths() {
     var paths = [];

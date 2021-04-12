@@ -13,31 +13,35 @@ export default function Home() {
 
       <main className={styles.main}>
         <h1 className={styles.title}>
-          Welcome to <a>DaVinci</a>
+          DaVinci
         </h1>
 
         <p className={styles.description}>
-          A block editor to paint your blog ideas{' '}
+          Paint your blog ideas{' '}
         </p>
 
         <div className={styles.grid}>
           <Link href="/davinci"><a className={styles.card}>
             <h3>Editor &rarr;</h3>
+            <i className="bi bi-input-cursor-text display-4"></i>
             <p>Post a new blog using DaVinci block editor</p>
           </a></Link>
 
           <Link href="/blog">
             <a className={styles.card}><h3>Blogs &rarr;</h3>
+              <i className="bi bi-journal-richtext display-4"></i>
               <p>List of all blogs painted with DaVinci</p></a>
           </Link>
 
           <Link href="/auth/login">
             <a className={styles.card}><h3>Login &rarr;</h3>
+            <i className="bi bi-person-badge-fill display-4"></i>
               <p>Login using email address and password</p></a>
           </Link>
 
           <Link href="/auth/register">
             <a className={styles.card}><h3>Register &rarr;</h3>
+              <i className="bi bi-person-plus display-4"></i>
               <p>Register using email address and password</p></a>
           </Link>
         </div>

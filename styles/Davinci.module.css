@@ -1,24 +1,27 @@
 .textareaInherit{
-    color:inherit;
-    font:inherit;
-    border:inherit;
-    background:inherit;
+    color:inherit !important;
+    font:inherit !important;
+    border:inherit !important;
+    text: inherit !important;
+    background: inherit !important;
     padding:0;
     margin:0;
     overflow-y: hidden;
     resize:none;
-}
-
-.textareaInherit{
+    text-transform: inherit !important;
+    text-decoration: inherit !important;
+    font-weight: inherit !important;
     width:100%;
 }
+
 
 .textareaInherit:focus{
     outline: transparent;
     background-color: transparent !important;   
 }
 .textareaInherit:hover{
-    background-color: whitesmoke;
+    outline:#21759b 2px !important;
+    /* background-color: rgb(245, 245, 245,0.4); */
 }
 
 .delBtn{
