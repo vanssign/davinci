@@ -71,9 +71,12 @@ export default function Post({ postData }) {
         }
         if (tag == "button") {
             return (
+                <>
                 <a key={tag + index} className="text-reset" href={element.href}>
                     <button className={element.btnOutline ? (`btn btn-outline-${element.btnColor}`) : (`btn btn-${element.btnColor}`)}>{content}</button>
                 </a>
+                <br/>
+                </>
             )
         }
         if (tag == "code") {

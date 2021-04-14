@@ -475,15 +475,13 @@ export default function DaVinci() {
         //IMAGE
         if (tag == "img") {
             return (
-                <div key={tag + index}>
-                    <div className="d-flex justify-content-start">
-                        <i className="bi bi-link"></i>{" "}
-                        <textarea rows="1" value={element.src} ref={FocusedIndex == index ? (FocusedElement) : (null)} className={styles.textareaInheritLink} onChange={(e) => updateElement(index, "src", "", e.target.value)} placeholder="Image Link" onFocus={() => setFocusedIndex(index)} />
+                <div key={tag + index} style={{position:'relative'}} className="border rounded" onClick={() => setFocusedIndex(index)}>
+                    <div className={index==FocusedIndex?("d-flex justify-content-center align-items-stretch"):("d-none")}>
+                        <textarea rows="1" cols="10" value={element.src} className="btn btn-light btn-light-active" styles={{ resize: 'none' }} onChange={(e) => updateElement(index, "src", "", e.target.value)} placeholder="Image Link" />
                         <ImageUploader index={index} parentCallback={updateUrl} />
+                        <button type="button" onClick={() => deleteElement(index)} className="btn btn-danger">Remove</button>
                     </div>
-                    <div className="d-flex align-items-start">
                         <img className={allClasses} src={element.src ? (element.src) : ("https://t4.ftcdn.net/jpg/02/07/87/79/360_F_207877921_BtG6ZKAVvtLyc5GWpBNEIlIxsffTtWkv.jpg")} ></img>
-                        <button type="button" onClick={() => deleteElement(index)} className={styles.delBtn}><i className="bi bi-x-circle-fill"></i></button></div>
                 </div>
             )
         }
@@ -491,13 +489,9 @@ export default function DaVinci() {
         //BUTTONS
         if (tag == "button") {
             return (<div key={tag + index}>
-                <div className="d-flex justify-content-start">
-                    <i className="bi bi-link"></i>{" "}
-                    <TextareaAutosize value={element.href} className={styles.textareaInherit} onChange={(e) => updateElement(index, "href", e.target.value)} placeholder="Link" onFocus={() => setFocusedIndex(index)} />
-                </div>
                 <div className="d-flex align-items-start">
                     <button type="button" className={element.btnOutline ? (`btn btn-outline-${element.btnColor}`) : (`btn btn-${element.btnColor}`)} style={{ position: 'relative' }}>
-                        <TextareaAutosize value={content} ref={FocusedIndex == index ? (FocusedElement) : (null)} className={styles.textareaInherit} onChange={(e) => updateElement(index, "content", "", e.target.value)} placeholder="button" onFocus={() => setFocusedIndex(index)} />
+                        <TextareaAutosize value={content} className={styles.textareaInherit} onChange={(e) => updateElement(index, "content", "", e.target.value)} placeholder="button" onFocus={() => setFocusedIndex(index)} />
                     </button>
                     <button type="button" onClick={() => deleteElement(index)} className={styles.delBtn}><i className="bi bi-x-circle-fill"></i></button>
                 </div>
@@ -574,13 +568,21 @@ export default function DaVinci() {
                         </div>
                     ) : (<></>)}
                     {element.tag === "button" ?
-                        (
-                            <div className="form-check">
-                                <input className="form-check-input" type="checkbox" defaultChecked={element.btnOutline} id="btnOutlineCheck" onChange
-                                    ={() => updateElement(FocusedIndex, "btnOutline", "", !element.btnOutline)} />
-                                <label className="form-check-label" htmlFor="defaultCheck1">
-                                    Outline</label>
+                        (<>
+                            <div className="px-2">
+                                <div className="form-check">
+                                    <input className="form-check-input" type="checkbox" defaultChecked={element.btnOutline} id="btnOutlineCheck" onChange
+                                        ={() => updateElement(FocusedIndex, "btnOutline", "", !element.btnOutline)} />
+                                    <label className="form-check-label" htmlFor="defaultCheck1">
+                                        Outline</label>
+                                </div>
                             </div>
+                            <div className="px-2 text-center">
+                                <small><i className="bi bi-link"></i>{" "}LINK</small>
+                                <br />
+                                <textarea rows="1" cols="10" value={element.href} className="btn btn-light" styles={{ resize: 'none !important' }} onChange={(e) => updateElement(index, "href", "", e.target.value)} placeholder="Link" onFocus={() => setFocusedIndex(index)} />
+                            </div>
+                        </>
 
                         ) : (<></>)}
                     {element.tag === "img" ?
@@ -656,7 +658,7 @@ export default function DaVinci() {
                                 (<i className="bi bi-arrows-expand"></i>)}</button>
                         </div>
 
-                        <div className={PreviewStatus ? ("d-none") : ("rounded")}>
+                        <div className={PreviewStatus ? ("d-none") : ("rounded")} style={{ backgroundColor: 'white' }}>
                             <Tabs defaultActiveKey="profile" id="uncontrolled-tab-example">
                                 <Tab eventKey="home" title="Insert">
                                     <div className="d-flex justify-content-start align-items-stretch bg-light" >
@@ -695,7 +697,7 @@ export default function DaVinci() {
                                     </div>
                                 </Tab>
                                 <Tab eventKey="profile" title="Format">
-                                    <div >
+                                    <div className="pb-3">
                                         {FocusedIndex === -1 ?
                                             (
                                                 buildTitleProperties()
