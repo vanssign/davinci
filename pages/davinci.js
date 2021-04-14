@@ -6,6 +6,7 @@ import { useState, useRef, useEffect } from 'react';
 
 import TextareaAutosize from 'react-textarea-autosize';
 import { DropdownButton, Dropdown, SplitButton, Tabs, Tab } from 'react-bootstrap';
+import ImageUploader from '../components/uploadImage';
 
 import fire from '../config/fire-config';
 
@@ -263,6 +264,11 @@ export default function DaVinci() {
         return allClasses;
     }
 
+    const updateUrl = (value, index) => {
+        updateElement(index, "src", "", value)
+    }
+
+
     //Build Element
     function buildtextareaHTML(element, index) {
 
@@ -469,8 +475,8 @@ export default function DaVinci() {
                 <div key={tag + index} className={allClasses}>
                     <div className="d-flex justify-content-start">
                         <i className="bi bi-link"></i>{" "}
-                        <TextareaAutosize value={element.src} ref={FocusedIndex == index ? (FocusedElement) : (null)} className={styles.textareaInherit} onChange={(e) => updateElement(index, "src", e.target.value)} placeholder="Image Link" onFocus={() => setFocusedIndex(index)} />
-
+                        <textarea rows={1} value={element.src} ref={FocusedIndex == index ? (FocusedElement) : (null)} className={styles.textareaInheritLink} onChange={(e) => updateElement(index, "src", "", e.target.value)} placeholder="Image Link" onFocus={() => setFocusedIndex(index)} />
+                        <ImageUploader index={index} parentCallback={updateUrl} />
                     </div>
                     <div className="d-flex align-items-start">
                         <img src={element.src ? (element.src) : ("https://t4.ftcdn.net/jpg/02/07/87/79/360_F_207877921_BtG6ZKAVvtLyc5GWpBNEIlIxsffTtWkv.jpg")} ></img>

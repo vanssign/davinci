@@ -1,4 +1,4 @@
-.textareaInherit{
+.textareaInherit,.textareaInheritLink{
     color:inherit !important;
     font:inherit !important;
     text-align: inherit !important;
@@ -6,14 +6,15 @@
     background: inherit !important;
     padding:0;
     margin:0;
-    overflow-y: hidden;
     resize:none;
     text-transform: inherit !important;
     text-decoration: inherit !important;
     font-weight: inherit !important;
-    width:100%;
 }
-
+.textareaInherit{
+    width:100%;
+    overflow-y: hidden;
+}
 
 .textareaInherit:focus{
     outline: transparent;

@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import fire from '../config/fire-config';
 
-export default function ImageUploader() {
+export default function ImageUploader(props) {
     const [file, setFile] = useState(null);
-    const [Url, setUrl] = useState("");
+    const [uploadStatus, setUploadStatus] = useState(false)
 
     useEffect(() => {
-        if (file && !Url) {
+        if (file && !uploadStatus) {
             var storageRef = fire.storage().ref("images");
             var uploadTask = storageRef.child(file.name).put(file);
 
@@ -24,7 +24,7 @@ export default function ImageUploader() {
                             console.log('Upload is paused');
                             break;
                         case fire.storage.TaskState.RUNNING: // or 'running'
-                            // setUploadStatus("bi-hourglass-split")
+                            console.log('Upload is running');
                             break;
                     }
                 },
@@ -35,7 +35,8 @@ export default function ImageUploader() {
                     // Handle successful uploads on complete
                     // For instance, get the download URL: https://firebasestorage.googleapis.com/...
                     uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
-                        setUrl(downloadURL);
+                        setUploadStatus(true)
+                        props.parentCallback(downloadURL, props.index);
                     });
                 }
             );
@@ -44,12 +45,8 @@ export default function ImageUploader() {
 
     function handleChange(e) {
         setFile(e.target.files[0]);
-        setUrl("");
     }
     return (
-        <div>
-            <label className="btn btn-light btn">Upload<input type="file" className="d-none" onChange={handleChange} /></label>
-            <img src={Url} alt="" />
-        </div>
+        <label className="btn-light btn" style={{ padding: "3px 8px" }}>Upload<input type="file" className="d-none" onChange={handleChange} /></label>
     );
 }
