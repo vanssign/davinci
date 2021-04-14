@@ -50,7 +50,7 @@ var TextTags = [
     }
 ];
 
-var BtnColors = [
+var BootstrapColors = [
     {
         name: 'primary',
     },
@@ -155,6 +155,7 @@ export default function DaVinci() {
                     underline: false,
                     strikethrough: false,
                 },
+                textColor:"dark",
                 alignment: "left",
             }
         }
@@ -172,12 +173,6 @@ export default function DaVinci() {
                 href: "",
                 content: "",
                 classes: "",
-                typography: {
-                    bold: false,
-                    italic: false,
-                    underline: false,
-                    strikethrough: false,
-                },
                 btnColor: "secondary",
                 btnOutline: false,
             }
@@ -194,6 +189,7 @@ export default function DaVinci() {
                     underline: false,
                     strikethrough: false,
                 },
+                textColor:"dark",
                 alignment: "left",
             }
         }
@@ -208,6 +204,7 @@ export default function DaVinci() {
                     underline: false,
                     strikethrough: false,
                 },
+                textColor:"dark",
                 alignment: "left",
             }
         }
@@ -260,10 +257,13 @@ export default function DaVinci() {
             if (element.typography["strikethrough"] && !element.typography["underline"]) allClasses = allClasses.concat("styleStrikethrough ")
         }
         if (element.alignment) {
-            allClasses = allClasses.concat("text-" + element.alignment);
+            allClasses = allClasses.concat("text-" + element.alignment+" ");
         }
         if (element.tag === "img") {
-            if (element.responsive) allClasses = allClasses.concat("img-fluid");
+            if (element.responsive) allClasses = allClasses.concat("img-fluid ");
+        }
+        if(element.textColor){
+            allClasses=allClasses.concat(`text-${element.textColor} `)
         }
         return allClasses;
     }
@@ -477,9 +477,10 @@ export default function DaVinci() {
             return (
                 <div key={tag + index} style={{position:'relative'}} className="border rounded" onClick={() => setFocusedIndex(index)}>
                     <div className={index==FocusedIndex?("d-flex justify-content-center align-items-stretch"):("d-none")}>
+                        <i className="bi bi-link lead"></i>
                         <textarea rows="1" cols="10" value={element.src} className="btn btn-light btn-light-active" styles={{ resize: 'none' }} onChange={(e) => updateElement(index, "src", "", e.target.value)} placeholder="Image Link" />
                         <ImageUploader index={index} parentCallback={updateUrl} />
-                        <button type="button" onClick={() => deleteElement(index)} className="btn btn-danger">Remove</button>
+                        <button type="button" onClick={() => deleteElement(index)} className="btn btn-danger">Delete</button>
                     </div>
                         <img className={allClasses} src={element.src ? (element.src) : ("https://t4.ftcdn.net/jpg/02/07/87/79/360_F_207877921_BtG6ZKAVvtLyc5GWpBNEIlIxsffTtWkv.jpg")} ></img>
                 </div>
@@ -556,8 +557,8 @@ export default function DaVinci() {
                         <div className="px-2 text-center">
                             <small>COLOR</small>
                             <br />
-                            <DropdownButton title="  " variant={element.btnColor}>
-                                {BtnColors.map((color, i) =>
+                            <DropdownButton title=" " variant={element.btnColor}>
+                                {BootstrapColors.map((color, i) =>
                                     <Dropdown.Item key={index + "propertieschange" + i + "color"}>
                                         <button type="button" className={element.btnOutline ? (`btn btn-outline-${color.name}`) : (`btn btn-${color.name}`)}
                                             onClick={() => updateElement(FocusedIndex, "btnColor", "", color.name)}>
@@ -567,6 +568,22 @@ export default function DaVinci() {
                             </DropdownButton>
                         </div>
                     ) : (<></>)}
+                    {element.textColor ? (
+                        <div className="px-2 text-center">
+                            <small>COLOR</small>
+                            <br />
+                            <DropdownButton title=" " variant={element.textColor}>
+                            <Dropdown.Item>
+                                {BootstrapColors.map((color, i) =>
+                                        <button key={index + "propertieschange" + i + "color"} style={{borderRadius:'100%',paddingTop:'12px'}} type="button" className={`btn btn-${color.name}`}
+                                            onClick={() => updateElement(FocusedIndex, "textColor", "", color.name)}>
+                                        </button>
+                                    )}
+                                    </Dropdown.Item>
+                            </DropdownButton>
+                        </div>
+                    ) : (<></>)}
+                    
                     {element.tag === "button" ?
                         (<>
                             <div className="px-2">
@@ -637,7 +654,7 @@ export default function DaVinci() {
             {/* Check LOGIN STATUS */}
             {LoginStatus === true ? (
                 // LOGGED IN AND LOADED
-                <div className="container-fluid pt-2">
+                <div className="container-fluid py-2">
 
                     {/* Notification and publish button */}
                     <div className="d-flex justify-content-between">

@@ -15,10 +15,13 @@ export default function Post({ postData }) {
             if (element.typography["strikethrough"] && !element.typography["underline"]) allClasses = allClasses.concat("styleStrikethrough ")
         }
         if (element.alignment) {
-            allClasses = allClasses.concat("text-" + element.alignment);
+            allClasses = allClasses.concat("text-" + element.alignment+" ");
         }
         if (element.tag === "img") {
-            if (element.responsive) allClasses = allClasses.concat("img-fluid");
+            if (element.responsive) allClasses = allClasses.concat("img-fluid ");
+        }
+        if(element.textColor){
+            allClasses=allClasses.concat(`text-${element.textColor} `)
         }
         return allClasses;
     }
@@ -87,7 +90,7 @@ export default function Post({ postData }) {
         }
     }
     return (
-        <div className="container-fluid">
+        <div className="container-fluid py-2">
             <Head>
                 <title>{postData.title} | DaVinci</title>
                 <meta name="viewport" content="initial-scale=1.0, width=device-width" />
