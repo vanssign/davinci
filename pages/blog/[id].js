@@ -17,9 +17,12 @@ export default function Post({ postData }) {
         if (element.alignment) {
             allClasses = allClasses.concat("text-" + element.alignment);
         }
+        if (element.tag === "img") {
+            if (element.responsive) allClasses = allClasses.concat("img-fluid");
+        }
         return allClasses;
     }
-    
+
     //BUILD HTML
     function buildHTML(element, index) {
         let tag = element.tag;

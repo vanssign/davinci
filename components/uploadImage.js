@@ -47,6 +47,6 @@ export default function ImageUploader(props) {
         setFile(e.target.files[0]);
     }
     return (
-        <label className="btn-light btn" style={{ padding: "3px 8px" }}>Upload<input type="file" className="d-none" onChange={handleChange} /></label>
+        <label className="btn-light btn" style={{ padding: "2px 4px" }}>Upload<input type="file" className="d-none" onChange={handleChange} /></label>
     );
 }

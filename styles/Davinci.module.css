@@ -10,17 +10,17 @@
     text-transform: inherit !important;
     text-decoration: inherit !important;
     font-weight: inherit !important;
+    overflow-y: hidden;
 }
 .textareaInherit{
     width:100%;
-    overflow-y: hidden;
 }
 
 .textareaInherit:focus{
     outline: transparent;
     background-color: transparent !important;   
 }
-.textareaInherit:hover{
+.textareaInherit,.textareaInheritLink:hover{
     outline:#21759b 2px !important;
     /* background-color: rgb(245, 245, 245,0.4); */
 }

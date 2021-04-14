@@ -163,6 +163,7 @@ export default function DaVinci() {
                 tag: tag,
                 src: "",
                 classes: "img-fluid",
+                responsive: true
             }
         }
         else if (tag == "button") {
@@ -261,6 +262,9 @@ export default function DaVinci() {
         if (element.alignment) {
             allClasses = allClasses.concat("text-" + element.alignment);
         }
+        if (element.tag === "img") {
+            if (element.responsive) allClasses = allClasses.concat("img-fluid");
+        }
         return allClasses;
     }
 
@@ -274,7 +278,6 @@ export default function DaVinci() {
 
         let tag = element.tag;
         let content = element.content;
-        let classes = element.classes;
         let allClasses = buildClassName(element, index)
 
         //TEXT
@@ -472,14 +475,14 @@ export default function DaVinci() {
         //IMAGE
         if (tag == "img") {
             return (
-                <div key={tag + index} className={allClasses}>
+                <div key={tag + index}>
                     <div className="d-flex justify-content-start">
                         <i className="bi bi-link"></i>{" "}
-                        <textarea rows={1} value={element.src} ref={FocusedIndex == index ? (FocusedElement) : (null)} className={styles.textareaInheritLink} onChange={(e) => updateElement(index, "src", "", e.target.value)} placeholder="Image Link" onFocus={() => setFocusedIndex(index)} />
+                        <textarea rows="1" value={element.src} ref={FocusedIndex == index ? (FocusedElement) : (null)} className={styles.textareaInheritLink} onChange={(e) => updateElement(index, "src", "", e.target.value)} placeholder="Image Link" onFocus={() => setFocusedIndex(index)} />
                         <ImageUploader index={index} parentCallback={updateUrl} />
                     </div>
                     <div className="d-flex align-items-start">
-                        <img src={element.src ? (element.src) : ("https://t4.ftcdn.net/jpg/02/07/87/79/360_F_207877921_BtG6ZKAVvtLyc5GWpBNEIlIxsffTtWkv.jpg")} ></img>
+                        <img className={allClasses} src={element.src ? (element.src) : ("https://t4.ftcdn.net/jpg/02/07/87/79/360_F_207877921_BtG6ZKAVvtLyc5GWpBNEIlIxsffTtWkv.jpg")} ></img>
                         <button type="button" onClick={() => deleteElement(index)} className={styles.delBtn}><i className="bi bi-x-circle-fill"></i></button></div>
                 </div>
             )
@@ -573,12 +576,21 @@ export default function DaVinci() {
                     {element.tag === "button" ?
                         (
                             <div className="form-check">
-                                <input className="form-check-input" type="checkbox" defaultChecked={element.btnOutline} id="defaultCheck1" onChange
+                                <input className="form-check-input" type="checkbox" defaultChecked={element.btnOutline} id="btnOutlineCheck" onChange
                                     ={() => updateElement(FocusedIndex, "btnOutline", "", !element.btnOutline)} />
                                 <label className="form-check-label" htmlFor="defaultCheck1">
                                     Outline</label>
                             </div>
 
+                        ) : (<></>)}
+                    {element.tag === "img" ?
+                        (
+                            <div className="form-check">
+                                <input className="form-check-input" type="checkbox" defaultChecked={element.responsive} id="imgResponsiveCheck" onChange
+                                    ={() => updateElement(FocusedIndex, "responsive", "", !element.responsive)} />
+                                <label className="form-check-label" htmlFor="imgResponsiveCheck">
+                                    Responsive</label>
+                            </div>
                         ) : (<></>)}
                 </div>
             )
