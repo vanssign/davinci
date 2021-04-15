@@ -21,7 +21,7 @@ export default function Home() {
         </p>
         <small className="font-weight-bolder">Preview</small>
         <div class="embed-responsive embed-responsive-16by9">
-          <iframe class="embed-responsive-item" src="https://drive.google.com/file/d/1xD4z1CjLtRP2fxgyuVlbAiPb9cci2TvI/preview?autoplay=1" className="rounded"></iframe>
+          <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/HjAliUawNlU?autoplay=1" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen className="border rounded"></iframe>
         </div>
         <div className={styles.grid}>
           <Link href="/davinci"><a className={styles.card}>
