@@ -22,7 +22,10 @@ a {
   color: #21759b;
 }
 .btn:focus{
-  outline:none;
+  outline:none !important;
+}
+.btn:active{
+  outline: none !important;
 }
 .container{
   padding-top: 16px;

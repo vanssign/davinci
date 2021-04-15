@@ -1,4 +1,4 @@
-.textareaInherit{
+.textareaInherit,.textareaInheritBtn{
     color:inherit !important;
     font:inherit !important;
     text-align: inherit !important;
@@ -6,7 +6,6 @@
     background: inherit !important;
     padding:0;
     margin:0;
-    resize:none;
     text-transform: inherit !important;
     text-decoration: inherit !important;
     font-weight: inherit !important;
@@ -14,6 +13,10 @@
 }
 .textareaInherit{
     width:100%;
+    resize:none;
+}
+.textareaInheritBtn{
+    resize: none;
 }
 .textareaInheritLink{
     color: #21759b !important;
@@ -29,11 +32,11 @@
     overflow-y: scroll;
 }
 
-.textareaInherit:focus{
+.textareaInherit,.textareaInheritBtn:focus{
     outline: transparent;
     background-color: transparent !important;   
 }
-.textareaInherit:hover{
+.textareaInherit,.textareaInheritBtn:hover{
     outline:#21759b 2px !important;
     /* background-color: rgb(245, 245, 245,0.4); */
 }

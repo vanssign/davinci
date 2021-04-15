@@ -5,12 +5,20 @@ import Link from 'next/link';
 import { useState, useRef, useEffect } from 'react';
 
 import TextareaAutosize from 'react-textarea-autosize';
-import { DropdownButton, Dropdown, SplitButton, Tabs, Tab } from 'react-bootstrap';
+import { DropdownButton, Dropdown, SplitButton, Tabs, Tab, Tooltip, OverlayTrigger } from 'react-bootstrap';
 import ImageUploader from '../components/uploadImage';
+//functions
+import { buildClassName } from '../functions/BuildFunctions';
 
 import fire from '../config/fire-config';
 
 import styles from '../styles/Davinci.module.css'
+
+const renderIconTooltip = (props) => (
+    <Tooltip id="button-icon-tooltip" {...props}>
+        Visit <a href="https://icons.getbootstrap.com/" target="_blank" rel="noreferrer">Bootstrap Icons</a> and add the name of the icon ex:alarm
+    </Tooltip>
+);
 
 var TextTags = [
     {
@@ -98,8 +106,7 @@ export default function DaVinci() {
         if (FocusedElement.current) {
             FocusedElement.current.focus();
         }
-        // var newFocusedElementArray = ElementArray.filter((e, index) => index == FocusedIndex);
-        // setFocusedElementArray(newFocusedElementArray);
+
     })
 
     //Auth Check
@@ -155,7 +162,7 @@ export default function DaVinci() {
                     underline: false,
                     strikethrough: false,
                 },
-                textColor:"dark",
+                textColor: "dark",
                 alignment: "left",
             }
         }
@@ -164,7 +171,8 @@ export default function DaVinci() {
                 tag: tag,
                 src: "",
                 classes: "img-fluid",
-                responsive: true
+                responsive: true,
+                alignment: 'center'
             }
         }
         else if (tag == "button") {
@@ -175,6 +183,8 @@ export default function DaVinci() {
                 classes: "",
                 btnColor: "secondary",
                 btnOutline: false,
+                iconName: "",
+                alignment: 'left',
             }
         }
         else if (tag == "blockquote") {
@@ -189,7 +199,7 @@ export default function DaVinci() {
                     underline: false,
                     strikethrough: false,
                 },
-                textColor:"dark",
+                textColor: "dark",
                 alignment: "left",
             }
         }
@@ -204,7 +214,7 @@ export default function DaVinci() {
                     underline: false,
                     strikethrough: false,
                 },
-                textColor:"dark",
+                textColor: "dark",
                 alignment: "left",
             }
         }
@@ -244,30 +254,6 @@ export default function DaVinci() {
         }
         setElementArray(newElementArray);
     }
-
-    function buildClassName(element, index) {
-        var allClasses = " ";
-        //typograhy classes
-        if (element.typography) {
-            if (element.typography["bold"]) allClasses = allClasses.concat("styleBold ")
-            if (element.typography["italic"]) allClasses = allClasses.concat("styleItalic ")
-
-            if (element.typography["underline"] && element.typography["strikethrough"]) allClasses = allClasses.concat("styleUnderlineStrikethrough ")
-            if (element.typography["underline"] && !element.typography["strikethrough"]) allClasses = allClasses.concat("styleUnderline ")
-            if (element.typography["strikethrough"] && !element.typography["underline"]) allClasses = allClasses.concat("styleStrikethrough ")
-        }
-        if (element.alignment) {
-            allClasses = allClasses.concat("text-" + element.alignment+" ");
-        }
-        if (element.tag === "img") {
-            if (element.responsive) allClasses = allClasses.concat("img-fluid ");
-        }
-        if(element.textColor){
-            allClasses=allClasses.concat(`text-${element.textColor} `)
-        }
-        return allClasses;
-    }
-
     const updateUrl = (value, index) => {
         updateElement(index, "src", "", value)
     }
@@ -475,32 +461,37 @@ export default function DaVinci() {
         //IMAGE
         if (tag == "img") {
             return (
-                <div key={tag + index} style={{position:'relative'}} className="border rounded" onClick={() => setFocusedIndex(index)}>
-                    <div className={index==FocusedIndex?("d-flex justify-content-center align-items-stretch"):("d-none")}>
+                <div key={tag + index} className={`text-${element.alignment}`} onClick={() => setFocusedIndex(index)}>
+                    <div className={index == FocusedIndex ? ("d-flex justify-content-center align-items-stretch") : ("d-none")}>
                         <i className="bi bi-link lead"></i>
-                        <textarea rows="1" cols="10" value={element.src} className="btn btn-light btn-light-active" styles={{ resize: 'none' }} onChange={(e) => updateElement(index, "src", "", e.target.value)} placeholder="Image Link" />
+                        <textarea rows="1" cols="10" value={element.src} className="btn btn-light btn-light-active" styles={{ resize: 'none' }} onChange={(e) => updateElement(index, "src", "", e.target.value)} placeholder="Image Link" ref={FocusedIndex == index ? (FocusedElement) : (null)} />
                         <ImageUploader index={index} parentCallback={updateUrl} />
                         <button type="button" onClick={() => deleteElement(index)} className="btn btn-danger">Delete</button>
                     </div>
-                        <img className={allClasses} src={element.src ? (element.src) : ("https://t4.ftcdn.net/jpg/02/07/87/79/360_F_207877921_BtG6ZKAVvtLyc5GWpBNEIlIxsffTtWkv.jpg")} ></img>
+                    <img className={allClasses + " border rounded "} src={element.src ? (element.src) : ("https://t4.ftcdn.net/jpg/02/07/87/79/360_F_207877921_BtG6ZKAVvtLyc5GWpBNEIlIxsffTtWkv.jpg")} ></img>
                 </div>
             )
         }
 
         //BUTTONS
         if (tag == "button") {
-            return (<div key={tag + index}>
-                <div className="d-flex align-items-start">
-                    <button type="button" className={element.btnOutline ? (`btn btn-outline-${element.btnColor}`) : (`btn btn-${element.btnColor}`)} style={{ position: 'relative' }}>
-                        <TextareaAutosize value={content} className={styles.textareaInherit} onChange={(e) => updateElement(index, "content", "", e.target.value)} placeholder="button" onFocus={() => setFocusedIndex(index)} />
-                    </button>
-                    <button type="button" onClick={() => deleteElement(index)} className={styles.delBtn}><i className="bi bi-x-circle-fill"></i></button>
-                </div>
+            return (<div key={tag + index} className={`text-${element.alignment}`}>
+                <button type="button" className={element.btnOutline ? (`btn btn-outline-${element.btnColor}`) : (`btn btn-${element.btnColor}`)} style={{ position: 'relative' }}>
+                    <div className="d-flex justify-content-start">
+                        {element.iconName ? (
+                            <>
+                                <i className={`bi bi-${element.iconName} font-weight-bolder`}></i>{" "}
+                            </>
+                        ) : (<></>)}
+                        <TextareaAutosize value={content} className={styles.textareaInheritBtn} onChange={(e) => updateElement(index, "content", "", e.target.value)} placeholder="Btn text" onFocus={() => setFocusedIndex(index)} />
+                    </div>
+                </button>
+                <button type="button" onClick={() => deleteElement(index)} className={styles.delBtn}><i className="bi bi-x-circle-fill lead"></i></button>
             </div>)
         }
     }
 
-
+    //Properties in Format tab
     function buildActiveElementProperties(element, index) {
         if (index === FocusedIndex) {
             return (
@@ -527,13 +518,13 @@ export default function DaVinci() {
                         <div className="px-2 text-center">
                             <small>ALIGN</small>
                             <br />
-                            <button type="button" className={element.alignment === "left" ? ("btn btn-light-active") : ("btn btn-light")} onClick={() => updateElement(FocusedIndex, "alignment", "", "left")}  >
+                            <button type="button" className={element.alignment === "left" ? ("btn btn -light btn-light-active") : ("btn btn-light")} onClick={() => updateElement(FocusedIndex, "alignment", "", "left")}  >
                                 <i className="bi  bi-text-left"></i>
                             </button>
-                            <button type="button" className={element.alignment === "center" ? ("btn btn-light-active") : ("btn btn-light")} onClick={() => updateElement(FocusedIndex, "alignment", "", "center")}>
+                            <button type="button" className={element.alignment === "center" ? ("btn btn-light btn-light-active") : ("btn btn-light")} onClick={() => updateElement(FocusedIndex, "alignment", "", "center")}>
                                 <i className="bi  bi-text-center"></i>
                             </button>
-                            <button type="button" className={element.alignment === "right" ? ("btn btn-light-active") : ("btn btn-light")} onClick={() => updateElement(FocusedIndex, "alignment", "", "right")}>
+                            <button type="button" className={element.alignment === "right" ? ("btn btn -light btn-light-active") : ("btn btn-light")} onClick={() => updateElement(FocusedIndex, "alignment", "", "right")}>
                                 <i className="bi  bi-text-right"></i>
                             </button>
                         </div>
@@ -553,6 +544,8 @@ export default function DaVinci() {
                             })}
                         </div>
                     ) : (<></>)}
+
+
                     {element.btnColor ? (
                         <div className="px-2 text-center">
                             <small>COLOR</small>
@@ -573,17 +566,17 @@ export default function DaVinci() {
                             <small>COLOR</small>
                             <br />
                             <DropdownButton title=" " variant={element.textColor}>
-                            <Dropdown.Item>
-                                {BootstrapColors.map((color, i) =>
-                                        <button key={index + "propertieschange" + i + "color"} style={{borderRadius:'100%',paddingTop:'12px'}} type="button" className={`btn btn-${color.name}`}
+                                <Dropdown.Item>
+                                    {BootstrapColors.map((color, i) =>
+                                        <button key={index + "propertieschange" + i + "color"} style={{ borderRadius: '100%', paddingTop: '12px' }} type="button" className={`btn btn-${color.name}`}
                                             onClick={() => updateElement(FocusedIndex, "textColor", "", color.name)}>
                                         </button>
                                     )}
-                                    </Dropdown.Item>
+                                </Dropdown.Item>
                             </DropdownButton>
                         </div>
                     ) : (<></>)}
-                    
+
                     {element.tag === "button" ?
                         (<>
                             <div className="px-2">
@@ -598,6 +591,18 @@ export default function DaVinci() {
                                 <small><i className="bi bi-link"></i>{" "}LINK</small>
                                 <br />
                                 <textarea rows="1" cols="10" value={element.href} className="btn btn-light" styles={{ resize: 'none !important' }} onChange={(e) => updateElement(index, "href", "", e.target.value)} placeholder="Link" onFocus={() => setFocusedIndex(index)} />
+                            </div>
+                            <div className="px-2 text-center">
+                                <small>ICON{" "}</small>
+                                <OverlayTrigger
+                                    placement="top"
+                                    delay={{ show: 150, hide: 1500 }}
+                                    overlay={renderIconTooltip}
+                                >
+                                    <i className="bi bi-info-circle-fill"></i>
+                                </OverlayTrigger>
+                                <br />
+                                <textarea rows="1" cols="3" value={element.iconName} className="btn btn-light" styles={{ resize: 'none !important' }} onChange={(e) => updateElement(index, "iconName", "", e.target.value)} placeholder="icon" onFocus={() => setFocusedIndex(index)} />
                             </div>
                         </>
 
@@ -708,7 +713,7 @@ export default function DaVinci() {
                                         <SplitButton id="dropdown-split-button" variant="light" title={
                                             <><i className="bi bi-stop-btn-fill"></i>{" "}Button</>} onClick={() => addElement("button")}>
                                             <Dropdown.Item>
-                                                SOCIAL BUTTONS
+                                                Social Button Group
                                     </Dropdown.Item>
                                         </SplitButton>
                                     </div>
@@ -743,7 +748,8 @@ export default function DaVinci() {
                             buildtextareaHTML(e, index)
                         )
                         }
-                        {/* {ElementArray.map((e, index) => buildActiveElementProperties(e, index))} */}
+
+                        {/* <button className="btn btn-light m-1"><i className="bi bi-instagram lead"></i></button> */}
                     </div>
                 </div>
             ) : (
