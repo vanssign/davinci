@@ -19,7 +19,8 @@ export default function Home() {
         <p className={styles.description}>
           Paint your blog ideas{' '}
         </p>
-
+        <small className="font-weight-bolder">Preview</small>
+        <iframe src="https://drive.google.com/file/d/1xD4z1CjLtRP2fxgyuVlbAiPb9cci2TvI/preview?autoplay=1" width="640" height="400" className="rounded border"/>
         <div className={styles.grid}>
           <Link href="/davinci"><a className={styles.card}>
             <h3>Editor &rarr;</h3>
