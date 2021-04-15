@@ -20,7 +20,9 @@ export default function Home() {
           Paint your blog ideas{' '}
         </p>
         <small className="font-weight-bolder">Preview</small>
-        <iframe src="https://drive.google.com/file/d/1xD4z1CjLtRP2fxgyuVlbAiPb9cci2TvI/preview?autoplay=1" width="640" height="400" className="rounded border"/>
+        <div class="embed-responsive embed-responsive-16by9">
+          <iframe class="embed-responsive-item" src="https://drive.google.com/file/d/1xD4z1CjLtRP2fxgyuVlbAiPb9cci2TvI/preview?autoplay=1" className="rounded"></iframe>
+        </div>
         <div className={styles.grid}>
           <Link href="/davinci"><a className={styles.card}>
             <h3>Editor &rarr;</h3>
@@ -36,7 +38,7 @@ export default function Home() {
 
           <Link href="/auth/login">
             <a className={styles.card}><h3>Login &rarr;</h3>
-            <i className="bi bi-person-badge-fill display-4"></i>
+              <i className="bi bi-person-badge-fill display-4"></i>
               <p>Login using email address and password</p></a>
           </Link>
 
