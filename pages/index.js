@@ -20,8 +20,8 @@ export default function Home() {
           Paint your blog ideas{' '}
         </p>
         <small className="font-weight-bolder">Preview</small>
-        <div class="embed-responsive embed-responsive-16by9">
-          <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/HjAliUawNlU?autoplay=1" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen className="border rounded"></iframe>
+        <div className="embed-responsive embed-responsive-16by9 border rounded">
+          <iframe className="embed-responsive-item" src="https://www.youtube.com/embed/HjAliUawNlU?autoplay=1" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen ></iframe>
         </div>
         <div className={styles.grid}>
           <Link href="/davinci"><a className={styles.card}>

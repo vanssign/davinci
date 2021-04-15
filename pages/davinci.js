@@ -184,7 +184,7 @@ export default function DaVinci() {
                 btnColor: "secondary",
                 btnOutline: false,
                 iconName: "",
-                alignment: 'left',
+                alignment: 'center',
             }
         }
         else if (tag == "blockquote") {
@@ -647,8 +647,8 @@ export default function DaVinci() {
         )
     }
     //LOGS
-    console.log(ElementArray);
-    console.log(FocusedIndex);
+    // console.log(ElementArray);
+    // console.log(FocusedIndex);
 
     return (
         <>
@@ -758,7 +758,9 @@ export default function DaVinci() {
                     <div className="container d-flex align-items-center justify-content-center text-center" style={{ height: '100vh', width: '100vw' }}>
                         <div className=""><i className="display-4 bi bi-hourglass-split"></i>
                             <h4>L O A D I N G</h4>
-                            <textarea ref={FocusedElement} className="d-none" /></div>
+                            <textarea ref={FocusedElement} className="d-none" />
+                            <small className="d-block d-sm-none">Tip: Use Desktop for better experience!</small>
+                        </div>
                     </div>) : (
                     //NOT LOGGED IN
                     <div className="container d-flex align-items-center justify-content-center text-center" style={{ height: '100vh', width: '100vw' }}>
