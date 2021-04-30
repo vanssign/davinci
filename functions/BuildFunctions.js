@@ -1,3 +1,18 @@
+var SocialLinks = [
+    { name: 'instagram' },
+    { name: 'facebook' },
+    { name: 'twitter' },
+    { name: 'whatsapp' },
+    { name: 'github' },
+    { name: 'linkedin' },
+    { name: 'youtube' },
+    { name: 'google' },
+    { name: 'telegram' },
+    { name: 'slack' },
+    { name: 'discord' },
+    { name: 'twitch' }
+]
+
 //Build Classes
 export function buildClassName(element, index) {
     var allClasses = " ";
@@ -22,8 +37,8 @@ export function buildClassName(element, index) {
     return allClasses;
 }
 
- //BUILD HTML
- export function buildHTML(element, index) {
+//BUILD HTML
+export function buildHTML(element, index) {
     let tag = element.tag;
     let content = element.content;
     let allClasses = buildClassName(element, index)
@@ -38,9 +53,9 @@ export function buildClassName(element, index) {
     }
     if (tag == "img") {
         return (
-        <div className={`text-${element.alignment}`}>
-            <img key={tag + index} className={allClasses + " border rounded "} src={element.src} />
-        </div>
+            <div className={`text-${element.alignment}`}>
+                <img key={tag + index} className={allClasses + " border rounded "} src={element.src} />
+            </div>
         )
     }
     if (tag == "h4") {
@@ -75,11 +90,25 @@ export function buildClassName(element, index) {
     if (tag == "button") {
         return (
             <div key={tag + index} className={`text-${element.alignment}`}>
-            <a className="text-reset" href={element.href} target="_blank">
-                <button className={element.btnOutline ? (`btn btn-outline-${element.btnColor}`) : (`btn btn-${element.btnColor}`)}>
-                {element.iconName ? (<i className={`bi bi-${element.iconName} lead`}></i>) : (<></>)}
-                  {" "} {content}</button>
-            </a>
+                <a className="text-reset" href={element.href} target="_blank">
+                    <button className={element.btnOutline ? (`btn btn-outline-${element.btnColor}`) : (`btn btn-${element.btnColor}`)}>
+                        {element.iconName ? (<i className={`bi bi-${element.iconName} lead`}></i>) : (<></>)}
+                        {" "} {content}</button>
+                </a>
+            </div>
+        )
+    }
+    //SOCIAL BUTTONS
+    if (tag == "socialbtns") {
+        return (
+            <div key={tag + index} className="text-center">
+                {SocialLinks.filter((s, i) => element[s.name] !== "")
+                    .map((sb, i) =>
+                        <a className="text-reset" href={element[sb.name]} target="_blank">
+                            <button type="button" className="btn btn-light m-1"><i className={`bi bi-${sb.name} lead`}></i></button>
+                        </a>
+                    )
+                }
             </div>
         )
     }

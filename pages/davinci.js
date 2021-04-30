@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { useState, useRef, useEffect } from 'react';
 
 import TextareaAutosize from 'react-textarea-autosize';
-import { DropdownButton, Dropdown, SplitButton, Tabs, Tab, Tooltip, OverlayTrigger } from 'react-bootstrap';
+import { DropdownButton, Dropdown, SplitButton, Tabs, Tab, Tooltip, OverlayTrigger, Popover } from 'react-bootstrap';
 import ImageUploader from '../components/uploadImage';
 //functions
 import { buildClassName } from '../functions/BuildFunctions';
@@ -84,6 +84,21 @@ var BootstrapColors = [
     {
         name: 'dark',
     }
+]
+
+var SocialLinks = [
+    { name: 'instagram' },
+    { name: 'facebook' },
+    { name: 'twitter' },
+    { name: 'whatsapp' },
+    { name: 'github' },
+    { name: 'linkedin' },
+    { name: 'youtube' },
+    { name: 'google' },
+    { name: 'telegram' },
+    { name: 'slack' },
+    { name: 'discord' },
+    { name: 'twitch' }
 ]
 
 
@@ -185,6 +200,23 @@ export default function DaVinci() {
                 btnOutline: false,
                 iconName: "",
                 alignment: 'center',
+            }
+        }
+        else if (tag == "socialbtns") {
+            element = {
+                tag: tag,
+                instagram: "",
+                facebook: "",
+                twitter: "",
+                whatsapp: "",
+                github: "https://github.com/vanssign",
+                linkedin: "https://www.linkedin.com/in/vansh-singh/",
+                youtube: "",
+                google: "",
+                telegram: "",
+                slack: "",
+                discord: "",
+                twitch: ""
             }
         }
         else if (tag == "blockquote") {
@@ -489,6 +521,18 @@ export default function DaVinci() {
                 <button type="button" onClick={() => deleteElement(index)} className={styles.delBtn}><i className="bi bi-x-circle-fill lead"></i></button>
             </div>)
         }
+        //SOCIAL BUTTONS
+        if (tag == "socialbtns") {
+            return (
+                <div key={tag + index} className="text-center border" onClick={() => setFocusedIndex(index)}>
+                    {SocialLinks.filter((s, i) => element[s.name] !== "")
+                        .map((sb, i) =>
+                            <button type="button" className="btn btn-light m-1"><i className={`bi bi-${sb.name} lead`}></i></button>)
+                    }
+                    <button type="button" onClick={() => deleteElement(index)} className={styles.delBtn}><i className="bi bi-x-circle-fill lead"></i></button>
+                </div>
+            )
+        }
     }
 
     //Properties in Format tab
@@ -607,6 +651,35 @@ export default function DaVinci() {
                         </>
 
                         ) : (<></>)}
+
+                    {element.tag === "socialbtns" ?
+                        (<div className="px-2 text-center">
+                            <small>ADD LINKS</small>
+                            <br />
+                            <OverlayTrigger
+                                trigger="click" placement="right"
+                                delay={{ hide: 20000 }}
+                                overlay={
+                                    <Popover id="popover-basic">
+                                        <Popover.Title as="h3">Social Links</Popover.Title>
+                                        <Popover.Content>
+                                            <>
+                                                {SocialLinks.map((s, i) =>
+                                                    <div key={index + "propertieschange" + i}>
+                                                        <i className={`bi bi-${s.name} lead mr-2`}></i>
+                                                        <textarea rows="1" cols="10" value={element[s.name]} className="btn btn-light my-1" styles={{ resize: 'none !important' }} onChange={(e) => updateElement(index, s.name, "", e.target.value)} placeholder={s.name} onFocus={() => setFocusedIndex(index)} />
+                                                    </div>)}
+                                            </>
+                                        </Popover.Content>
+                                    </Popover>
+                                }
+                            >
+                                <button type="button" className="btn btn-light">Links <i className="bi bi-chevron-right"></i></button></OverlayTrigger>
+
+
+                        </div>
+                        ) : (<></>)}
+
                     {element.tag === "img" ?
                         (
                             <div className="form-check">
@@ -646,9 +719,9 @@ export default function DaVinci() {
             </div>
         )
     }
-    //LOGS
-    // console.log(ElementArray);
-    // console.log(FocusedIndex);
+    // LOGS
+    console.log(ElementArray);
+    console.log(FocusedIndex);
 
     return (
         <>
@@ -713,8 +786,16 @@ export default function DaVinci() {
                                         <SplitButton id="dropdown-split-button" variant="light" title={
                                             <><i className="bi bi-stop-btn-fill"></i>{" "}Button</>} onClick={() => addElement("button")}>
                                             <Dropdown.Item>
-                                                Social Button Group
-                                    </Dropdown.Item>
+                                                <button type="button" className="btn btn-light" onClick={() => addElement("socialbtns")}>Social<br />
+                                                    <i className="bi bi-instagram"></i>
+                                                    <i className="bi bi-facebook"></i>
+                                                    <i className="bi bi-twitter"></i>
+                                                    <i className="bi bi-whatsapp"></i>
+                                                    <i className="bi bi-github"></i>
+                                                    <i className="bi bi-linkedin"></i>
+                                                    <i className="bi bi-youtube"></i>
+                                                </button>
+                                            </Dropdown.Item>
                                         </SplitButton>
                                     </div>
                                 </Tab>
