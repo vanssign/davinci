@@ -679,6 +679,16 @@ export default function DaVinci() {
                                             {color.name}
                                         </button>
                                     </Dropdown.Item>)}
+                                    <Dropdown.Item>
+                                        <button type="button" className="btn btn-link" onClick={() => updateElement(FocusedIndex, "btnColor", "", "link")}>
+                                            link
+                                        </button>
+                                    </Dropdown.Item>
+                                    <Dropdown.Item>
+                                        <button type="button" className="btn " onClick={() => updateElement(FocusedIndex, "btnColor", "", " ")}>
+                                            transparent
+                                        </button>
+                                    </Dropdown.Item>
                             </DropdownButton>
                         </div>
                     ) : (<></>)}
