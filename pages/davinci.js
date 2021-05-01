@@ -262,6 +262,25 @@ export default function DaVinci() {
         setElementArray(newElementArray);
     }
 
+    //change index of focused element
+    function changeElementIndex(index, value) {
+        let newElementArray = [...ElementArray];
+        let temp = newElementArray[index];
+        //decrease index
+        if (value === -1) {
+            newElementArray[index] = newElementArray[index - 1];
+            newElementArray[index - 1] = temp;
+            setFocusedIndex(index - 1);
+        }
+        //increase  index
+        else if (value == 1) {
+            newElementArray[index] = newElementArray[index + 1];
+            newElementArray[index + 1] = temp;
+            setFocusedIndex(index + 1);
+        }
+        setElementArray(newElementArray);
+    }
+
     //update element
     function updateElement(index, key, index2, value) {
         let newElementArray = [...ElementArray];
@@ -286,6 +305,7 @@ export default function DaVinci() {
         }
         setElementArray(newElementArray);
     }
+
     const updateUrl = (value, index) => {
         updateElement(index, "src", "", value)
     }
@@ -527,7 +547,7 @@ export default function DaVinci() {
                 <div key={tag + index} className="text-center border" onClick={() => setFocusedIndex(index)}>
                     {SocialLinks.filter((s, i) => element[s.name] !== "")
                         .map((sb, i) =>
-                            <button type="button" className="btn btn-light m-1"><i className={`bi bi-${sb.name} lead`}></i></button>)
+                            <button type="button" className="btn btn-secondary m-1"><i className={`bi bi-${sb.name} lead`}></i></button>)
                     }
                     <button type="button" onClick={() => deleteElement(index)} className={styles.delBtn}><i className="bi bi-x-circle-fill lead"></i></button>
                 </div>
@@ -541,7 +561,7 @@ export default function DaVinci() {
             return (
                 <div key={index + "properties"} className="d-flex justify-content-start align-items-center">
                     <div className="px-2 text-center">
-                        <small>TYPE</small>
+                        <small>Type</small>
                         {(element.tag === "h2" || element.tag === "h3" || element.tag === "p" || element.tag === "h4" || element.tag === "h5" || element.tag === "h6" || element.tag === "code") ?
                             (<DropdownButton title={element.tag} variant="light">
                                 {TextTags.map((t, i) =>
@@ -558,9 +578,19 @@ export default function DaVinci() {
                                 </>
                             )}
                     </div>
+                    <div className="px-2 text-center">
+                        <small>Reorder</small>
+                        <br />
+                        <button type="button" className="btn btn-secondary" onClick={() => changeElementIndex(FocusedIndex, -1)} disabled={FocusedIndex === 0 ? (true) : (false)}>
+                            <i className="bi bi-chevron-compact-up"></i>
+                        </button>
+                        <button type="button" className="btn btn-secondary" onClick={() => changeElementIndex(FocusedIndex, 1)} disabled={FocusedIndex === ElementArray.length - 1 ? (true) : (false)}>
+                            <i className="bi bi-chevron-compact-down"></i>
+                        </button>
+                    </div>
                     {element.alignment ? (
                         <div className="px-2 text-center">
-                            <small>ALIGN</small>
+                            <small>Align</small>
                             <br />
                             <button type="button" className={element.alignment === "left" ? ("btn btn -light btn-light-active") : ("btn btn-light")} onClick={() => updateElement(FocusedIndex, "alignment", "", "left")}  >
                                 <i className="bi  bi-text-left"></i>
@@ -577,7 +607,7 @@ export default function DaVinci() {
 
                     {element.typography ? (
                         <div className="px-2 text-center">
-                            <small>TYPOGRAPHY</small>
+                            <small>Typography</small>
                             <br />
                             {Object.entries(element.typography).map((t, i) => {
                                 return (
@@ -592,7 +622,7 @@ export default function DaVinci() {
 
                     {element.btnColor ? (
                         <div className="px-2 text-center">
-                            <small>COLOR</small>
+                            <small>Color</small>
                             <br />
                             <DropdownButton title=" " variant={element.btnColor}>
                                 {BootstrapColors.map((color, i) =>
@@ -607,7 +637,7 @@ export default function DaVinci() {
                     ) : (<></>)}
                     {element.textColor ? (
                         <div className="px-2 text-center">
-                            <small>COLOR</small>
+                            <small>Color</small>
                             <br />
                             <DropdownButton title=" " variant={element.textColor}>
                                 <Dropdown.Item>
@@ -632,12 +662,12 @@ export default function DaVinci() {
                                 </div>
                             </div>
                             <div className="px-2 text-center">
-                                <small><i className="bi bi-link"></i>{" "}LINK</small>
+                                <small><i className="bi bi-link"></i>{" "}Link</small>
                                 <br />
                                 <textarea rows="1" cols="10" value={element.href} className="btn btn-light" styles={{ resize: 'none !important' }} onChange={(e) => updateElement(index, "href", "", e.target.value)} placeholder="Link" onFocus={() => setFocusedIndex(index)} />
                             </div>
                             <div className="px-2 text-center">
-                                <small>ICON{" "}</small>
+                                <small>Icon{" "}</small>
                                 <OverlayTrigger
                                     placement="top"
                                     delay={{ show: 150, hide: 1500 }}
@@ -654,7 +684,7 @@ export default function DaVinci() {
 
                     {element.tag === "socialbtns" ?
                         (<div className="px-2 text-center">
-                            <small>ADD LINKS</small>
+                            <small>Add Links</small>
                             <br />
                             <OverlayTrigger
                                 trigger="click" placement="right"

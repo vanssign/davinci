@@ -105,7 +105,7 @@ export function buildHTML(element, index) {
                 {SocialLinks.filter((s, i) => element[s.name] !== "")
                     .map((sb, i) =>
                         <a className="text-reset" href={element[sb.name]} target="_blank">
-                            <button type="button" className="btn btn-light m-1"><i className={`bi bi-${sb.name} lead`}></i></button>
+                            <button type="button" className="btn btn-secondary m-1"><i className={`bi bi-${sb.name} lead`}></i></button>
                         </a>
                     )
                 }
