@@ -28,7 +28,7 @@ export function buildClassName(element, index) {
     if (element.alignment) {
         allClasses = allClasses.concat("text-" + element.alignment + " ");
     }
-    if (element.tag === "img") {
+    if (element.tag === "img"||element.tag==="mediaText") {
         if (element.responsive) allClasses = allClasses.concat("img-fluid ");
     }
     if (element.textColor) {
@@ -53,8 +53,20 @@ export function buildHTML(element, index) {
     }
     if (tag == "img") {
         return (
-            <div className={`text-${element.alignment}`}>
-                <img key={tag + index} className={allClasses + " border rounded "} src={element.src} />
+            <div key={tag + index} className={`text-${element.alignment}`}>
+                <img className={allClasses + " border rounded "} src={element.src} />
+            </div>
+        )
+    }
+    if(tag=="mediaText"){
+        return(
+            <div key={tag + index} className={`text-${element.alignment} row align-items-center`}>
+            <div className={`col-12 col-md-6 order-${element.order} text-center`}>
+            <img className={allClasses + " border rounded "} src={element.src} />
+            </div>
+            <div className="col-12 col-md-6">
+            <p className={allClasses}>{content}</p>
+            </div>
             </div>
         )
     }

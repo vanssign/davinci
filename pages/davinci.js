@@ -190,6 +190,18 @@ export default function DaVinci() {
                 alignment: 'center'
             }
         }
+        else if (tag == "mediaText") {
+            element = {
+                tag: tag,
+                src: "",
+                classes: "img-fluid",
+                responsive: true,
+                alignment: 'left',
+                order: 0,
+                content: "",
+            }
+        }
+
         else if (tag == "button") {
             element = {
                 tag: tag,
@@ -524,6 +536,34 @@ export default function DaVinci() {
                 </div>
             )
         }
+        if (tag == "mediaText") {
+            return (
+                <div key={tag + index} className={`text-${element.alignment} row align-items-center`} onClick={() => setFocusedIndex(index)}>
+                    <div className={`col-12 col-md-6 order-${element.order} text-center`}>
+                        <div className={index == FocusedIndex ? ("d-flex justify-content-center align-items-stretch") : ("d-none")}>
+                            <i className="bi bi-link lead"></i>
+                            <textarea rows="1" cols="10" value={element.src} className="btn btn-light btn-light-active" styles={{ resize: 'none' }} onChange={(e) => updateElement(index, "src", "", e.target.value)} placeholder="Image Link" ref={FocusedIndex == index ? (FocusedElement) : (null)} />
+                            <ImageUploader index={index} parentCallback={updateUrl} />
+                            <button type="button" onClick={() => deleteElement(index)} className="btn btn-danger">Delete</button>
+                        </div>
+                        <img className={allClasses + " border rounded "} src={element.src ? (element.src) : ("https://t4.ftcdn.net/jpg/02/07/87/79/360_F_207877921_BtG6ZKAVvtLyc5GWpBNEIlIxsffTtWkv.jpg")} ></img>
+                    </div>
+                    <div className={`col-12 col-md-6`}>
+                        <p className={allClasses}><TextareaAutosize ref={FocusedIndex == index ? (FocusedElement) : (null)} value={content} className={styles.textareaInherit} onChange={(e) => updateElement(index, "content", "", e.target.value)} placeholder="Paragraph" onKeyDown={function (e) {
+                            if (e.key === 'Enter') {
+                                e.preventDefault();
+                                addElement("p");
+                            }
+                            if (e.key === 'Backspace' && content === "") {
+                                e.preventDefault();
+                                deleteElement(index);
+                            }
+                        }} onFocus={() => setFocusedIndex(index)} />
+                        </p>
+                    </div>
+                </div>
+            )
+        }
 
         //BUTTONS
         if (tag == "button") {
@@ -717,7 +757,19 @@ export default function DaVinci() {
                         </div>
                         ) : (<></>)}
 
-                    {element.tag === "img" ?
+                    {element.tag === "mediaText" ? (
+                        <div className="px-2 text-center">
+                            <small>Order</small>
+                            <br />
+                            <button type="button" className={element.order === 0 ? ("btn btn-light btn-light-active p-0") : ("btn btn-light p-0")} onClick={() => updateElement(FocusedIndex, "order", "", 0)} >
+                                <i className="bi bi-image-fill"></i><i className="bi bi-text-paragraph"></i>
+                            </button>
+                            <button type="button" className={element.order === 1 ? ("btn btn-light btn-light-active p-0") : ("btn btn-light p-0")} onClick={() => updateElement(FocusedIndex, "order", "", 1)} >
+                                <i className="bi bi-text-paragraph"></i><i className="bi bi-image-fill"></i>
+                            </button>
+                        </div>) : (<></>)}
+
+                    {element.tag === "img" || element.tag === "mediaText" ?
                         (
                             <div className="form-check">
                                 <input className="form-check-input" type="checkbox" defaultChecked={element.responsive} id="imgResponsiveCheck" onChange
@@ -757,7 +809,7 @@ export default function DaVinci() {
         )
     }
     // LOGS
-    // console.log(ElementArray);
+    console.log(ElementArray);
     // console.log(FocusedIndex);
 
     return (
@@ -817,21 +869,24 @@ export default function DaVinci() {
                                         </SplitButton>
 
                                         {/* add Image */}
-                                        <button type="button" className="btn btn-light" onClick={() => addElement("img")}><i className="bi bi-image"></i>{" "}Image</button>
+                                        <SplitButton variant="light" title={<span><i className="bi bi-image"></i> Image</span>} onClick={() => addElement("img")}>
+                                            <Dropdown.Item onClick={() => addElement("mediaText")}>
+                                                <i className="bi bi-image-fill"></i><i className="bi bi-text-paragraph"></i>{" "}Media Text
+                                            </Dropdown.Item>
+                                        </SplitButton>
 
                                         {/* add Buttons */}
                                         <SplitButton id="dropdown-split-button" variant="light" title={
                                             <><i className="bi bi-stop-btn-fill"></i>{" "}Button</>} onClick={() => addElement("button")}>
-                                            <Dropdown.Item>
-                                                <button type="button" className="btn btn-light" onClick={() => addElement("socialbtns")}>Social<br />
-                                                    <i className="bi bi-instagram"></i>
-                                                    <i className="bi bi-facebook"></i>
-                                                    <i className="bi bi-twitter"></i>
-                                                    <i className="bi bi-whatsapp"></i>
-                                                    <i className="bi bi-github"></i>
-                                                    <i className="bi bi-linkedin"></i>
-                                                    <i className="bi bi-youtube"></i>
-                                                </button>
+                                            <Dropdown.Item onClick={() => addElement("socialbtns")}>
+                                                Social<br />
+                                                <i className="bi bi-instagram"></i>
+                                                <i className="bi bi-facebook"></i>
+                                                <i className="bi bi-twitter"></i>
+                                                <i className="bi bi-whatsapp"></i>
+                                                <i className="bi bi-github"></i>
+                                                <i className="bi bi-linkedin"></i>
+                                                <i className="bi bi-youtube"></i>
                                             </Dropdown.Item>
                                         </SplitButton>
                                     </div>
