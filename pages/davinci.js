@@ -544,7 +544,7 @@ export default function DaVinci() {
         //SOCIAL BUTTONS
         if (tag == "socialbtns") {
             return (
-                <div key={tag + index} className="text-center border" onClick={() => setFocusedIndex(index)}>
+                <div key={tag + index} className="text-center border rounded" onClick={() => setFocusedIndex(index)}>
                     {SocialLinks.filter((s, i) => element[s.name] !== "")
                         .map((sb, i) =>
                             <button type="button" className="btn btn-secondary m-1"><i className={`bi bi-${sb.name} lead`}></i></button>)
@@ -565,11 +565,9 @@ export default function DaVinci() {
                         {(element.tag === "h2" || element.tag === "h3" || element.tag === "p" || element.tag === "h4" || element.tag === "h5" || element.tag === "h6" || element.tag === "code") ?
                             (<DropdownButton title={element.tag} variant="light">
                                 {TextTags.map((t, i) =>
-                                    <Dropdown.Item key={index + "propertieschange" + i}>
-                                        <button type="button" className="btn" onClick={() => updateElement(FocusedIndex, "tag", "", t.tag)}>
-                                            <i className={`bi ${t.iconName}`}></i>
-                                            {t.shortName}
-                                        </button>
+                                    <Dropdown.Item key={index + "propertieschange" + i} onClick={() => updateElement(FocusedIndex, "tag", "", t.tag)} >
+                                        <i className={`bi ${t.iconName}`}></i>
+                                        {t.shortName}
                                     </Dropdown.Item>)}
                             </DropdownButton>) : (
                                 <>
@@ -581,26 +579,35 @@ export default function DaVinci() {
                     <div className="px-2 text-center">
                         <small>Reorder</small>
                         <br />
-                        <button type="button" className="btn btn-secondary" onClick={() => changeElementIndex(FocusedIndex, -1)} disabled={FocusedIndex === 0 ? (true) : (false)}>
+                        <button type="button" className="btn btn-secondary py-0 px-1" onClick={() => changeElementIndex(FocusedIndex, -1)} disabled={FocusedIndex === 0 ? (true) : (false)}>
                             <i className="bi bi-chevron-compact-up"></i>
                         </button>
-                        <button type="button" className="btn btn-secondary" onClick={() => changeElementIndex(FocusedIndex, 1)} disabled={FocusedIndex === ElementArray.length - 1 ? (true) : (false)}>
+                        <button type="button" className="btn btn-secondary py-0 px-1" onClick={() => changeElementIndex(FocusedIndex, 1)} disabled={FocusedIndex === ElementArray.length - 1 ? (true) : (false)}>
                             <i className="bi bi-chevron-compact-down"></i>
                         </button>
                     </div>
                     {element.alignment ? (
                         <div className="px-2 text-center">
                             <small>Align</small>
-                            <br />
-                            <button type="button" className={element.alignment === "left" ? ("btn btn -light btn-light-active") : ("btn btn-light")} onClick={() => updateElement(FocusedIndex, "alignment", "", "left")}  >
-                                <i className="bi  bi-text-left"></i>
-                            </button>
-                            <button type="button" className={element.alignment === "center" ? ("btn btn-light btn-light-active") : ("btn btn-light")} onClick={() => updateElement(FocusedIndex, "alignment", "", "center")}>
-                                <i className="bi  bi-text-center"></i>
-                            </button>
-                            <button type="button" className={element.alignment === "right" ? ("btn btn -light btn-light-active") : ("btn btn-light")} onClick={() => updateElement(FocusedIndex, "alignment", "", "right")}>
-                                <i className="bi  bi-text-right"></i>
-                            </button>
+                            <DropdownButton title={<i className={`bi bi-text-${element.alignment}`}></i>} variant="light">
+                                <Dropdown.Item>
+                                    <button type="button" className={element.alignment === "left" ? ("btn btn -light btn-light-active") : ("btn btn-light")} onClick={() => updateElement(FocusedIndex, "alignment", "", "left")}  >
+                                        <i className="bi  bi-text-left"></i>
+                                    </button>
+
+                                    <button type="button" className={element.alignment === "center" ? ("btn btn-light btn-light-active") : ("btn btn-light")} onClick={() => updateElement(FocusedIndex, "alignment", "", "center")}>
+                                        <i className="bi  bi-text-center"></i>
+                                    </button>
+
+                                    <button type="button" className={element.alignment === "right" ? ("btn btn -light btn-light-active") : ("btn btn-light")} onClick={() => updateElement(FocusedIndex, "alignment", "", "right")}>
+                                        <i className="bi  bi-text-right"></i>
+                                    </button>
+
+                                </Dropdown.Item>
+                            </DropdownButton>
+
+
+
                         </div>
                     ) : (<></>)}
 
@@ -611,7 +618,7 @@ export default function DaVinci() {
                             <br />
                             {Object.entries(element.typography).map((t, i) => {
                                 return (
-                                    <button key={index + t[0]} type="button" className={t[1] ? ("btn btn-light-active") : ("btn btn-light")} onClick={() => updateElement(FocusedIndex, "typography", t[0], "")}>
+                                    <button key={index + t[0]} type="button" className={t[1] ? ("btn btn-light-active py-0 px-1") : ("btn btn-light py-0 px-1")} onClick={() => updateElement(FocusedIndex, "typography", t[0], "")}>
                                         <i className={`bi  bi-type-${t[0]}`}></i>
                                     </button>
                                 )
@@ -750,8 +757,8 @@ export default function DaVinci() {
         )
     }
     // LOGS
-    console.log(ElementArray);
-    console.log(FocusedIndex);
+    // console.log(ElementArray);
+    // console.log(FocusedIndex);
 
     return (
         <>
