@@ -53,14 +53,14 @@ export function buildHTML(element, index) {
     }
     if (tag == "img") {
         return (
-            <div key={tag + index} className={`text-${element.alignment}`}>
+            <div key={tag + index} className={`text-${element.alignment} py-4`}>
                 <img className={allClasses + " border rounded "} src={element.src} />
             </div>
         )
     }
     if(tag=="mediaText"){
         return(
-            <div key={tag + index} className={`text-${element.alignment} row align-items-center`}>
+            <div key={tag + index} className={`text-${element.alignment} row align-items-center py-4`}>
             <div className={`col-12 col-md-6 order-${element.order} text-center`}>
             <img className={allClasses + " border rounded "} src={element.src} />
             </div>

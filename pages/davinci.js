@@ -185,7 +185,6 @@ export default function DaVinci() {
             element = {
                 tag: tag,
                 src: "",
-                classes: "img-fluid",
                 responsive: true,
                 alignment: 'center'
             }
@@ -194,10 +193,19 @@ export default function DaVinci() {
             element = {
                 tag: tag,
                 src: "",
-                classes: "img-fluid",
                 responsive: true,
                 alignment: 'left',
                 order: 0,
+                content: "",
+                textColor: "dark",
+            }
+        }
+        else if (tag == "mediaCover") {
+            element = {
+                tag: tag,
+                src: "",
+                responsive: true,
+                alignment: 'left',
                 content: "",
             }
         }
@@ -228,7 +236,7 @@ export default function DaVinci() {
                 telegram: "",
                 slack: "",
                 discord: "",
-                twitch: ""
+                twitch: "",
             }
         }
         else if (tag == "blockquote") {
@@ -334,7 +342,7 @@ export default function DaVinci() {
 
         //H2
         if (tag == "h2") {
-            return (<h2 key={tag + index} className={allClasses}><TextareaAutosize value={content} ref={FocusedIndex == index ? (FocusedElement) : (null)} className={styles.textareaInherit} onChange={(e) => updateElement(index, "content", "", e.target.value)} placeholder="H2 Heading" onKeyDown={function (e) {
+            return (<h2 key={tag + index} className={allClasses}><TextareaAutosize value={content} ref={FocusedIndex == index ? (FocusedElement) : (null)} className={styles.textareaInherit} onChange={(e) => updateElement(index, "content", "", e.target.value)} placeholder="H2 Heading. Type here ..." onKeyDown={function (e) {
                 if (e.key === 'Enter') {
                     e.preventDefault();
                     addElement("p");
@@ -348,7 +356,7 @@ export default function DaVinci() {
 
         //paragraph
         if (tag == "p") {
-            return (<p key={tag + index} className={allClasses}><TextareaAutosize ref={FocusedIndex == index ? (FocusedElement) : (null)} value={content} className={styles.textareaInherit} onChange={(e) => updateElement(index, "content", "", e.target.value)} placeholder="Paragraph" onKeyDown={function (e) {
+            return (<p key={tag + index} className={allClasses}><TextareaAutosize ref={FocusedIndex == index ? (FocusedElement) : (null)} value={content} className={styles.textareaInherit} onChange={(e) => updateElement(index, "content", "", e.target.value)} placeholder="Paragraph. Type here ..." onKeyDown={function (e) {
                 if (e.key === 'Enter') {
                     e.preventDefault();
                     addElement("p");
@@ -363,7 +371,7 @@ export default function DaVinci() {
 
         //H3
         if (tag == "h3") {
-            return (<h3 key={tag + index} className={allClasses}><TextareaAutosize value={content} ref={FocusedIndex == index ? (FocusedElement) : (null)} styles={{ textDecoration: 'underline' }} className={styles.textareaInherit} onChange={(e) => updateElement(index, "content", "", e.target.value)} placeholder="H3 Heading" onKeyDown={function (e) {
+            return (<h3 key={tag + index} className={allClasses}><TextareaAutosize value={content} ref={FocusedIndex == index ? (FocusedElement) : (null)} styles={{ textDecoration: 'underline' }} className={styles.textareaInherit} onChange={(e) => updateElement(index, "content", "", e.target.value)} placeholder="H3 Heading. Type here ..." onKeyDown={function (e) {
                 if (e.key === "Enter") {
                     e.preventDefault();
                     addElement("p");
@@ -378,7 +386,7 @@ export default function DaVinci() {
 
         //H4
         if (tag == "h4") {
-            return (<h4 key={tag + index} className={allClasses}><TextareaAutosize value={content} ref={FocusedIndex == index ? (FocusedElement) : (null)} className={styles.textareaInherit} onChange={(e) => updateElement(index, "content", "", e.target.value)} placeholder="H4 Heading" onKeyDown={function (e) {
+            return (<h4 key={tag + index} className={allClasses}><TextareaAutosize value={content} ref={FocusedIndex == index ? (FocusedElement) : (null)} className={styles.textareaInherit} onChange={(e) => updateElement(index, "content", "", e.target.value)} placeholder="H4 Heading. Type here ..." onKeyDown={function (e) {
                 if (e.key === 'Enter') {
                     e.preventDefault();
                     addElement("p");
@@ -393,7 +401,7 @@ export default function DaVinci() {
 
         //H5
         if (tag == "h5") {
-            return (<h5 key={tag + index} className={allClasses}><TextareaAutosize value={content} ref={FocusedIndex == index ? (FocusedElement) : (null)} className={styles.textareaInherit} onChange={(e) => updateElement(index, "content", "", e.target.value)} placeholder="H5 headiing" onKeyDown={function (e) {
+            return (<h5 key={tag + index} className={allClasses}><TextareaAutosize value={content} ref={FocusedIndex == index ? (FocusedElement) : (null)} className={styles.textareaInherit} onChange={(e) => updateElement(index, "content", "", e.target.value)} placeholder="H5 heading. Type here ..." onKeyDown={function (e) {
                 if (e.key === 'Enter') {
                     e.preventDefault();
                     addElement("p");
@@ -408,7 +416,7 @@ export default function DaVinci() {
 
         //H6
         if (tag == "h6") {
-            return (<h6 key={tag + index} className={allClasses}><TextareaAutosize value={content} ref={FocusedIndex == index ? (FocusedElement) : (null)} className={styles.textareaInherit} onChange={(e) => updateElement(index, "content", "", e.target.value)} placeholder="H6 Heading" onKeyDown={function (e) {
+            return (<h6 key={tag + index} className={allClasses}><TextareaAutosize value={content} ref={FocusedIndex == index ? (FocusedElement) : (null)} className={styles.textareaInherit} onChange={(e) => updateElement(index, "content", "", e.target.value)} placeholder="H6 Heading. Type here ..." onKeyDown={function (e) {
                 if (e.key === 'Enter') {
                     e.preventDefault();
                     addElement("p");
@@ -425,7 +433,7 @@ export default function DaVinci() {
         if (tag == "code") {
             return (
                 <code key={tag + index} className={allClasses}>
-                    <TextareaAutosize value={content} ref={FocusedIndex == index ? (FocusedElement) : (null)} className={styles.textareaInherit} onChange={(e) => updateElement(index, "content", "", e.target.value)} placeholder="Code Snippet"
+                    <TextareaAutosize value={content} ref={FocusedIndex == index ? (FocusedElement) : (null)} className={styles.textareaInherit} onChange={(e) => updateElement(index, "content", "", e.target.value)} placeholder="Code Snippet. Type here ..."
                         onKeyDown={function (e) {
                             if (e.key === 'Backspace' && content === "") {
                                 e.preventDefault();
@@ -441,8 +449,8 @@ export default function DaVinci() {
             return (
                 <div key={tag + index}>
                     <div className="d-flex justify-content-start">
-                        <i className="bi bi-link"></i>{" "}<TextareaAutosize value={element.cite} className={styles.textareaInherit} onChange={(e) => updateElement(index, "cite", e.target.value)} placeholder="Cite Link or source" onFocus={() => setFocusedIndex(index)} /></div>
-                    <blockquote className={allClasses}><TextareaAutosize value={content} ref={FocusedIndex == index ? (FocusedElement) : (null)} className={styles.textareaInherit} onChange={(e) => updateElement(index, "content", "", e.target.value)} placeholder="BlockQuote text"
+                        <i className="bi bi-link-45deg"></i>{" "}<TextareaAutosize value={element.cite} className={styles.textareaInherit} onChange={(e) => updateElement(index, "cite", e.target.value)} placeholder="Cite Link or source" onFocus={() => setFocusedIndex(index)} /></div>
+                    <blockquote className={allClasses}><TextareaAutosize value={content} ref={FocusedIndex == index ? (FocusedElement) : (null)} className={styles.textareaInherit} onChange={(e) => updateElement(index, "content", "", e.target.value)} placeholder="BlockQuote text. Type here ..."
                         onKeyDown={function (e) {
                             if (e.key === "Enter") {
                                 e.preventDefault();
@@ -525,31 +533,32 @@ export default function DaVinci() {
         //IMAGE
         if (tag == "img") {
             return (
-                <div key={tag + index} className={`text-${element.alignment}`} onClick={() => setFocusedIndex(index)}>
+                <div key={tag + index} className={`text-${element.alignment} py-4`} onClick={() => setFocusedIndex(index)}>
                     <div className={index == FocusedIndex ? ("d-flex justify-content-center align-items-stretch") : ("d-none")}>
-                        <i className="bi bi-link lead"></i>
+                        <i className="bi bi-link-45deg lead"></i>
                         <textarea rows="1" cols="10" value={element.src} className="btn btn-light btn-light-active" styles={{ resize: 'none' }} onChange={(e) => updateElement(index, "src", "", e.target.value)} placeholder="Image Link" ref={FocusedIndex == index ? (FocusedElement) : (null)} />
                         <ImageUploader index={index} parentCallback={updateUrl} />
                         <button type="button" onClick={() => deleteElement(index)} className="btn btn-danger">Delete</button>
                     </div>
-                    <img className={allClasses + " border rounded "} src={element.src ? (element.src) : ("https://t4.ftcdn.net/jpg/02/07/87/79/360_F_207877921_BtG6ZKAVvtLyc5GWpBNEIlIxsffTtWkv.jpg")} ></img>
+                    <img className={allClasses + " border rounded "} src={element.src ? (element.src) : ("https://i.stack.imgur.com/y9DpT.jpg")} ></img>
                 </div>
             )
         }
+        //Media Text.
         if (tag == "mediaText") {
             return (
-                <div key={tag + index} className={`text-${element.alignment} row align-items-center`} onClick={() => setFocusedIndex(index)}>
+                <div key={tag + index} className={`text-${element.alignment} row align-items-center py-4`} onClick={() => setFocusedIndex(index)}>
                     <div className={`col-12 col-md-6 order-${element.order} text-center`}>
                         <div className={index == FocusedIndex ? ("d-flex justify-content-center align-items-stretch") : ("d-none")}>
-                            <i className="bi bi-link lead"></i>
+                            <i className="bi bi-link-45deg lead"></i>
                             <textarea rows="1" cols="10" value={element.src} className="btn btn-light btn-light-active" styles={{ resize: 'none' }} onChange={(e) => updateElement(index, "src", "", e.target.value)} placeholder="Image Link" ref={FocusedIndex == index ? (FocusedElement) : (null)} />
                             <ImageUploader index={index} parentCallback={updateUrl} />
                             <button type="button" onClick={() => deleteElement(index)} className="btn btn-danger">Delete</button>
                         </div>
-                        <img className={allClasses + " border rounded "} src={element.src ? (element.src) : ("https://t4.ftcdn.net/jpg/02/07/87/79/360_F_207877921_BtG6ZKAVvtLyc5GWpBNEIlIxsffTtWkv.jpg")} ></img>
+                        <img className={allClasses + " border rounded "} src={element.src ? (element.src) : ("https://i.stack.imgur.com/y9DpT.jpg")} ></img>
                     </div>
                     <div className={`col-12 col-md-6`}>
-                        <p className={allClasses}><TextareaAutosize ref={FocusedIndex == index ? (FocusedElement) : (null)} value={content} className={styles.textareaInherit} onChange={(e) => updateElement(index, "content", "", e.target.value)} placeholder="Paragraph" onKeyDown={function (e) {
+                        <p className={allClasses}><TextareaAutosize ref={FocusedIndex == index ? (FocusedElement) : (null)} value={content} className={styles.textareaInherit} onChange={(e) => updateElement(index, "content", "", e.target.value)} placeholder="A picture is worth a thousand words but a picture with a thousand words is better. Type here ..." onKeyDown={function (e) {
                             if (e.key === 'Enter') {
                                 e.preventDefault();
                                 addElement("p");
@@ -565,6 +574,11 @@ export default function DaVinci() {
             )
         }
 
+        // if (tag == "mediaCover") {
+        //     <div key={tag + index} className={`text-${element.alignment}`} style={{ backgroundImage: `${element.src}`, backgroundSize: 'cover' }}>
+        //         <img src={element.src} style={{vis />
+        //     </div>
+        // }
         //BUTTONS
         if (tag == "button") {
             return (<div key={tag + index} className={`text-${element.alignment}`}>
@@ -575,7 +589,7 @@ export default function DaVinci() {
                                 <i className={`bi bi-${element.iconName} font-weight-bolder`}></i>{" "}
                             </>
                         ) : (<></>)}
-                        <TextareaAutosize value={content} className={styles.textareaInheritBtn} onChange={(e) => updateElement(index, "content", "", e.target.value)} placeholder="Btn text" onFocus={() => setFocusedIndex(index)} />
+                        <TextareaAutosize value={content} className={styles.textareaInheritBtn} onChange={(e) => updateElement(index, "content", "", e.target.value)} placeholder="Button Text. Type here ..." onFocus={() => setFocusedIndex(index)} />
                     </div>
                 </button>
                 <button type="button" onClick={() => deleteElement(index)} className={styles.delBtn}><i className="bi bi-x-circle-fill lead"></i></button>
@@ -679,16 +693,16 @@ export default function DaVinci() {
                                             {color.name}
                                         </button>
                                     </Dropdown.Item>)}
-                                    <Dropdown.Item>
-                                        <button type="button" className="btn btn-link" onClick={() => updateElement(FocusedIndex, "btnColor", "", "link")}>
-                                            link
+                                <Dropdown.Item>
+                                    <button type="button" className="btn btn-link" onClick={() => updateElement(FocusedIndex, "btnColor", "", "link")}>
+                                        link
                                         </button>
-                                    </Dropdown.Item>
-                                    <Dropdown.Item>
-                                        <button type="button" className="btn " onClick={() => updateElement(FocusedIndex, "btnColor", "", " ")}>
-                                            transparent
+                                </Dropdown.Item>
+                                <Dropdown.Item>
+                                    <button type="button" className="btn " onClick={() => updateElement(FocusedIndex, "btnColor", "", " ")}>
+                                        transparent
                                         </button>
-                                    </Dropdown.Item>
+                                </Dropdown.Item>
                             </DropdownButton>
                         </div>
                     ) : (<></>)}
@@ -719,7 +733,7 @@ export default function DaVinci() {
                                 </div>
                             </div>
                             <div className="px-2 text-center">
-                                <small><i className="bi bi-link"></i>{" "}Link</small>
+                                <small><i className="bi bi-link-45deg"></i>{" "}Link</small>
                                 <br />
                                 <textarea rows="1" cols="10" value={element.href} className="btn btn-light" styles={{ resize: 'none !important' }} onChange={(e) => updateElement(index, "href", "", e.target.value)} placeholder="Link" onFocus={() => setFocusedIndex(index)} />
                             </div>
@@ -798,12 +812,12 @@ export default function DaVinci() {
         return (
             <div key={FocusedIndex + "properties"} className="d-flex justify-content-start align-items-center">
                 <div className="px-2 text-center">
-                    <small>TYPE</small><br />
+                    <small>Type</small><br />
                     <button type="button" className="btn btn-secondary">h1</button>
                 </div>
 
-                <div className="px-2 text-center">
-                    <small>ALIGN</small>
+                {/* <div className="px-2 text-center">
+                    <small>Align</small>
                     <br />
                     <button type="button" className="btn btn-light">
                         <i className="bi  bi-text-left"></i>
@@ -814,7 +828,7 @@ export default function DaVinci() {
                     <button type="button" className="btn btn-light">
                         <i className="bi  bi-text-right"></i>
                     </button>
-                </div>
+                </div> */}
             </div>
         )
     }
@@ -854,8 +868,8 @@ export default function DaVinci() {
 
                         <div className={PreviewStatus ? ("d-none") : ("rounded")} style={{ backgroundColor: 'white' }}>
                             <Tabs defaultActiveKey="profile" id="uncontrolled-tab-example">
-                                <Tab eventKey="home" title="Insert">
-                                    <div className="d-flex justify-content-start align-items-stretch bg-light" >
+                                <Tab eventKey="home" title="Insert" className="bg-light">
+                                    <div className="d-flex justify-content-start align-items-stretch" >
                                         {/* add text elements */}
                                         <DropdownButton id="dropdown-basic-button" variant="light" title={<><i className="bi bi-type"></i>{" "}Text</>}>
                                             <Dropdown.Item><button type="button" className="btn" onClick={() => addElement("h2")}><i className="bi bi-type-h2"></i>{" "}Heading</button></Dropdown.Item>
@@ -878,10 +892,13 @@ export default function DaVinci() {
                                             </Dropdown.Item>
                                         </SplitButton>
 
-                                        {/* add Image */}
+                                        {/* add Image and Media*/}
                                         <SplitButton variant="light" title={<span><i className="bi bi-image"></i> Image</span>} onClick={() => addElement("img")}>
                                             <Dropdown.Item onClick={() => addElement("mediaText")}>
                                                 <i className="bi bi-image-fill"></i><i className="bi bi-text-paragraph"></i>{" "}Media Text
+                                            </Dropdown.Item>
+                                            <Dropdown.Item disabled onClick={() => addElement("mediaCover")}>
+                                                <i className="bi bi-text-paragraph"></i><i className="bi bi-journal-bookmark-fill"></i>{" "}Media Cover
                                             </Dropdown.Item>
                                         </SplitButton>
 
@@ -901,7 +918,7 @@ export default function DaVinci() {
                                         </SplitButton>
                                     </div>
                                 </Tab>
-                                <Tab eventKey="profile" title="Format">
+                                <Tab eventKey="profile" title="Format" style={{ backgroundColor: '#f5f5f5' }}>
                                     <div className="pb-3">
                                         {FocusedIndex === -1 ?
                                             (
@@ -921,7 +938,7 @@ export default function DaVinci() {
 
                     {/* Elements */}
                     <div >
-                        <h1><TextareaAutosize ref={FocusedIndex == -1 ? (FocusedElement) : (null)} value={Title} className={styles.textareaInherit} onChange={(e) => setTitle(e.target.value)} placeholder="Title" onKeyDown={function (e) {
+                        <h1><TextareaAutosize ref={FocusedIndex == -1 ? (FocusedElement) : (null)} value={Title} className={styles.textareaInherit} onChange={(e) => setTitle(e.target.value)} placeholder="Title. Type here..." onKeyDown={function (e) {
                             if (e.key === 'Enter') {
                                 e.preventDefault();
                                 addElement("p");
@@ -931,8 +948,6 @@ export default function DaVinci() {
                             buildtextareaHTML(e, index)
                         )
                         }
-
-                        {/* <button className="btn btn-light m-1"><i className="bi bi-instagram lead"></i></button> */}
                     </div>
                 </div>
             ) : (
