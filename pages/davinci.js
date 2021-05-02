@@ -110,7 +110,7 @@ export default function DaVinci() {
     const [LoginStatus, setLoginStatus] = useState("");
     const [Notification, setNotification] = useState("Check out all blogs");
     const [LiveBlogId, setLiveBlogId] = useState("");
-    const [PreviewStatus, setPreviewStatus] = useState(true);
+    const [PreviewStatus, setPreviewStatus] = useState(false);
 
     const [FocusedIndex, setFocusedIndex] = useState(-1);
     const FocusedElement = useRef();
@@ -617,10 +617,10 @@ export default function DaVinci() {
         if (tag == "hr") {
             return (
                 <div key={tag + index} className="row">
-                    <div className="col-11">
+                    <div className="col-11 pr-0">
                         <hr />
                     </div>
-                    <div className="col-1">
+                    <div className="col-1 p-0 text-center">
                         <button type="button" onClick={() => deleteElement(index)} className={styles.delBtn}><i className="bi bi-x-circle-fill"></i></button>
                     </div>
                 </div>
@@ -662,7 +662,7 @@ export default function DaVinci() {
                     {element.alignment ? (
                         <div className="px-2 text-center">
                             <small>Align</small>
-                            <DropdownButton title={<i className={`bi bi-text-${element.alignment}`}></i>} variant="light">
+                            <DropdownButton title={<i className={`bi bi-text-${element.alignment}`}></i>} variant="secondary">
                                 <Dropdown.Item>
                                     <button type="button" className={element.alignment === "left" ? ("btn btn -light btn-light-active") : ("btn btn-light")} onClick={() => updateElement(FocusedIndex, "alignment", "", "left")}  >
                                         <i className="bi  bi-text-left"></i>
@@ -936,11 +936,14 @@ export default function DaVinci() {
                                             </Dropdown.Item>
                                         </SplitButton>
                                         {/* Design */}
-                                        <DropdownButton variant="light" title={`Design`}>
+                                        {/* <DropdownButton variant="light" title={`Design`}>
                                             <Dropdown.Item onClick={() => addElement("hr")}>
                                                 <i className="bi bi-dash"></i>{" "}Line
                                             </Dropdown.Item>
-                                        </DropdownButton>
+                                        </DropdownButton> */}
+                                        <button className="btn btn-light" onClick={() => addElement("hr")}>
+                                            <i className="bi bi-dash"></i>{" "}Line
+                                        </button>
                                     </div>
                                 </Tab>
                                 <Tab eventKey="profile" title="Format" style={{ backgroundColor: '#f5f5f5' }}>
