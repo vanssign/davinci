@@ -28,7 +28,7 @@ export function buildClassName(element, index) {
     if (element.alignment) {
         allClasses = allClasses.concat("text-" + element.alignment + " ");
     }
-    if (element.tag === "img"||element.tag==="mediaText") {
+    if (element.tag === "img" || element.tag === "mediaText") {
         if (element.responsive) allClasses = allClasses.concat("img-fluid ");
     }
     if (element.textColor) {
@@ -58,15 +58,15 @@ export function buildHTML(element, index) {
             </div>
         )
     }
-    if(tag=="mediaText"){
-        return(
+    if (tag == "mediaText") {
+        return (
             <div key={tag + index} className={`text-${element.alignment} row align-items-center py-3`}>
-            <div className={`col-12 col-md-6 order-${element.order} text-center`}>
-            <img className={allClasses + " border rounded "} src={element.src} />
-            </div>
-            <div className="col-12 col-md-6">
-            <p className={allClasses}>{content}</p>
-            </div>
+                <div className={`col-12 col-md-6 order-${element.order} text-center`}>
+                    <img className={allClasses + " border rounded "} src={element.src} />
+                </div>
+                <div className="col-12 col-md-6">
+                    <p className={allClasses}>{content}</p>
+                </div>
             </div>
         )
     }
@@ -114,13 +114,18 @@ export function buildHTML(element, index) {
     if (tag == "socialbtns") {
         return (
             <div key={tag + index} className="text-center">
-                {SocialLinks.filter((s, i) => element[s.name] !== "")
-                    .map((sb, i) =>
-                        <a className="text-reset" href={element[sb.name]} target="_blank">
-                            <button type="button" className="btn btn-secondary m-1"><i className={`bi bi-${sb.name} lead`}></i></button>
-                        </a>
-                    )
-                }
+                <div className="btn-group" role="group" aria-label="btn-group">
+                    {SocialLinks.filter((s, i) => element[s.name] !== "")
+                        .map((sb, i) =>
+
+                            <button type="button" className="btn btn-secondary">
+                                <a className="text-reset" href={element[sb.name]} target="_blank">
+                                    <i className={`bi bi-${sb.name} lead`}></i>
+                                </a>
+                            </button>
+                        )
+                    }
+                </div>
             </div>
         )
     }
@@ -130,9 +135,9 @@ export function buildHTML(element, index) {
     if (tag == "blockquote") {
         return (<blockquote key={tag + index} className={allClasses} cite={element.cite}>{content}</blockquote>)
     }
-    if(tag=="hr"){
-        return(
-            <hr key={tag+index} />
+    if (tag == "hr") {
+        return (
+            <hr key={tag + index} />
         )
     }
 }

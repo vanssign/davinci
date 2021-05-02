@@ -603,11 +603,13 @@ export default function DaVinci() {
         //SOCIAL BUTTONS
         if (tag == "socialbtns") {
             return (
-                <div key={tag + index} className="text-center border rounded" onClick={() => setFocusedIndex(index)}>
-                    {SocialLinks.filter((s, i) => element[s.name] !== "")
-                        .map((sb, i) =>
-                            <button type="button" className="btn btn-secondary m-1"><i className={`bi bi-${sb.name} lead`}></i></button>)
-                    }
+                <div key={tag + index} className="text-center border rounded" aria-label="btn-group" onClick={() => setFocusedIndex(index)}>
+                    <div role="group" className="btn-group" onClick={() => setFocusedIndex(index)}>
+                        {SocialLinks.filter((s, i) => element[s.name] !== "")
+                            .map((sb, i) =>
+                                <button type="button" className="btn btn-secondary"><i className={`bi bi-${sb.name} lead`}></i></button>)
+                        }
+                    </div>
                     <button type="button" onClick={() => deleteElement(index)} className={styles.delBtn}><i className="bi bi-x-circle-fill lead"></i></button>
                 </div>
             )
