@@ -130,5 +130,10 @@ export function buildHTML(element, index) {
     if (tag == "blockquote") {
         return (<blockquote key={tag + index} className={allClasses} cite={element.cite}>{content}</blockquote>)
     }
+    if(tag=="hr"){
+        return(
+            <hr key={tag+index} />
+        )
+    }
 }
 
