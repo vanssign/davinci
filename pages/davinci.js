@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { useState, useRef, useEffect } from 'react';
 
 import TextareaAutosize from 'react-textarea-autosize';
-import { DropdownButton, Dropdown, SplitButton, Tabs, Tab, Tooltip, OverlayTrigger, Popover } from 'react-bootstrap';
+import { DropdownButton, Dropdown, SplitButton, Tabs, Tab, Tooltip, OverlayTrigger, Popover, Carousel } from 'react-bootstrap';
 import ImageUploader from '../components/uploadImage';
 //functions
 import { buildClassName } from '../functions/BuildFunctions';
@@ -112,6 +112,9 @@ export default function DaVinci() {
     const [LiveBlogId, setLiveBlogId] = useState("");
     const [PreviewStatus, setPreviewStatus] = useState(false);
 
+    const [windowWidth, setWindowWidth] = useState(0);
+    const [windowHeight, setWindowHeight] = useState(0);
+
     const [FocusedIndex, setFocusedIndex] = useState(-1);
     const FocusedElement = useRef();
 
@@ -121,8 +124,17 @@ export default function DaVinci() {
         if (FocusedElement.current) {
             FocusedElement.current.focus();
         }
-
+        if (windowWidth == 0) {
+            setWindowHeight(window.innerHeight);
+            setWindowWidth(window.innerWidth);
+        }
+        window.addEventListener("resize", handleResize);
     })
+
+    const handleResize = (e) => {
+        setWindowWidth(window.innerWidth);
+        setWindowHeight(window.innerHeight);
+    };
 
     //Auth Check
     fire.auth()
@@ -237,6 +249,7 @@ export default function DaVinci() {
                 slack: "",
                 discord: "",
                 twitch: "",
+                alignment: "center",
             }
         }
         else if (tag == "blockquote") {
@@ -260,6 +273,33 @@ export default function DaVinci() {
                 tag: tag,
             }
         }
+        else if (tag == 'carousel') {
+            element = {
+                tag: tag,
+                slides: [
+                    {
+                        src: "",
+                        label: "",
+                        caption: "",
+                        textColor: "white",
+                    },
+                    {
+                        src: "",
+                        label: "",
+                        caption: "",
+                        textColor: "white",
+                    },
+                    {
+                        src: "",
+                        label: "",
+                        caption: "",
+                        textColor: "white",
+                    },
+                ],
+                animation: "slide",
+
+            }
+        }
         else {
             element = {
                 tag: tag,
@@ -280,7 +320,7 @@ export default function DaVinci() {
         setElementArray(newElementArray);
     }
 
-    //delete focussed element
+    //delete focused element
     function deleteElement(index) {
         let newElementArray = ElementArray.filter((e, i) => i !== index);
         setFocusedIndex(index - 1);
@@ -331,6 +371,12 @@ export default function DaVinci() {
         setElementArray(newElementArray);
     }
 
+    function updateCarousel(index, slideIndex, key, value) {
+        let newElementArray = [...ElementArray];
+        newElementArray[index].slides[slideIndex][key] = value;
+        setElementArray(newElementArray)
+    }
+
     const updateUrl = (value, index) => {
         updateElement(index, "src", "", value)
     }
@@ -376,7 +422,7 @@ export default function DaVinci() {
 
         //H3
         if (tag == "h3") {
-            return (<h3 key={tag + index} className={allClasses}><TextareaAutosize style={{ overflow: 'hidden' }} value={content} ref={FocusedIndex == index ? (FocusedElement) : (null)} styles={{ textDecoration: 'underline' }} className={styles.textareaInherit} onChange={(e) => updateElement(index, "content", "", e.target.value)} placeholder="H3 Heading. Type here ..." onKeyDown={function (e) {
+            return (<h3 key={tag + index} className={allClasses}><TextareaAutosize style={{ overflow: 'hidden' }} value={content} ref={FocusedIndex == index ? (FocusedElement) : (null)} className={styles.textareaInherit} onChange={(e) => updateElement(index, "content", "", e.target.value)} placeholder="H3 Heading. Type here ..." onKeyDown={function (e) {
                 if (e.key === "Enter") {
                     e.preventDefault();
                     addElement("p");
@@ -578,10 +624,41 @@ export default function DaVinci() {
                 </div>
             )
         }
+        //carousel
+        if (tag == "carousel") {
+            return (
+                <div key={tag + index} className="px-0 col-12 col-md-10 offset-md-1 col-lg-8 offset-lg-2"
+                    onClick={() => setFocusedIndex(index)}>
+                    <Carousel>
+                        {element.slides.map((slide, i) =>
+                            <Carousel.Item key={tag + index + "slide" + i}>
+                                <div className={index == FocusedIndex ? ("d-flex justify-content-center align-items-stretch") : ("d-none")}>
+                                    <i className="bi bi-link-45deg lead"></i>
+                                    <textarea rows="1" cols="10" value={slide.src} className="btn btn-light btn-light-active" styles={{ resize: 'none' }} onChange={(e) => updateCarousel(index, i, "src", e.target.value)} placeholder="Image Link" />
+                                    {/* <ImageUploader index={index} parentCallback={updateCarouselSrc(index, i, "src", e.target.value)} /> */}
+                                    <button type="button" onClick={() => deleteElement(index)} className="btn btn-danger">Delete</button>
+                                </div>
+                                <img
+                                    className="d-block w-100 border rounded"
+                                    src={slide.src ? (slide.src) : ("https://www.signfix.com.au/wp-content/uploads/2017/09/placeholder-600x400.png")}
+                                    height={windowWidth < windowHeight ? (windowWidth * 9 / 16) : (windowHeight * 5 / 6)}
+                                />
+                                <Carousel.Caption className={`text-${slide.textColor}`}>
+                                    <h3><TextareaAutosize style={{ overflow: 'hidden' }} value={slide.label} className={styles.textareaInherit} onChange={(e) =>
+                                        updateCarousel(index, i, "label", e.target.value)} placeholder="Slide Label. Type here ..." onFocus={() => setFocusedIndex(index)} /></h3>
+                                    <p><TextareaAutosize style={{ overflow: 'hidden' }} value={slide.caption} className={styles.textareaInherit} onChange={(e) =>
+                                        updateCarousel(index, i, "caption", e.target.value)} placeholder="Images will be stretched. Type caption here ..." onFocus={() => setFocusedIndex(index)} /></p>
+                                </Carousel.Caption>
+                            </Carousel.Item>
+                        )}
+                    </Carousel>
+                </div>
+            )
+        }
 
         // if (tag == "mediaCover") {
         //     <div key={tag + index} className={`text-${element.alignment}`} style={{ backgroundImage: `${element.src}`, backgroundSize: 'cover' }}>
-        //         <img src={element.src} style={{vis />
+        //         <img src={element.src} style={{ vis />
         //     </div>
         // }
         //BUTTONS
@@ -598,12 +675,12 @@ export default function DaVinci() {
                     </div>
                 </button>
                 <button type="button" onClick={() => deleteElement(index)} className={styles.delBtn}><i className="bi bi-x-circle-fill lead"></i></button>
-            </div>)
+            </div >)
         }
         //SOCIAL BUTTONS
         if (tag == "socialbtns") {
             return (
-                <div key={tag + index} className="text-center border rounded" aria-label="btn-group" onClick={() => setFocusedIndex(index)}>
+                <div key={tag + index} className={`text-${element.alignment} border rounded`} aria-label="btn-group" onClick={() => setFocusedIndex(index)}>
                     <div role="group" className="btn-group" onClick={() => setFocusedIndex(index)}>
                         {SocialLinks.filter((s, i) => element[s.name] !== "")
                             .map((sb, i) =>
@@ -618,7 +695,7 @@ export default function DaVinci() {
         //horizontal rule
         if (tag == "hr") {
             return (
-                <div key={tag + index} className="row">
+                <div key={tag + index} className="row" onClick={() => setFocusedIndex(index)}>
                     <div className="col-11 pr-0">
                         <hr />
                     </div>
@@ -855,7 +932,7 @@ export default function DaVinci() {
     }
     // LOGS
     console.log(ElementArray);
-    // console.log(FocusedIndex);
+    console.log(FocusedIndex);
 
     return (
         <>
@@ -918,8 +995,8 @@ export default function DaVinci() {
                                             <Dropdown.Item onClick={() => addElement("mediaText")}>
                                                 <i className="bi bi-image-fill"></i><i className="bi bi-text-paragraph"></i>{" "}Media Text
                                             </Dropdown.Item>
-                                            <Dropdown.Item disabled onClick={() => addElement("mediaCover")}>
-                                                <i className="bi bi-text-paragraph"></i><i className="bi bi-journal-bookmark-fill"></i>{" "}Media Cover
+                                            <Dropdown.Item onClick={() => addElement("carousel")}>
+                                                <i className="bi bi-collection-play-fill"></i>{" "}Carousel
                                             </Dropdown.Item>
                                         </SplitButton>
 

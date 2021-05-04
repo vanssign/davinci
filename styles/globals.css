@@ -67,3 +67,9 @@ color:black;
 .styleUnderlineStrikethrough{
   text-decoration: underline line-through !important;
 }
+.carouselContainer{
+  padding:8px 16vw ;
+}
+.carousel-item{
+  text-align: center !important;
+}

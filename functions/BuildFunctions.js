@@ -1,3 +1,6 @@
+import { Carousel } from 'react-bootstrap'
+import { useState, useEffect } from 'react';
+
 var SocialLinks = [
     { name: 'instagram' },
     { name: 'facebook' },
@@ -39,6 +42,20 @@ export function buildClassName(element, index) {
 
 //BUILD HTML
 export function buildHTML(element, index) {
+    const [windowWidth, setWindowWidth] = useState(0);
+    const [windowHeight, setWindowHeight] = useState(0);
+    useEffect(() => {
+        if (windowWidth == 0) {
+            setWindowHeight(window.innerHeight);
+            setWindowWidth(window.innerWidth);
+        }
+        window.addEventListener("resize", handleResize);
+    })
+
+    const handleResize = (e) => {
+        setWindowWidth(window.innerWidth);
+        setWindowHeight(window.innerHeight);
+    };
     let tag = element.tag;
     let content = element.content;
     let allClasses = buildClassName(element, index)
@@ -67,6 +84,27 @@ export function buildHTML(element, index) {
                 <div className="col-12 col-md-6">
                     <p className={allClasses}>{content}</p>
                 </div>
+            </div>
+        )
+    }
+    if (tag == "carousel") {
+        return (
+            <div key={tag + index} className="px-0 col-12 col-md-10 offset-md-1 col-lg-8 offset-lg-2">
+                <Carousel>
+                    {element.slides.map((slide, i) =>
+                        <Carousel.Item key={tag + index + "slide" + i}>
+                            <img
+                                className="d-block w-100 border rounded"
+                                src={slide.src}
+                                height={windowWidth < windowHeight ? (windowWidth * 9 / 16) : (windowHeight * 5 / 6)}
+                            />
+                            <Carousel.Caption className={`text-${slide.textColor}`}>
+                                <h3>{slide.label}</h3>
+                                <p>{slide.caption}</p>
+                            </Carousel.Caption>
+                        </Carousel.Item>
+                    )}
+                </Carousel>
             </div>
         )
     }
@@ -113,7 +151,7 @@ export function buildHTML(element, index) {
     //SOCIAL BUTTONS
     if (tag == "socialbtns") {
         return (
-            <div key={tag + index} className="text-center">
+            <div key={tag + index} className={`text-${element.alignment}`}>
                 <div className="btn-group" role="group" aria-label="btn-group">
                     {SocialLinks.filter((s, i) => element[s.name] !== "")
                         .map((sb, i) =>
