@@ -90,7 +90,11 @@ export function buildHTML(element, index) {
     if (tag == "carousel") {
         return (
             <div key={tag + index} className="px-0 col-12 col-md-10 offset-md-1 col-lg-8 offset-lg-2">
-                <Carousel>
+                <Carousel
+                    fade={element.animation == "fade" ? (true) : (false)}
+                    interval={element.interval}
+                    indicators={element.indicators}
+                    controls={element.controls}>
                     {element.slides.map((slide, i) =>
                         <Carousel.Item key={tag + index + "slide" + i}>
                             <img
