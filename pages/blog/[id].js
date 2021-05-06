@@ -9,12 +9,14 @@ export default function Post({ postData }) {
                 <title>{postData.title} | DaVinci</title>
                 <meta name="viewport" content="initial-scale=1.0, width=device-width" />
             </Head>
-            <h1>{postData.title}</h1>
+            <div className="row">
+            <h1 className="col-12">{postData.title}</h1>
             {
                 postData.elementArray.map((element, index) =>
                     buildHTML(element, index)
                 )
             }
+            </div>
         </div>
     )
 }
