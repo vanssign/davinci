@@ -281,25 +281,20 @@ export default function DaVinci() {
                         src: "",
                         label: "",
                         caption: "",
-                        textColor: "white",
+                        textColor: "light",
                     },
                     {
                         src: "",
                         label: "",
                         caption: "",
-                        textColor: "white",
-                    },
-                    {
-                        src: "",
-                        label: "",
-                        caption: "",
-                        textColor: "white",
+                        textColor: "light",
                     },
                 ],
                 animation: "slide",
                 interval: 5000,
                 controls: true,
                 indicators: true,
+                activeSlide: 0,
             }
         }
         else {
@@ -378,8 +373,28 @@ export default function DaVinci() {
 
     function updateCarousel(index, slideIndex, key, value) {
         let newElementArray = [...ElementArray];
-        newElementArray[index].slides[slideIndex][key] = value;
-        setElementArray(newElementArray)
+        if (key == "increase") {
+            newElementArray[index].slides.splice(slideIndex + 1, 0, {
+                src: "",
+                label: "",
+                caption: "",
+                textColor: "light",
+            });
+            setElementArray(newElementArray)
+        }
+        else if (key == "decrease") {
+            if (newElementArray[index].slides.length == 1) {
+                deleteElement(index);
+            }
+            else {
+                newElementArray[index].slides = newElementArray[index].slides.filter((e, i) => i !== slideIndex);
+                setElementArray(newElementArray)
+            }
+        }
+        else {
+            newElementArray[index].slides[slideIndex][key] = value;
+            setElementArray(newElementArray)
+        }
     }
 
     const updateUrl = (value, index) => {
@@ -594,7 +609,7 @@ export default function DaVinci() {
                         <i className="bi bi-link-45deg lead"></i>
                         <textarea rows="1" cols="10" value={element.src} className="btn btn-light btn-light-active" styles={{ resize: 'none' }} onChange={(e) => updateElement(index, "src", "", "", e.target.value)} placeholder="Image Link" ref={FocusedIndex == index ? (FocusedElement) : (null)} />
                         <ImageUploader index={index} parentCallback={updateUrl} />
-                        <button type="button" onClick={() => deleteElement(index)} className="btn btn-danger">Delete</button>
+                        <button type="button" onClick={() => deleteElement(index)} className="btn btn-danger py-0 px-1"><i className="bi bi-trash lead"></i></button>
                     </div>
                     <img className={allClasses + " border rounded "} src={element.src ? (element.src) : ("https://i.stack.imgur.com/y9DpT.jpg")} ></img>
                 </div>
@@ -609,7 +624,7 @@ export default function DaVinci() {
                             <i className="bi bi-link-45deg lead"></i>
                             <textarea rows="1" cols="10" value={element.src} className="btn btn-light btn-light-active" styles={{ resize: 'none' }} onChange={(e) => updateElement(index, "src", "", "", e.target.value)} placeholder="Image Link" ref={FocusedIndex == index ? (FocusedElement) : (null)} />
                             <ImageUploader index={index} parentCallback={updateUrl} />
-                            <button type="button" onClick={() => deleteElement(index)} className="btn btn-danger">Delete</button>
+                            <button type="button" onClick={() => deleteElement(index)} className="btn btn-danger py-0 px-1"><i className="bi bi-trash lead"></i></button>
                         </div>
                         <img className={allClasses + " border rounded "} src={element.src ? (element.src) : ("https://i.stack.imgur.com/y9DpT.jpg")} ></img>
                     </div>
@@ -642,11 +657,24 @@ export default function DaVinci() {
                     >
                         {element.slides.map((slide, i) =>
                             <Carousel.Item key={tag + index + "slide" + i}>
-                                <div className={index == FocusedIndex ? ("d-flex justify-content-center align-items-stretch") : ("d-none")}>
+                                <div className={index == FocusedIndex ? ("d-flex justify-content-center align-items-stretch") : ("d-none")} >
                                     <i className="bi bi-link-45deg lead"></i>
                                     <textarea rows="1" cols="10" value={slide.src} className="btn btn-light btn-light-active" styles={{ resize: 'none' }} onChange={(e) => updateCarousel(index, i, "src", e.target.value)} placeholder="Image Link" />
                                     {/* <ImageUploader index={index} parentCallback={updateCarouselSrc(index, i, "src", e.target.value)} /> */}
-                                    <button type="button" onClick={() => deleteElement(index)} className="btn btn-danger">Delete</button>
+                                    <DropdownButton title={<><i className="bi bi-fonts"></i>Color</>} variant={slide.textColor}>
+                                        <Dropdown.Item>
+                                            {BootstrapColors.map((color, j) =>
+                                                <button key={index + "propertieschange" + j + "color"} style={{ borderRadius: '100%', paddingTop: '12px' }} type="button" className={`btn btn-${color.name}`}
+                                                    onClick={() => updateCarousel(index, i, "textColor", color.name)}>
+                                                </button>
+                                            )}
+                                        </Dropdown.Item>
+                                    </DropdownButton>
+                                    <button type="button" className="btn btn-primary py-0 px-1" onClick={() => updateCarousel(index, i, "increase", "")}>
+                                        <i className="bi bi-plus-circle-fill lead"></i>
+                                    </button>
+                                    <button type="button" className="btn btn-danger py-0 px-1" onClick={() => updateCarousel(index, i, "decrease", "")}>
+                                        <i className="bi bi-trash lead"></i></button>
                                 </div>
                                 <img
                                     className="d-block w-100 border rounded"
@@ -655,7 +683,7 @@ export default function DaVinci() {
                                 />
                                 <Carousel.Caption className={`text-${slide.textColor}`}>
                                     <h3><TextareaAutosize style={{ overflow: 'hidden' }} value={slide.label} className={styles.textareaInherit} onChange={(e) =>
-                                        updateCarousel(index, i, "label", e.target.value)} placeholder="Slide Label. Type here ..." onFocus={() => setFocusedIndex(index)} /></h3>
+                                        updateCarousel(index, i, "label", e.target.value)} placeholder="Slide Label" onFocus={() => setFocusedIndex(index)} /></h3>
                                     <p><TextareaAutosize style={{ overflow: 'hidden' }} value={slide.caption} className={styles.textareaInherit} onChange={(e) =>
                                         updateCarousel(index, i, "caption", e.target.value)} placeholder="Images will be stretched. Type caption here ..." onFocus={() => setFocusedIndex(index)} /></p>
                                 </Carousel.Caption>
@@ -1060,7 +1088,7 @@ export default function DaVinci() {
                                                 <i className="bi bi-youtube"></i>
                                             </Dropdown.Item>
                                         </SplitButton>
-                                       <button className="btn btn-light" onClick={() => addElement("hr")}>
+                                        <button className="btn btn-light" onClick={() => addElement("hr")}>
                                             <i className="bi bi-dash"></i>{" "}Line
                                         </button>
                                     </div>
