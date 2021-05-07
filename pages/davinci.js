@@ -22,6 +22,11 @@ const renderIconTooltip = (props) => (
 
 var TextTags = [
     {
+        tag: "h1",
+        shortName: "H1",
+        iconName: ""
+    },
+    {
         tag: "h2",
         shortName: "H2",
         iconName: ""
@@ -104,8 +109,23 @@ var SocialLinks = [
 
 export default function DaVinci() {
     //states
-    const [Title, setTitle] = useState("");
-    const [ElementArray, setElementArray] = useState([])
+    const [ElementArray, setElementArray] = useState([{
+        tag: "h1",
+        content: "",
+        classes: "",
+        typography: {
+            bold: false,
+            italic: false,
+            underline: false,
+            strikethrough: false,
+        },
+        textColor: "dark",
+        alignment: "left",
+        alignSelf: "center",
+        col: 12,
+        colMd: 12,
+        colLg: 12,
+    }])
 
     const [LoginStatus, setLoginStatus] = useState("");
     const [Notification, setNotification] = useState("Check out all blogs");
@@ -115,7 +135,7 @@ export default function DaVinci() {
     const [windowWidth, setWindowWidth] = useState(0);
     const [windowHeight, setWindowHeight] = useState(0);
 
-    const [FocusedIndex, setFocusedIndex] = useState(-1);
+    const [FocusedIndex, setFocusedIndex] = useState(0);
     const FocusedElement = useRef();
 
     const router = useRouter();
@@ -150,11 +170,10 @@ export default function DaVinci() {
     //Publish
     const handlePublish = (event) => {
         event.preventDefault();
-        if (Title) {
+        if (ElementArray[0]) {
             fire.firestore()
                 .collection('blog')
                 .add({
-                    title: Title,
                     elementArray: ElementArray
                 }).then((docRef) => {
                     setNotification("Blog live");
@@ -172,12 +191,36 @@ export default function DaVinci() {
         }
     }
 
+    //auto determine col for newly inserted element
+    function determineCol(currentCol, screenSize) {
+        let nextCol = 12, status = 0;
+        if ((currentCol == 4) || (currentCol == 6) || (currentCol == 3)) {
+            if (ElementArray[FocusedIndex]) {
+                if (ElementArray[FocusedIndex][screenSize]) {
+                    for (let i in ElementArray) {
+                        if (ElementArray[ElementArray.length - i - 1][screenSize] == currentCol) {
+                            status += 1
+                        }
+                        else break;
+                    }
+                    if (status % (12 / currentCol) != 0) nextCol = currentCol;
+                }
+            }
+        }
+        return nextCol;
+    }
     //FUNCTIONS ON ELEMENTS
 
     //Add new
     function addElement(tag) {
+
         let newElementArray = [...ElementArray];
         let element;
+
+        let colMd = determineCol(ElementArray[FocusedIndex].colMd, "colMd");
+        let col = determineCol(ElementArray[FocusedIndex].col, "col")
+        let colLg = determineCol(ElementArray[FocusedIndex].colLg, "colLg")
+
         if (tag == "ul" || tag == "ol") {
             element = {
                 tag: tag,
@@ -191,10 +234,10 @@ export default function DaVinci() {
                 },
                 textColor: "dark",
                 alignment: "left",
-                alignSelf:"center",
-                col: 12,
-                colMd: 12,
-                colLg: 12,
+                alignSelf: "center",
+                col: col,
+                colMd: colMd,
+                colLg: colLg,
             }
         }
         else if (tag == "img") {
@@ -203,10 +246,10 @@ export default function DaVinci() {
                 src: "",
                 responsive: true,
                 alignment: 'center',
-                alignSelf:"center",
-                col: 12,
-                colMd: 12,
-                colLg: 12,
+                alignSelf: "center",
+                col: col,
+                colMd: colMd,
+                colLg: colLg,
             }
         }
         else if (tag == "mediaText") {
@@ -215,13 +258,13 @@ export default function DaVinci() {
                 src: "",
                 responsive: true,
                 alignment: 'left',
-                alignSelf:"center",
+                alignSelf: "center",
                 order: 0,
                 content: "",
                 textColor: "dark",
-                col: 12,
-                colMd: 12,
-                colLg: 12,
+                col: col,
+                colMd: colMd,
+                colLg: colLg,
             }
         }
         else if (tag == "mediaCover") {
@@ -230,11 +273,11 @@ export default function DaVinci() {
                 src: "",
                 responsive: true,
                 alignment: 'left',
-                alignSelf:"center",
+                alignSelf: "center",
                 content: "",
-                col: 12,
-                colMd: 12,
-                colLg: 12,
+                col: col,
+                colMd: colMd,
+                colLg: colLg,
             }
         }
 
@@ -248,10 +291,10 @@ export default function DaVinci() {
                 btnOutline: false,
                 iconName: "",
                 alignment: 'center',
-                alignSelf:"center",
-                col: 12,
-                colMd: 12,
-                colLg: 12,
+                alignSelf: "center",
+                col: col,
+                colMd: colMd,
+                colLg: colLg,
             }
         }
         else if (tag == "socialbtns") {
@@ -270,10 +313,10 @@ export default function DaVinci() {
                 discord: "",
                 twitch: "",
                 alignment: "center",
-                alignSelf:"center",
-                col: 12,
-                colMd: 12,
-                colLg: 12,
+                alignSelf: "center",
+                col: col,
+                colMd: colMd,
+                colLg: colLg,
             }
         }
         else if (tag == "blockquote") {
@@ -290,10 +333,10 @@ export default function DaVinci() {
                 },
                 textColor: "dark",
                 alignment: "left",
-                alignSelf:"center",
-                col: 12,
-                colMd: 12,
-                colLg: 12,
+                alignSelf: "center",
+                col: col,
+                colMd: colMd,
+                colLg: colLg,
             }
         }
         else if (tag == "hr") {
@@ -323,10 +366,10 @@ export default function DaVinci() {
                 controls: true,
                 indicators: true,
                 activeSlide: 0,
-                alignSelf:"center",
-                col: 12,
-                colMd: 12,
-                colLg: 12,
+                alignSelf: "center",
+                col: col,
+                colMd: colMd,
+                colLg: colLg,
             }
         }
         else {
@@ -342,10 +385,10 @@ export default function DaVinci() {
                 },
                 textColor: "dark",
                 alignment: "left",
-                alignSelf:"center",
-                col: 12,
-                colMd: 12,
-                colLg: 12,
+                alignSelf: "center",
+                col: col,
+                colMd: colMd,
+                colLg: colLg,
             }
         }
         newElementArray.splice(FocusedIndex + 1, 0, element);
@@ -446,6 +489,21 @@ export default function DaVinci() {
         let allClasses = buildClassName(element, index)
 
         //TEXT
+        if (tag == "h1") {
+            return (
+                <div key={tag + index} className={`align-self-${element.alignSelf} col-${element.col} col-md-${element.colMd} col-lg-${element.colLg}`}>
+                    <h1 className={allClasses}><TextareaAutosize style={{ overflow: 'hidden' }} value={content} ref={FocusedIndex == index ? (FocusedElement) : (null)} className={styles.textareaInherit} onChange={(e) => updateElement(index, "content", "", "", e.target.value)} placeholder={index == 0 ? ("Title.Type here..") : ("H1 heading. Type here..")} onKeyDown={function (e) {
+                        if (e.key === 'Enter') {
+                            e.preventDefault();
+                            addElement("p");
+                        }
+                        if (e.key === 'Backspace' && content === "" && index !== 0) {
+                            e.preventDefault();
+                            deleteElement(index);
+                        }
+                    }} onFocus={() => setFocusedIndex(index)} /></h1>
+                </div>)
+        }
 
         //H2
         if (tag == "h2") {
@@ -671,7 +729,7 @@ export default function DaVinci() {
                         <ImageUploader index={index} parentCallback={updateUrl} />
                         <button type="button" onClick={() => deleteElement(index)} className="btn btn-danger py-0 px-1"><i className="bi bi-trash lead"></i></button>
                     </div>
-                    <img className={allClasses + " border rounded "} src={element.src ? (element.src) : ("https://i.stack.imgur.com/y9DpT.jpg")} ></img>
+                    <img className={allClasses + " rounded "} src={element.src ? (element.src) : ("https://i.stack.imgur.com/y9DpT.jpg")} ></img>
                 </div>
             )
         }
@@ -686,7 +744,7 @@ export default function DaVinci() {
                             <ImageUploader index={index} parentCallback={updateUrl} />
                             <button type="button" onClick={() => deleteElement(index)} className="btn btn-danger py-0 px-1"><i className="bi bi-trash lead"></i></button>
                         </div>
-                        <img className={allClasses + " border rounded "} src={element.src ? (element.src) : ("https://i.stack.imgur.com/y9DpT.jpg")} ></img>
+                        <img className={allClasses + " rounded "} src={element.src ? (element.src) : ("https://i.stack.imgur.com/y9DpT.jpg")} ></img>
                     </div>
                     <div className={`col-12 col-md-6`}>
                         <p className={allClasses}><TextareaAutosize style={{ overflow: 'hidden' }} ref={FocusedIndex == index ? (FocusedElement) : (null)} value={content} className={styles.textareaInherit} onChange={(e) => updateElement(index, "content", "", "", e.target.value)} placeholder="A picture is worth a thousand words but a picture with a thousand words is better. Type here ..." onKeyDown={function (e) {
@@ -739,7 +797,7 @@ export default function DaVinci() {
                                             <i className="bi bi-trash lead"></i></button>
                                     </div>
                                     <img
-                                        className="d-block w-100 border rounded"
+                                        className="d-block w-100 rounded"
                                         src={slide.src ? (slide.src) : ("https://www.signfix.com.au/wp-content/uploads/2017/09/placeholder-600x400.png")}
                                         height={windowWidth < windowHeight ? (windowWidth * 9 / 16) : (windowHeight * 5 / 6)}
                                     />
@@ -781,7 +839,7 @@ export default function DaVinci() {
         //SOCIAL BUTTONS
         if (tag == "socialbtns") {
             return (
-                <div key={tag + index} className={`text-${element.alignment} border rounded align-self-${element.alignSelf} col-${element.col} col-md-${element.colMd} col-lg-${element.colLg}`} aria-label="btn-group" onClick={() => setFocusedIndex(index)}>
+                <div key={tag + index} className={`text-${element.alignment} align-self-${element.alignSelf} col-${element.col} col-md-${element.colMd} col-lg-${element.colLg}`} aria-label="btn-group" onClick={() => setFocusedIndex(index)}>
                     <div role="group" className="btn-group" onClick={() => setFocusedIndex(index)}>
                         {SocialLinks.filter((s, i) => element[s.name] !== "")
                             .map((sb, i) =>
@@ -818,7 +876,7 @@ export default function DaVinci() {
                 <div key={index + "properties"} className="d-flex justify-content-start align-items-center">
                     <div className="px-2 text-center">
                         <small>Type</small>
-                        {(element.tag === "h2" || element.tag === "h3" || element.tag === "p" || element.tag === "h4" || element.tag === "h5" || element.tag === "h6" || element.tag === "code") ?
+                        {((element.tag == "h1" || element.tag === "h2" || element.tag === "h3" || element.tag === "p" || element.tag === "h4" || element.tag === "h5" || element.tag === "h6" || element.tag === "code") && index != 0) ?
                             (<DropdownButton title={element.tag} variant="secondary">
                                 {TextTags.map((t, i) =>
                                     <Dropdown.Item key={index + "propertieschange" + i} onClick={() => updateElement(FocusedIndex, "tag", "", "", t.tag)} >
@@ -835,26 +893,31 @@ export default function DaVinci() {
                     <div className="px-2 text-center">
                         <small>Reorder</small>
                         <br />
-                        <button type="button" className="btn btn-secondary py-0 px-1" onClick={() => changeElementIndex(FocusedIndex, -1)} disabled={FocusedIndex === 0 ? (true) : (false)}>
+                        <button type="button" className="btn btn-secondary py-0 px-1" onClick={() => changeElementIndex(FocusedIndex, -1)} disabled={(FocusedIndex === 0) || (FocusedIndex === 1) ? (true) : (false)}>
                             <i className="bi bi-chevron-compact-up"></i>
                         </button>
-                        <button type="button" className="btn btn-secondary py-0 px-1" onClick={() => changeElementIndex(FocusedIndex, 1)} disabled={FocusedIndex === ElementArray.length - 1 ? (true) : (false)}>
+                        <button type="button" className="btn btn-secondary py-0 px-1" onClick={() => changeElementIndex(FocusedIndex, 1)} disabled={(FocusedIndex === ElementArray.length - 1) || (FocusedIndex === 0) ? (true) : (false)}>
                             <i className="bi bi-chevron-compact-down"></i>
                         </button>
                     </div>
 
                     <div className="px-2 text-center">
                         <small>Span</small>
-                        <br/>
+                        <br />
+                        {/* <DropdownButton title={<i className="bi bi-phone"></i>} variant="secondary" size="sm">
+                            <button type="button" className={element.col === "12" ? ("btn btn -light btn-light-active py-0 px-2") : ("btn btn-light py-0 px-2")} onClick={() => updateElement(FocusedIndex, "col", "", "", 12)} >
+                                <i className="bi  bi-square lead"></i>
+                            </button>
+                            <button type="button" className={element.col === "6" ? ("btn btn -light btn-light-active py-0 px-2") : ("btn btn-light py-0 px-2")} onClick={() => updateElement(FocusedIndex, "col", "", "", 6)} >
+                                <i className="bi  bi-layout-split lead"></i>
+                            </button>
+                            <button type="button" className={element.col === "4" ? ("btn btn -light btn-light-active py-0 px-2") : ("btn btn-light py-0 px-2")} onClick={() => updateElement(FocusedIndex, "col", "", "", 4)} >
+                                <i className="bi  bi-layout-three-columns lead"></i>
+                            </button>
+                        </DropdownButton> */}
                         <textarea rows="1" cols="1" value={element.col} className="btn btn-light my-1 p-0" styles={{ resize: 'none !important' }} onChange={(e) => updateElement(index, "col", "", "", e.target.value)} placeholder="s" onFocus={() => setFocusedIndex(index)} />
                         <textarea rows="1" cols="1" value={element.colMd} className="btn btn-light my-1 p-0" styles={{ resize: 'none !important' }} onChange={(e) => updateElement(index, "colMd", "", "", e.target.value)} placeholder="m" onFocus={() => setFocusedIndex(index)} />
                         <textarea rows="1" cols="1" value={element.colLg} className="btn btn-light my-1 p-0" styles={{ resize: 'none !important' }} onChange={(e) => updateElement(index, "colLg", "", "", e.target.value)} placeholder="l" onFocus={() => setFocusedIndex(index)} />
-                        {/* <button type="button" className="btn btn-secondary" onClick={() => changeElementIndex(FocusedIndex, -1)} disabled={FocusedIndex === 0 ? (true) : (false)}>
-                                <i className="bi bi-chevron-compact-up"></i>
-                            </button>
-                            <button type="button" className="btn btn-secondary py-0 px-1" onClick={() => changeElementIndex(FocusedIndex, 1)} disabled={FocusedIndex === ElementArray.length - 1 ? (true) : (false)}>
-                                <i className="bi bi-chevron-compact-down"></i>
-                            </button> */}
                     </div>
 
                     {element.alignment ? (
@@ -879,28 +942,30 @@ export default function DaVinci() {
                         </div>
                     ) : (<></>)}
 
-                    {element.alignSelf?
-                    (
-                        <div className="px-2 text-center">
-                            <small>Vertical</small>
-                            <DropdownButton title={<i className={" "}></i>} variant="secondary">
-                                <Dropdown.Item>
-                                    <button type="button" className={element.alignSelf === " " ? ("btn btn -light btn-light-active") : ("btn btn-light")} onClick={() => updateElement(FocusedIndex, "alignSelf", "", "", " ")}  >
-                                        <i className="bi  bi-align-top"></i>
-                                    </button>
+                    {element.alignSelf ?
+                        (
+                            <div className="px-2 text-center">
+                                <small>Align</small>
+                                <DropdownButton title={element.alignSelf == " " ? (<i className="bi  bi-align-top"></i>) : (
+                                    element.alignSelf == "center" ? (<i className="bi  bi-align-center"></i>) : (<i className="bi  bi-align-bottom"></i>)
+                                )} variant="secondary">
+                                    <Dropdown.Item>
+                                        <button type="button" className={element.alignSelf === " " ? ("btn btn -light btn-light-active") : ("btn btn-light")} onClick={() => updateElement(FocusedIndex, "alignSelf", "", "", " ")}  >
+                                            <i className="bi  bi-align-top"></i>
+                                        </button>
 
-                                    <button type="button" className={element.alignSelf === "center" ? ("btn btn-light btn-light-active") : ("btn btn-light")} onClick={() => updateElement(FocusedIndex, "alignSelf", "", "", "center")}>
-                                        <i className="bi  bi-align-center"></i>
-                                    </button>
+                                        <button type="button" className={element.alignSelf === "center" ? ("btn btn-light btn-light-active") : ("btn btn-light")} onClick={() => updateElement(FocusedIndex, "alignSelf", "", "", "center")}>
+                                            <i className="bi  bi-align-center"></i>
+                                        </button>
 
-                                    <button type="button" className={element.alignSelf === "end" ? ("btn btn -light btn-light-active") : ("btn btn-light")} onClick={() => updateElement(FocusedIndex, "alignSelf", "", "", "end")}>
-                                        <i className="bi  bi-align-bottom"></i>
-                                    </button>
+                                        <button type="button" className={element.alignSelf === "end" ? ("btn btn -light btn-light-active") : ("btn btn-light")} onClick={() => updateElement(FocusedIndex, "alignSelf", "", "", "end")}>
+                                            <i className="bi  bi-align-bottom"></i>
+                                        </button>
 
-                                </Dropdown.Item>
-                            </DropdownButton>
-                        </div>
-                    ):(<></>)}
+                                    </Dropdown.Item>
+                                </DropdownButton>
+                            </div>
+                        ) : (<></>)}
 
 
                     {element.typography ? (
@@ -1080,31 +1145,6 @@ export default function DaVinci() {
         }
         else return (<span key={"none" + index} ></span>)
     }
-
-    function buildTitleProperties() {
-        return (
-            <div key={FocusedIndex + "properties"} className="d-flex justify-content-start align-items-center">
-                <div className="px-2 text-center">
-                    <small>Type</small><br />
-                    <button type="button" className="btn btn-secondary">h1</button>
-                </div>
-
-                {/* <div className="px-2 text-center">
-                    <small>Align</small>
-                    <br />
-                    <button type="button" className="btn btn-light">
-                        <i className="bi  bi-text-left"></i>
-                    </button>
-                    <button type="button" className="btn btn-light">
-                        <i className="bi  bi-text-center"></i>
-                    </button>
-                    <button type="button" className="btn btn-light">
-                        <i className="bi  bi-text-right"></i>
-                    </button>
-                </div> */}
-            </div>
-        )
-    }
     // LOGS
     console.log(ElementArray);
     console.log(FocusedIndex);
@@ -1145,6 +1185,7 @@ export default function DaVinci() {
                                     <div className="d-flex justify-content-start align-items-stretch" >
                                         {/* add text elements */}
                                         <DropdownButton id="dropdown-basic-button" variant="light" title={<><i className="bi bi-type"></i>{" "}Text</>}>
+                                            <Dropdown.Item><button type="button" className="btn" onClick={() => addElement("h1")}><i className="bi bi-type-h1"></i>{" "}Heading</button></Dropdown.Item>
                                             <Dropdown.Item><button type="button" className="btn" onClick={() => addElement("h2")}><i className="bi bi-type-h2"></i>{" "}Heading</button></Dropdown.Item>
                                             <Dropdown.Item><button type="button" className="btn" onClick={() => addElement("h3")}><i className="bi bi-type-h3"></i>{" "}Heading</button></Dropdown.Item>
                                             <Dropdown.Item><button type="button" className="btn btn-light" onClick={() => addElement("h4")}>H4</button><button type="button" className="btn btn-light" onClick={() => addElement("h5")}>H5</button><button type="button" className="btn btn-light" onClick={() => addElement("h6")}>H6</button></Dropdown.Item>
@@ -1196,14 +1237,9 @@ export default function DaVinci() {
                                 </Tab>
                                 <Tab eventKey="profile" title="Format" style={{ backgroundColor: '#f5f5f5' }}>
                                     <div className="pb-3">
-                                        {FocusedIndex === -1 ?
-                                            (
-                                                buildTitleProperties()
-                                            ) :
-                                            (
-                                                ElementArray.map((element, index) =>
-                                                    buildActiveElementProperties(element, index)
-                                                )
+                                        {
+                                            ElementArray.map((element, index) =>
+                                                buildActiveElementProperties(element, index)
                                             )
                                         }
                                     </div>
@@ -1214,14 +1250,6 @@ export default function DaVinci() {
 
                     {/* Elements */}
                     <div className="row">
-                        <h1 className="col-12">
-                            <TextareaAutosize style={{ overflow: 'hidden' }} ref={FocusedIndex == -1 ? (FocusedElement) : (null)} value={Title} className={styles.textareaInherit} onChange={(e) => setTitle(e.target.value)} placeholder="Title. Type here..." onKeyDown={function (e) {
-                                if (e.key === 'Enter') {
-                                    e.preventDefault();
-                                    addElement("p");
-                                }
-                            }} onFocus={() => setFocusedIndex(-1)} />
-                        </h1>
                         {ElementArray.map((e, index) =>
                             buildtextareaHTML(e, index)
                         )

@@ -6,11 +6,10 @@ export default function Post({ postData }) {
     return (
         <div className="container-fluid py-2">
             <Head>
-                <title>{postData.title} | DaVinci</title>
+                <title>{postData.elementArray[0].content} | DaVinci</title>
                 <meta name="viewport" content="initial-scale=1.0, width=device-width" />
             </Head>
             <div className="row">
-            <h1 className="col-12">{postData.title}</h1>
             {
                 postData.elementArray.map((element, index) =>
                     buildHTML(element, index)

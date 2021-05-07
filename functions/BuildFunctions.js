@@ -59,8 +59,12 @@ export function buildHTML(element, index) {
     let tag = element.tag;
     let content = element.content;
     let allClasses = buildClassName(element, index)
+    if (tag == "h1") {
+        return (
+            <div key={tag + index} className={` align-self-${element.alignSelf} col-${element.col} col-md-${element.colMd} col-lg-${element.colLg}`}><h1 className={allClasses}>{content}</h1>
+            </div>)
+    }
     if (tag == "h2") {
-
         return (
             <div key={tag + index} className={` align-self-${element.alignSelf} col-${element.col} col-md-${element.colMd} col-lg-${element.colLg}`}><h2 className={allClasses}>{content}</h2>
             </div>)
@@ -76,7 +80,7 @@ export function buildHTML(element, index) {
     if (tag == "img") {
         return (
             <div key={tag + index} className={`text-${element.alignment} py-3  align-self-${element.alignSelf} col-${element.col} col-md-${element.colMd} col-lg-${element.colLg}`}>
-                <img className={allClasses + " border rounded "} src={element.src} />
+                <img className={allClasses + " rounded "} src={element.src} />
             </div>
         )
     }
@@ -85,7 +89,7 @@ export function buildHTML(element, index) {
             <div key={tag + index} className={` align-self-${element.alignSelf} col-${element.col} col-md-${element.colMd} col-lg-${element.colLg}`}>
                 <div className={`text-${element.alignment} row align-items-center py-3`}>
                     <div className={`col-12 col-md-6 order-${element.order} text-center`}>
-                        <img className={allClasses + " border rounded "} src={element.src} />
+                        <img className={allClasses + " rounded "} src={element.src} />
                     </div>
                     <div className="col-12 col-md-6">
                         <p className={allClasses}>{content}</p>
@@ -106,7 +110,7 @@ export function buildHTML(element, index) {
                         {element.slides.map((slide, i) =>
                             <Carousel.Item key={tag + index + "slide" + i}>
                                 <img
-                                    className="d-block w-100 border rounded"
+                                    className="d-block w-100 rounded"
                                     src={slide.src}
                                     height={windowWidth < windowHeight ? (windowWidth * 9 / 16) : (windowHeight * 5 / 6)}
                                 />
