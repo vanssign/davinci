@@ -61,32 +61,32 @@ export function buildHTML(element, index) {
     let allClasses = buildClassName(element, index)
     if (tag == "h1") {
         return (
-            <div key={tag + index} className={` align-self-${element.alignSelf} col-${element.col} col-md-${element.colMd} col-lg-${element.colLg}`}><h1 className={allClasses}>{content}</h1>
+            <div key={tag + index} className={` bg-${element.bgColor} align-self-${element.alignSelf} col-${element.col} col-md-${element.colMd} col-lg-${element.colLg}`}><h1 className={allClasses}>{content}</h1>
             </div>)
     }
     if (tag == "h2") {
         return (
-            <div key={tag + index} className={` align-self-${element.alignSelf} col-${element.col} col-md-${element.colMd} col-lg-${element.colLg}`}><h2 className={allClasses}>{content}</h2>
+            <div key={tag + index} className={` bg-${element.bgColor} align-self-${element.alignSelf} col-${element.col} col-md-${element.colMd} col-lg-${element.colLg}`}><h2 className={allClasses}>{content}</h2>
             </div>)
     }
     if (tag == "p") {
         return (
-            <div key={tag + index} className={` align-self-${element.alignSelf} col-${element.col} col-md-${element.colMd} col-lg-${element.colLg}`}><p className={allClasses}>{content}</p></div>)
+            <div key={tag + index} className={` bg-${element.bgColor} align-self-${element.alignSelf} col-${element.col} col-md-${element.colMd} col-lg-${element.colLg}`}><p className={allClasses}>{content}</p></div>)
     }
     if (tag == "h3") {
         return (
-            <div key={tag + index} className={` align-self-${element.alignSelf} col-${element.col} col-md-${element.colMd} col-lg-${element.colLg}`}><h3 className={allClasses}>{content}</h3></div>)
+            <div key={tag + index} className={` bg-${element.bgColor} align-self-${element.alignSelf} col-${element.col} col-md-${element.colMd} col-lg-${element.colLg}`}><h3 className={allClasses}>{content}</h3></div>)
     }
     if (tag == "img") {
         return (
-            <div key={tag + index} className={`text-${element.alignment} py-3  align-self-${element.alignSelf} col-${element.col} col-md-${element.colMd} col-lg-${element.colLg}`}>
+            <div key={tag + index} className={`text-${element.alignment} py-3  bg-${element.bgColor} align-self-${element.alignSelf} col-${element.col} col-md-${element.colMd} col-lg-${element.colLg}`}>
                 <img className={allClasses + " rounded "} src={element.src} />
             </div>
         )
     }
     if (tag == "mediaText") {
         return (
-            <div key={tag + index} className={` align-self-${element.alignSelf} col-${element.col} col-md-${element.colMd} col-lg-${element.colLg}`}>
+            <div key={tag + index} className={` bg-${element.bgColor} align-self-${element.alignSelf} col-${element.col} col-md-${element.colMd} col-lg-${element.colLg}`}>
                 <div className={`text-${element.alignment} row align-items-center py-3`}>
                     <div className={`col-12 col-md-6 order-${element.order} text-center`}>
                         <img className={allClasses + " rounded "} src={element.src} />
@@ -100,11 +100,11 @@ export function buildHTML(element, index) {
     }
     if (tag == "carousel") {
         return (
-            <div key={tag + index} className={` align-self-${element.alignSelf} col-${element.col} col-md-${element.colMd} col-lg-${element.colLg}`}>
+            <div key={tag + index} className={` bg-${element.bgColor} align-self-${element.alignSelf} col-${element.col} col-md-${element.colMd} col-lg-${element.colLg}`}>
                 <div className="px-0 col-12 col-md-10 offset-md-1 col-lg-8 offset-lg-2">
                     <Carousel
                         fade={element.animation == "fade" ? (true) : (false)}
-                        interval={element.interval}
+                        interval={parseInt(element.interval)}
                         indicators={element.indicators}
                         controls={element.controls}>
                         {element.slides.map((slide, i) =>
@@ -127,17 +127,17 @@ export function buildHTML(element, index) {
     }
     if (tag == "h4") {
         return (
-            <div key={tag + index} className={` align-self-${element.alignSelf} col-${element.col} col-md-${element.colMd} col-lg-${element.colLg}`}><h4 className={allClasses}>{content}</h4></div>)
+            <div key={tag + index} className={` bg-${element.bgColor} align-self-${element.alignSelf} col-${element.col} col-md-${element.colMd} col-lg-${element.colLg}`}><h4 className={allClasses}>{content}</h4></div>)
     }
     if (tag == "h5") {
-        return (<div key={tag + index} className={` align-self-${element.alignSelf} col-${element.col} col-md-${element.colMd} col-lg-${element.colLg}`}><h5 className={allClasses}>{content}</h5></div>)
+        return (<div key={tag + index} className={` bg-${element.bgColor} align-self-${element.alignSelf} col-${element.col} col-md-${element.colMd} col-lg-${element.colLg}`}><h5 className={allClasses}>{content}</h5></div>)
     }
     if (tag == "h6") {
-        return (<div key={tag + index} className={` align-self-${element.alignSelf} col-${element.col} col-md-${element.colMd} col-lg-${element.colLg}`}><h6 className={allClasses}>{content}</h6></div>)
+        return (<div key={tag + index} className={` bg-${element.bgColor} align-self-${element.alignSelf} col-${element.col} col-md-${element.colMd} col-lg-${element.colLg}`}><h6 className={allClasses}>{content}</h6></div>)
     }
     if (tag == "ul") {
         return (
-            <div key={tag + index} className={` align-self-${element.alignSelf} col-${element.col} col-md-${element.colMd} col-lg-${element.colLg}`}>
+            <div key={tag + index} className={` bg-${element.bgColor} align-self-${element.alignSelf} col-${element.col} col-md-${element.colMd} col-lg-${element.colLg}`}>
                 <ul className={allClasses} style={{ position: 'relative' }}>
                     {element.content.map((c, i) =>
                         <li key={tag + index + "c" + i}>{c.value}</li>
@@ -149,7 +149,7 @@ export function buildHTML(element, index) {
     }
     if (tag == "ol") {
         return (
-            <div key={tag + index} className={` align-self-${element.alignSelf} col-${element.col} col-md-${element.colMd} col-lg-${element.colLg}`}>
+            <div key={tag + index} className={` bg-${element.bgColor} align-self-${element.alignSelf} col-${element.col} col-md-${element.colMd} col-lg-${element.colLg}`}>
                 <ol className={allClasses} style={{ position: 'relative' }}>
                     {element.content.map((c, i) =>
                         <li key={tag + index + "c" + i}>{c.value}</li>
@@ -161,7 +161,7 @@ export function buildHTML(element, index) {
     }
     if (tag == "button") {
         return (
-            <div className={`text-${element.alignment} align-self-${element.alignSelf} col-${element.col} col-md-${element.colMd} col-lg-${element.colLg}`}>
+            <div key={tag + index} className={`text-${element.alignment} bg-${element.bgColor} align-self-${element.alignSelf} col-${element.col} col-md-${element.colMd} col-lg-${element.colLg}`}>
                 <a className="text-reset" href={element.href} target="_blank">
                     <button className={element.btnOutline ? (`btn btn-outline-${element.btnColor}`) : (`btn btn-${element.btnColor}`)}>
                         {element.iconName ? (<i className={`bi bi-${element.iconName} lead`}></i>) : (<></>)}
@@ -173,12 +173,12 @@ export function buildHTML(element, index) {
     //SOCIAL BUTTONS
     if (tag == "socialbtns") {
         return (
-            <div className={`text-${element.alignment}  align-self-${element.alignSelf} col-${element.col} col-md-${element.colMd} col-lg-${element.colLg}`}>
+            <div key={tag + index} className={`text-${element.alignment}  bg-${element.bgColor} align-self-${element.alignSelf} col-${element.col} col-md-${element.colMd} col-lg-${element.colLg}`}>
                 <div className="btn-group" role="group" aria-label="btn-group">
                     {SocialLinks.filter((s, i) => element[s.name] !== "")
                         .map((sb, i) =>
 
-                            <button type="button" className="btn btn-secondary">
+                            <button key={tag + index + "sociallinks" + i} type="button" className="btn btn-secondary">
                                 <a className="text-reset" href={element[sb.name]} target="_blank">
                                     <i className={`bi bi-${sb.name} lead`}></i>
                                 </a>
@@ -190,14 +190,16 @@ export function buildHTML(element, index) {
         )
     }
     if (tag == "code") {
-        return (<div key={tag + index} className={` align-self-${element.alignSelf} col-${element.col} col-md-${element.colMd} col-lg-${element.colLg}`}><code className={allClasses} style={{ whiteSpace: 'pre-wrap' }}>{content}</code></div>)
+        return (<div key={tag + index} className={` bg-${element.bgColor} align-self-${element.alignSelf} col-${element.col} col-md-${element.colMd} col-lg-${element.colLg}`}><code className={allClasses} style={{ whiteSpace: 'pre-wrap' }}>{content}</code></div>)
     }
     if (tag == "blockquote") {
-        return (<div key={tag + index} className={` align-self-${element.alignSelf} col-${element.col} col-md-${element.colMd} col-lg-${element.colLg}`}><blockquote className={allClasses} cite={element.cite}>{content}</blockquote></div>)
+        return (<div key={tag + index} className={` bg-${element.bgColor} align-self-${element.alignSelf} col-${element.col} col-md-${element.colMd} col-lg-${element.colLg}`}><blockquote className={allClasses} cite={element.cite}>{content}</blockquote></div>)
     }
     if (tag == "hr") {
         return (
-            <hr />
+            <div key={tag + index} className={`col-12 bg-${element.bgColor}`} >
+                <hr/>
+            </div>
         )
     }
 }

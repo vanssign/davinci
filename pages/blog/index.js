@@ -15,7 +15,7 @@ export default function BlogIndex({ allPostsData }) {
                     {allPostsData.map((post) => (
                         <li key={post.id}>
                             <Link href={`/blog/${post.id}`}>
-                                <a>{post.title}</a>
+                                <a>{post.elementArray[0].content}</a>
                             </Link>
                             <br />
                         </li>
