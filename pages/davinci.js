@@ -1,18 +1,13 @@
 import Head from 'next/head'
-import { useRouter } from 'next/router'
 import Link from 'next/link';
 
-import { useState, useRef, useEffect } from 'react';
+import { useState} from 'react';
 
-import TextareaAutosize from 'react-textarea-autosize';
 import { DropdownButton, Dropdown, SplitButton, Tabs, Tab, Tooltip, OverlayTrigger, Popover, Carousel } from 'react-bootstrap';
-import ImageUploader from '../components/uploadImage';
-//functions
-import { buildClassName } from '../functions/BuildFunctions';
+
+import EditorHTML from '../components/EditorHTML';
 
 import fire from '../config/fire-config';
-
-import styles from '../styles/Davinci.module.css'
 
 const renderIconTooltip = (props) => (
     <Tooltip id="button-icon-tooltip" {...props}>
@@ -133,31 +128,7 @@ export default function DaVinci() {
     const [LiveBlogId, setLiveBlogId] = useState("");
     const [PreviewStatus, setPreviewStatus] = useState(false);
 
-    const [windowWidth, setWindowWidth] = useState(0);
-    const [windowHeight, setWindowHeight] = useState(0);
-
     const [FocusedIndex, setFocusedIndex] = useState(0);
-    const FocusedElement = useRef();
-
-    const router = useRouter();
-
-    useEffect(() => {
-        if (LoginStatus == true) {
-            if (FocusedElement.current) {
-                FocusedElement.current.focus();
-            }
-            if (windowWidth == 0) {
-                setWindowHeight(window.innerHeight);
-                setWindowWidth(window.innerWidth);
-            }
-            window.addEventListener("resize", handleResize);
-        }
-    })
-
-    const handleResize = (e) => {
-        setWindowWidth(window.innerWidth);
-        setWindowHeight(window.innerHeight);
-    };
 
     //Auth Check
     fire.auth()
@@ -376,7 +347,6 @@ export default function DaVinci() {
                 interval: 5000,
                 controls: true,
                 indicators: true,
-                activeSlide: 0,
                 alignSelf: "center",
                 bgColor: "white",
                 col: col,
@@ -440,7 +410,7 @@ export default function DaVinci() {
     //delete focused element
     function deleteElement(index) {
         let newElementArray = ElementArray.filter((e, i) => i !== index);
-        setFocusedIndex(index - 1);
+        setFocusedIndex(FocusedIndex - 1);
         setElementArray(newElementArray);
     }
 
@@ -466,19 +436,30 @@ export default function DaVinci() {
     //update element
     function updateElement(index, key, index2, key2, value) {
         let newElementArray = [...ElementArray];
-        if (!index2) {
-            newElementArray[index][key] = value;
-        }
-        else if (index2) {
+
+        if (index2 || Number.isInteger(index2)) {
             if (key2) {
-                if (index2 == "increase") {
-                    newElementArray[index][key].push({ key2: value })
-                }
-                else if (index2 == "decrease") {
-                    newElementArray[index][key].pop();
-                }
-                else {
-                    newElementArray[index][key][index2][key2] = value;
+                if (key == "slides") {
+                    if (key2 == "increase") {
+                        newElementArray[index].slides.splice(index2 + 1, 0, {
+                            src: "",
+                            label: "",
+                            caption: "",
+                            textColor: "light",
+                        });
+                    }
+                    else if (key2 == "decrease") {
+                        if (newElementArray[index].slides.length == 1) {
+                            newElementArray = ElementArray.filter((e, i) => i !== index);
+                            setFocusedIndex(FocusedIndex - 1);
+                        }
+                        else {
+                            newElementArray[index].slides = newElementArray[index].slides.filter((e, i) => i != index2);
+                        }
+                    }
+                    else {
+                        newElementArray[index].slides[index2][key2] = value;
+                    }
                 }
             }
             else {
@@ -486,435 +467,11 @@ export default function DaVinci() {
                     newElementArray[index][key][index2] = !ElementArray[index][key][index2];
                 }
             }
-
-        }
-        setElementArray(newElementArray);
-    }
-
-    function updateCarousel(index, slideIndex, key, value) {
-        let newElementArray = [...ElementArray];
-        if (key == "increase") {
-            newElementArray[index].slides.splice(slideIndex + 1, 0, {
-                src: "",
-                label: "",
-                caption: "",
-                textColor: "light",
-            });
-            setElementArray(newElementArray)
-        }
-        else if (key == "decrease") {
-            if (newElementArray[index].slides.length == 1) {
-                deleteElement(index);
-            }
-            else {
-                newElementArray[index].slides = newElementArray[index].slides.filter((e, i) => i !== slideIndex);
-                setElementArray(newElementArray)
-            }
         }
         else {
-            newElementArray[index].slides[slideIndex][key] = value;
-            setElementArray(newElementArray)
+            newElementArray[index][key] = value;
         }
-    }
-
-    const updateUrl = (value, index) => {
-        updateElement(index, "src", "", "", value)
-    }
-
-
-    //Build Element
-    function buildtextareaHTML(element, index) {
-
-        let tag = element.tag;
-        let content = element.content;
-        let allClasses = buildClassName(element, index)
-
-        //TEXT
-        if (tag == "h1") {
-            return (
-                <div key={tag + index} className={`bg-${element.bgColor} align-self-${element.alignSelf} col-${element.col} col-md-${element.colMd} col-lg-${element.colLg}`}>
-                    <h1 className={allClasses}><TextareaAutosize style={{ overflow: 'hidden' }} value={content} ref={FocusedIndex == index ? (FocusedElement) : (null)} className={styles.textareaInherit} onChange={(e) => updateElement(index, "content", "", "", e.target.value)} placeholder={index == 0 ? ("Title.Type here..") : ("H1 heading. Type here..")} onKeyDown={function (e) {
-                        if (e.key === 'Enter') {
-                            e.preventDefault();
-                            addElement("p");
-                        }
-                        if (e.key === 'Backspace' && content === "" && index !== 0) {
-                            e.preventDefault();
-                            deleteElement(index);
-                        }
-                    }} onFocus={() => setFocusedIndex(index)} /></h1>
-                </div>)
-        }
-
-        //H2
-        if (tag == "h2") {
-            return (
-                <div key={tag + index} className={`bg-${element.bgColor} align-self-${element.alignSelf} col-${element.col} col-md-${element.colMd} col-lg-${element.colLg}`}>
-                    <h2 className={allClasses}><TextareaAutosize style={{ overflow: 'hidden' }} value={content} ref={FocusedIndex == index ? (FocusedElement) : (null)} className={styles.textareaInherit} onChange={(e) => updateElement(index, "content", "", "", e.target.value)} placeholder="H2 Heading. Type here ..." onKeyDown={function (e) {
-                        if (e.key === 'Enter') {
-                            e.preventDefault();
-                            addElement("p");
-                        }
-                        if (e.key === 'Backspace' && content === "") {
-                            e.preventDefault();
-                            deleteElement(index);
-                        }
-                    }} onFocus={() => setFocusedIndex(index)} /></h2>
-                </div>)
-        }
-
-        //paragraph
-        if (tag == "p") {
-            return (
-                <div key={tag + index} className={`bg-${element.bgColor} align-self-${element.alignSelf} col-${element.col} col-md-${element.colMd} col-lg-${element.colLg}`}>
-                    <p className={allClasses}><TextareaAutosize style={{ overflow: 'hidden' }} ref={FocusedIndex == index ? (FocusedElement) : (null)} value={content} className={styles.textareaInherit} onChange={(e) => updateElement(index, "content", "", "", e.target.value)} placeholder="Paragraph. Type here ..." onKeyDown={function (e) {
-                        if (e.key === 'Enter') {
-                            e.preventDefault();
-                            addElement("p");
-                        }
-                        if (e.key === 'Backspace' && content === "") {
-                            e.preventDefault();
-                            deleteElement(index);
-                        }
-                    }} onFocus={() => setFocusedIndex(index)} />
-                    </p>
-                </div>
-
-            )
-        }
-
-        //H3
-        if (tag == "h3") {
-            return (
-                <div key={tag + index} className={`bg-${element.bgColor} align-self-${element.alignSelf} col-${element.col} col-md-${element.colMd} col-lg-${element.colLg}`}>
-                    <h3 className={allClasses}><TextareaAutosize style={{ overflow: 'hidden' }} value={content} ref={FocusedIndex == index ? (FocusedElement) : (null)} className={styles.textareaInherit} onChange={(e) => updateElement(index, "content", "", "", e.target.value)} placeholder="H3 Heading. Type here ..." onKeyDown={function (e) {
-                        if (e.key === "Enter") {
-                            e.preventDefault();
-                            addElement("p");
-                        }
-                        if (e.key === 'Backspace' && content === "") {
-                            e.preventDefault();
-                            deleteElement(index);
-                        }
-                    }} onFocus={() => setFocusedIndex(index)} />
-                    </h3>
-                </div>)
-        }
-
-        //H4
-        if (tag == "h4") {
-            return (
-                <div key={tag + index} className={`bg-${element.bgColor} align-self-${element.alignSelf} col-${element.col} col-md-${element.colMd} col-lg-${element.colLg}`}>
-                    <h4 className={allClasses}><TextareaAutosize style={{ overflow: 'hidden' }} value={content} ref={FocusedIndex == index ? (FocusedElement) : (null)} className={styles.textareaInherit} onChange={(e) => updateElement(index, "content", "", "", e.target.value)} placeholder="H4 Heading. Type here ..." onKeyDown={function (e) {
-                        if (e.key === 'Enter') {
-                            e.preventDefault();
-                            addElement("p");
-                        }
-                        if (e.key === 'Backspace' && content === "") {
-                            e.preventDefault();
-                            deleteElement(index);
-                        }
-                    }} onFocus={() => setFocusedIndex(index)} />
-                    </h4>
-                </div>)
-        }
-
-        //H5
-        if (tag == "h5") {
-            return (
-                <div key={tag + index} className={`bg-${element.bgColor} align-self-${element.alignSelf} col-${element.col} col-md-${element.colMd} col-lg-${element.colLg}`}>
-                    <h5 className={allClasses}><TextareaAutosize style={{ overflow: 'hidden' }} value={content} ref={FocusedIndex == index ? (FocusedElement) : (null)} className={styles.textareaInherit} onChange={(e) => updateElement(index, "content", "", "", e.target.value)} placeholder="H5 heading. Type here ..." onKeyDown={function (e) {
-                        if (e.key === 'Enter') {
-                            e.preventDefault();
-                            addElement("p");
-                        }
-                        if (e.key === 'Backspace' && content === "") {
-                            e.preventDefault();
-                            deleteElement(index);
-                        }
-                    }} onFocus={() => setFocusedIndex(index)} />
-                    </h5>
-                </div>)
-        }
-
-        //H6
-        if (tag == "h6") {
-            return (
-                <div key={tag + index} className={`bg-${element.bgColor} align-self-${element.alignSelf} col-${element.col} col-md-${element.colMd} col-lg-${element.colLg}`}>
-                    <h6 className={allClasses}><TextareaAutosize style={{ overflow: 'hidden' }} value={content} ref={FocusedIndex == index ? (FocusedElement) : (null)} className={styles.textareaInherit} onChange={(e) => updateElement(index, "content", "", "", e.target.value)} placeholder="H6 Heading. Type here ..." onKeyDown={function (e) {
-                        if (e.key === 'Enter') {
-                            e.preventDefault();
-                            addElement("p");
-                        }
-                        if (e.key === 'Backspace' && content === "") {
-                            e.preventDefault();
-                            deleteElement(index);
-                        }
-                    }} onFocus={() => setFocusedIndex(index)} />
-                    </h6>
-                </div>)
-        }
-
-        //Code
-        if (tag == "code") {
-            return (
-                <div key={tag + index} className={`bg-${element.bgColor} align-self-${element.alignSelf} col-${element.col} col-md-${element.colMd} col-lg-${element.colLg}`}>
-                    <code className={allClasses}>
-                        <TextareaAutosize style={{ overflow: 'hidden' }} value={content} ref={FocusedIndex == index ? (FocusedElement) : (null)} className={styles.textareaInherit} onChange={(e) => updateElement(index, "content", "", "", e.target.value)} placeholder="Code Snippet. Type here ..."
-                            onKeyDown={function (e) {
-                                if (e.key === 'Backspace' && content === "") {
-                                    e.preventDefault();
-                                    deleteElement(index);
-                                }
-                            }} onFocus={() => setFocusedIndex(index)} />
-                    </code>
-                </div>
-            )
-        }
-
-        //Blockquote
-        if (tag == "blockquote") {
-            return (
-                <div key={tag + index} className={`bg-${element.bgColor} align-self-${element.alignSelf} col-${element.col} col-md-${element.colMd} col-lg-${element.colLg}`}>
-                    <div className="d-flex justify-content-start">
-                        <i className="bi bi-link-45deg"></i>{" "}<TextareaAutosize style={{ overflow: 'hidden' }} value={element.cite} className={styles.textareaInherit} onChange={(e) => updateElement(index, "cite", "", "", e.target.value)} placeholder="Cite Link or source" onFocus={() => setFocusedIndex(index)} /></div>
-                    <blockquote className={allClasses}><TextareaAutosize style={{ overflow: 'hidden' }} value={content} ref={FocusedIndex == index ? (FocusedElement) : (null)} className={styles.textareaInherit} onChange={(e) => updateElement(index, "content", "", "", e.target.value)} placeholder="BlockQuote text. Type here ..."
-                        onKeyDown={function (e) {
-                            if (e.key === "Enter") {
-                                e.preventDefault();
-                                addElement("p");
-                            }
-                            if (e.key === 'Backspace' && content === "") {
-                                e.preventDefault();
-                                deleteElement(index);
-                            }
-                        }}
-                        onFocus={() => setFocusedIndex(index)} /></blockquote>
-                </div>
-            )
-        }
-
-        //LISTS
-
-        //unordered list
-        if (tag == "ul") {
-            return (
-                <div key={tag + index} className={`bg-${element.bgColor} align-self-${element.alignSelf} col-${element.col} col-md-${element.colMd} col-lg-${element.colLg}`}>
-                    <ul className={allClasses}>
-                        {ElementArray[index].content.map((c, i) =>
-                            <li key={tag + index + "c.value" + i}><TextareaAutosize style={{ overflow: 'hidden' }} value={c.value} ref={FocusedIndex == index ? (FocusedElement) : (null)} className={styles.textareaInherit} onChange={(e) => updateElement(index, "content", i, "value", e.target.value)} placeholder="List Item" onKeyDown={function (e) {
-                                if (e.key === 'Enter') {
-                                    e.preventDefault();
-                                    if (c.value === "" && i !== 0) {
-                                        updateElement(index, "content", "decrease", "value", "");
-                                        addElement("p");
-                                    }
-                                    else
-                                        updateElement(index, "content", "increase", "value", "")
-                                }
-                                if (e.key === 'Backspace' && c.value === "") {
-                                    e.preventDefault();
-                                    if (i === 0) {
-                                        deleteElement(index);
-                                    }
-                                    else {
-                                        updateElement(index, "content", "decrease", "value", "")
-                                    }
-                                }
-                            }} onFocus={() => setFocusedIndex(index)} /></li>
-                        )
-                        }
-                    </ul>
-                </div>
-            )
-        }
-
-        //ordered list
-        if (tag == "ol") {
-            return (
-                <div key={tag + index} className={`bg-${element.bgColor} align-self-${element.alignSelf} col-${element.col} col-md-${element.colMd} col-lg-${element.colLg}`}>
-                    <ol className={allClasses}>
-                        {ElementArray[index].content.map((c, i) =>
-                            <li key={tag + index + "c.value" + i}><TextareaAutosize style={{ overflow: 'hidden' }} value={c.value} ref={FocusedIndex == index ? (FocusedElement) : (null)} className={styles.textareaInherit} onChange={(e) => updateElement(index, "content", i, "value", e.target.value)} placeholder="List Item" onKeyDown={function (e) {
-                                if (e.key === 'Enter') {
-                                    e.preventDefault();
-                                    if (c.value === "" && i !== 0) {
-                                        updateElement(index, "content", "decrease", "", "");
-                                        addElement("p");
-                                    }
-                                    else
-                                        updateElement(index, "content", "increase", "", "")
-                                }
-                                if (e.key === 'Backspace' && c.value === "") {
-                                    e.preventDefault();
-                                    if (i === 0) {
-                                        deleteElement(index);
-                                    }
-                                    else {
-                                        updateElement(index, "content", "decrease", "", "")
-                                    }
-                                }
-                            }} onFocus={() => setFocusedIndex(index)} /></li>
-                        )
-                        }
-                    </ol>
-                </div>
-            )
-        }
-
-        //IMAGE
-        if (tag == "img") {
-            return (
-                <div key={tag + index} className={`text-${element.alignment} py-3 bg-${element.bgColor} align-self-${element.alignSelf} col-${element.col} col-md-${element.colMd} col-lg-${element.colLg}`} onClick={() => setFocusedIndex(index)}>
-                    <div className={index == FocusedIndex ? ("d-flex justify-content-center align-items-stretch") : ("d-none")}>
-                        <i className="bi bi-link-45deg lead"></i>
-                        <textarea rows="1" cols="10" value={element.src} className="btn btn-light btn-light-active" styles={{ resize: 'none' }} onChange={(e) => updateElement(index, "src", "", "", e.target.value)} placeholder="Image Link" ref={FocusedIndex == index ? (FocusedElement) : (null)} />
-                        <ImageUploader index={index} parentCallback={updateUrl} />
-                        <button type="button" onClick={() => deleteElement(index)} className="btn btn-danger py-0 px-1"><i className="bi bi-trash lead"></i></button>
-                    </div>
-                    <img className={allClasses + " rounded "} src={element.src ? (element.src) : ("https://i.stack.imgur.com/y9DpT.jpg")} ></img>
-                </div>
-            )
-        }
-        //Media Text.
-        if (tag == "mediaText") {
-            return (
-                <div key={tag + index} className={`bg-${element.bgColor} align-self-${element.alignSelf} col-${element.col} col-md-${element.colMd} col-lg-${element.colLg}`}><div className={`text-${element.alignment} row align-items-center py-3`} onClick={() => setFocusedIndex(index)}>
-                    <div className={`col-12 col-md-6 order-${element.order} text-center`}>
-                        <div className={index == FocusedIndex ? ("d-flex justify-content-center align-items-stretch") : ("d-none")}>
-                            <i className="bi bi-link-45deg lead"></i>
-                            <textarea rows="1" cols="10" value={element.src} className="btn btn-light btn-light-active" styles={{ resize: 'none' }} onChange={(e) => updateElement(index, "src", "", "", e.target.value)} placeholder="Image Link" ref={FocusedIndex == index ? (FocusedElement) : (null)} />
-                            <ImageUploader index={index} parentCallback={updateUrl} />
-                            <button type="button" onClick={() => deleteElement(index)} className="btn btn-danger py-0 px-1"><i className="bi bi-trash lead"></i></button>
-                        </div>
-                        <img className={allClasses + " rounded "} src={element.src ? (element.src) : ("https://i.stack.imgur.com/y9DpT.jpg")} ></img>
-                    </div>
-                    <div className={`col-12 col-md-6`}>
-                        <p className={allClasses}><TextareaAutosize style={{ overflow: 'hidden' }} ref={FocusedIndex == index ? (FocusedElement) : (null)} value={content} className={styles.textareaInherit} onChange={(e) => updateElement(index, "content", "", "", e.target.value)} placeholder="A picture is worth a thousand words but a picture with a thousand words is better. Type here ..." onKeyDown={function (e) {
-                            if (e.key === 'Enter') {
-                                e.preventDefault();
-                                addElement("p");
-                            }
-                            if (e.key === 'Backspace' && content === "") {
-                                e.preventDefault();
-                                deleteElement(index);
-                            }
-                        }} onFocus={() => setFocusedIndex(index)} />
-                        </p>
-                    </div>
-                </div>
-                </div>
-            )
-        }
-        //carousel
-        if (tag == "carousel") {
-            return (
-                <div key={tag + index} className={`bg-${element.bgColor} align-self-${element.alignSelf} col-${element.col} col-md-${element.colMd} col-lg-${element.colLg}`}>
-                    <div className="px-0 col-12 col-md-10 offset-md-1 col-lg-8 offset-lg-2"
-                        onClick={() => setFocusedIndex(index)}>
-                        <Carousel
-                            fade={element.animation == "fade" ? (true) : (false)}
-                            interval={element.interval}
-                            indicators={element.indicators}
-                            controls={element.controls}
-                        >
-                            {element.slides.map((slide, i) =>
-                                <Carousel.Item key={tag + index + "slide" + i}>
-                                    <div className={index == FocusedIndex ? ("d-flex justify-content-center align-items-stretch") : ("d-none")} >
-                                        <i className="bi bi-link-45deg lead"></i>
-                                        <textarea rows="1" cols="10" value={slide.src} className="btn btn-light btn-light-active" styles={{ resize: 'none' }} onChange={(e) => updateCarousel(index, i, "src", e.target.value)} placeholder="Image Link" />
-                                        {/* <ImageUploader index={index} parentCallback={updateCarouselSrc(index, i, "src", e.target.value)} /> */}
-                                        <DropdownButton title={<><i className="bi bi-fonts"></i>Color</>} variant={slide.textColor}>
-                                            <Dropdown.Item>
-                                                {BootstrapColors.map((color, j) =>
-                                                    <button key={index + "propertieschange" + j + "color"} style={{ borderRadius: '100%', paddingTop: '12px' }} type="button" className={`btn btn-${color.name}`}
-                                                        onClick={() => updateCarousel(index, i, "textColor", color.name)}>
-                                                    </button>
-                                                )}
-                                            </Dropdown.Item>
-                                        </DropdownButton>
-                                        <button type="button" className="btn btn-primary py-0 px-1" onClick={() => updateCarousel(index, i, "increase", "")}>
-                                            <i className="bi bi-plus-circle-fill lead"></i>
-                                        </button>
-                                        <button type="button" className="btn btn-danger py-0 px-1" onClick={() => updateCarousel(index, i, "decrease", "")}>
-                                            <i className="bi bi-trash lead"></i></button>
-                                    </div>
-                                    <img
-                                        className="d-block w-100 rounded"
-                                        src={slide.src ? (slide.src) : ("https://www.signfix.com.au/wp-content/uploads/2017/09/placeholder-600x400.png")}
-                                        height={windowWidth < windowHeight ? (windowWidth * 9 / 16) : (windowHeight * 5 / 6)}
-                                    />
-                                    <Carousel.Caption className={`text-${slide.textColor}`}>
-                                        <h3><TextareaAutosize style={{ overflow: 'hidden' }} value={slide.label} className={styles.textareaInherit} onChange={(e) =>
-                                            updateCarousel(index, i, "label", e.target.value)} placeholder="Slide Label" onFocus={() => setFocusedIndex(index)} /></h3>
-                                        <p><TextareaAutosize style={{ overflow: 'hidden' }} value={slide.caption} className={styles.textareaInherit} onChange={(e) =>
-                                            updateCarousel(index, i, "caption", e.target.value)} placeholder="Images will be stretched. Type caption here ..." onFocus={() => setFocusedIndex(index)} /></p>
-                                    </Carousel.Caption>
-                                </Carousel.Item>
-                            )}
-                        </Carousel>
-                    </div>
-                </div>
-            )
-        }
-
-        //BUTTONS
-        if (tag == "button") {
-            return (<div key={tag + index} className={`text-${element.alignment} bg-${element.bgColor} align-self-${element.alignSelf} col-${element.col} col-md-${element.colMd} col-lg-${element.colLg} `} >
-                <button type="button" className={element.btnOutline ? (`btn btn-outline-${element.btnColor}`) : (`btn btn-${element.btnColor}`)} style={{ position: 'relative' }}>
-                    <div className="d-flex justify-content-start">
-                        {element.iconName ? (
-                            <>
-                                <i className={`bi bi-${element.iconName} font-weight-bolder`}></i>{" "}
-                            </>
-                        ) : (<></>)}
-                        <TextareaAutosize style={{ overflow: 'hidden' }} value={content} className={styles.textareaInheritBtn} onChange={(e) => updateElement(index, "content", "", "", e.target.value)} placeholder="Button Text. Type here ..." onFocus={() => setFocusedIndex(index)} />
-                    </div>
-                </button>
-                <button type="button" onClick={() => deleteElement(index)} className={styles.delBtn}><i className="bi bi-x-circle-fill lead"></i></button>
-            </div >)
-        }
-        //SOCIAL BUTTONS
-        if (tag == "socialbtns") {
-            return (
-                <div key={tag + index} className={`text-${element.alignment} bg-${element.bgColor} align-self-${element.alignSelf} col-${element.col} col-md-${element.colMd} col-lg-${element.colLg}`} aria-label="btn-group" onClick={() => setFocusedIndex(index)}>
-                    <div role="group" className="btn-group" onClick={() => setFocusedIndex(index)}>
-                        {SocialLinks.filter((s, i) => element[s.name] !== "")
-                            .map((sb, i) =>
-                                <button type="button" className="btn btn-secondary"><i className={`bi bi-${sb.name} lead`}></i></button>)
-                        }
-                    </div>
-                    <button type="button" onClick={() => deleteElement(index)} className={styles.delBtn}><i className="bi bi-x-circle-fill lead"></i></button>
-                </div>
-            )
-        }
-
-        //horizontal rule
-        if (tag == "hr") {
-            return (
-                <div className={`col-12 bg-${element.bgColor}`}>
-                    <div className="row" onClick={() => setFocusedIndex(index)}>
-                        <div className="col-11 pr-0">
-                            <hr />
-                        </div>
-                        <div className="col-1 p-0 text-center">
-                            <button type="button" onClick={() => deleteElement(index)} className={styles.delBtn}><i className="bi bi-x-circle-fill"></i></button>
-                        </div>
-                    </div>
-                </div>
-
-            )
-        }
-
-        if (tag == "custom") {
-            return (
-                <div key={tag + index} className={`text-${element.alignment} bg-${element.bgColor} align-self-${element.alignSelf} col-${element.col} col-md-${element.colMd} col-lg-${element.colLg} `} >
-                    {element.elementArray.map((children, i) => {
-                        buildtextareaHTML(children, i)
-                    })}
-                </div>
-            )
-        }
+        setElementArray(newElementArray)
     }
 
     //Properties in Format tab
@@ -1220,6 +777,10 @@ export default function DaVinci() {
     console.log(ElementArray);
     console.log(FocusedIndex);
 
+    function handleFocus(index) {
+        setFocusedIndex(index);
+    }
+
     return (
         <>
             <Head>
@@ -1267,7 +828,7 @@ export default function DaVinci() {
                                         </DropdownButton>
 
                                         {/*add List Elements */}
-                                        <SplitButton id="dropdown-split-button" variant="light" title={
+                                        <SplitButton id="dropdown-split-button" disabled variant="light" title={
                                             <><i className="bi bi-list-ul"></i>{" "}List</>} onClick={() => addElement("ul")}>
                                             <Dropdown.Item>
                                                 <button disable type="button" className="btn" onClick={() => { addElement("ol") }}><i className="bi bi-list-ol"></i>{" "}Numbered List</button>
@@ -1304,8 +865,8 @@ export default function DaVinci() {
                                         <button className="btn btn-light" onClick={() => addElement("hr")}>
                                             <i className="bi bi-dash"></i>{" "}Line
                                         </button>
-                                        <button className="btn btn-light" onClick={() => addElement("custom")}>
-                                            <i className="bi bi-dash"></i>{" "}Custom
+                                        <button className="btn btn-light" onClick={() => addElement("navbar")}>
+                                            <i className="bi bi-menu-app-fill"></i>{" "}Navbar
                                         </button>
                                     </div>
                                 </Tab>
@@ -1324,8 +885,8 @@ export default function DaVinci() {
 
                     {/* Elements */}
                     <div className="row">
-                        {ElementArray.map((e, index) =>
-                            buildtextareaHTML(e, index)
+                        {ElementArray.map((element, index) =>
+                            <EditorHTML key={element.tag + index} element={element} index={index} FocusedIndex={FocusedIndex} handleFocus={handleFocus} updateElement={updateElement} deleteElement={deleteElement} addElement={addElement} />
                         )
                         }
                     </div>
@@ -1336,7 +897,6 @@ export default function DaVinci() {
                     <div className="container d-flex align-items-center justify-content-center text-center" style={{ height: '100vh', width: '100vw' }}>
                         <div className=""><i className="display-4 bi bi-hourglass-split"></i>
                             <h4>L O A D I N G</h4>
-                            <textarea ref={FocusedElement} className="d-none" />
                             <small className="d-block d-sm-none">Tip: Use Desktop for better experience!</small>
                         </div>
                     </div>) : (
@@ -1345,7 +905,7 @@ export default function DaVinci() {
                         <div className=""><i className="display-4 bi bi-door-open-fill"></i>
                             <h4>NOT LOGGED IN</h4>
                             <h5><Link href="/auth/login"><a>Login here</a></Link></h5>
-                            <textarea ref={FocusedElement} className="d-none" /></div>
+                        </div>
                     </div>)
             )
             }
