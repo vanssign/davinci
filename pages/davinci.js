@@ -1,7 +1,7 @@
 import Head from 'next/head'
 import Link from 'next/link';
 
-import { useState} from 'react';
+import { useState } from 'react';
 
 import { DropdownButton, Dropdown, SplitButton, Tabs, Tab, Tooltip, OverlayTrigger, Popover, Carousel } from 'react-bootstrap';
 
@@ -99,6 +99,57 @@ var SocialLinks = [
     { name: 'slack' },
     { name: 'discord' },
     { name: 'twitch' }
+]
+
+var ColValues = [
+    {
+        value: 12,
+        iconName: "square"
+    },
+    {
+        value: 11,
+        iconName: ""
+    },
+    {
+        value: 10,
+        iconName: ""
+    },
+    {
+        value: 9,
+        iconName: ""
+    },
+    {
+        value: 8,
+        iconName: ""
+    },
+    {
+        value: 7,
+        iconName: ""
+    },
+    {
+        value: 6,
+        iconName: "layout-split"
+    },
+    {
+        value: 5,
+        iconName: ""
+    },
+    {
+        value: 4,
+        iconName: "layout-three-columns"
+    },
+    {
+        value: 3,
+        iconName: ""
+    },
+    {
+        value: 2,
+        iconName: ""
+    },
+    {
+        value: 1,
+        iconName: ""
+    },
 ]
 
 
@@ -506,25 +557,6 @@ export default function DaVinci() {
                         </button>
                     </div>
 
-                    <div className="px-2 text-center">
-                        <small>Span</small>
-                        <br />
-                        {/* <DropdownButton title={<i className="bi bi-phone"></i>} variant="secondary" size="sm">
-                            <button type="button" className={element.col === "12" ? ("btn btn -light btn-light-active py-0 px-2") : ("btn btn-light py-0 px-2")} onClick={() => updateElement(FocusedIndex, "col", "", "", 12)} >
-                                <i className="bi  bi-square lead"></i>
-                            </button>
-                            <button type="button" className={element.col === "6" ? ("btn btn -light btn-light-active py-0 px-2") : ("btn btn-light py-0 px-2")} onClick={() => updateElement(FocusedIndex, "col", "", "", 6)} >
-                                <i className="bi  bi-layout-split lead"></i>
-                            </button>
-                            <button type="button" className={element.col === "4" ? ("btn btn -light btn-light-active py-0 px-2") : ("btn btn-light py-0 px-2")} onClick={() => updateElement(FocusedIndex, "col", "", "", 4)} >
-                                <i className="bi  bi-layout-three-columns lead"></i>
-                            </button>
-                        </DropdownButton> */}
-                        <textarea rows="1" cols="1" value={element.col} className="btn btn-light my-1 p-0" styles={{ resize: 'none !important' }} onChange={(e) => updateElement(index, "col", "", "", e.target.value)} placeholder="s" onFocus={() => setFocusedIndex(index)} />
-                        <textarea rows="1" cols="1" value={element.colMd} className="btn btn-light my-1 p-0" styles={{ resize: 'none !important' }} onChange={(e) => updateElement(index, "colMd", "", "", e.target.value)} placeholder="m" onFocus={() => setFocusedIndex(index)} />
-                        <textarea rows="1" cols="1" value={element.colLg} className="btn btn-light my-1 p-0" styles={{ resize: 'none !important' }} onChange={(e) => updateElement(index, "colLg", "", "", e.target.value)} placeholder="l" onFocus={() => setFocusedIndex(index)} />
-                    </div>
-
                     {element.alignment ? (
                         <div className="px-2 text-center">
                             <small>Align</small>
@@ -812,8 +844,8 @@ export default function DaVinci() {
                         </div>
 
                         <div className={PreviewStatus ? ("d-none") : ("rounded border")} style={{ backgroundColor: 'white' }}>
-                            <Tabs defaultActiveKey="profile" id="uncontrolled-tab-example">
-                                <Tab eventKey="home" title="Insert" className="bg-light">
+                            <Tabs defaultActiveKey="format" id="uncontrolled-tab-example">
+                                <Tab eventKey="insert" title="Insert" className="bg-light">
                                     <div className="d-flex justify-content-start align-items-stretch" >
                                         {/* add text elements */}
                                         <DropdownButton id="dropdown-basic-button" variant="light" title={<><i className="bi bi-type"></i>{" "}Text</>}>
@@ -870,8 +902,9 @@ export default function DaVinci() {
                                         </button>
                                     </div>
                                 </Tab>
-                                <Tab eventKey="profile" title="Format" style={{ backgroundColor: '#f5f5f5' }}>
-                                    <div className="pb-3">
+
+                                <Tab eventKey="format" title="Format" style={{ backgroundColor: '#f5f5f5' }}>
+                                    <div className="pb-1">
                                         {
                                             ElementArray.map((element, index) =>
                                                 buildActiveElementProperties(element, index)
@@ -879,6 +912,69 @@ export default function DaVinci() {
                                         }
                                     </div>
                                 </Tab>
+                                {ElementArray[FocusedIndex] ? (ElementArray[FocusedIndex].col ? (
+                                    <Tab eventKey="grid" title="Grid" className="bg-light">
+                                        <div className="container-fluid">
+                                            <div className="row text-center">
+                                                <div className="col-3 pt-2 justify-content-center align-items-center d-flex">
+                                                    <div>
+                                                        <i className="bi bi-phone-fill lead"></i>
+                                                        <br />
+                                                        <small>Mobile</small>
+                                                    </div>
+                                                    <DropdownButton variant="light" title={ElementArray[FocusedIndex].col}>
+                                                        {ColValues.map((col, i) =>
+                                                            <Dropdown.Item key={i + "colchange"} onClick={() => updateElement(FocusedIndex, "col", "", "", col.value)}>
+                                                                {`${col.value}`}
+                                                                {/* <i className={`bi bi-${col.iconName}`}></i> */}
+                                                            </Dropdown.Item>)}
+                                                    </DropdownButton>
+                                                </div>
+                                                <div className="col-3 pt-2 justify-content-center align-items-center d-flex">
+                                                    <div>
+                                                        <i className="bi bi-tablet-fill lead"></i>
+                                                        <br />
+                                                        <small>Tablet</small>
+                                                    </div>
+                                                    <DropdownButton variant="light" title={ElementArray[FocusedIndex].colMd}>
+                                                        {ColValues.map((col, i) =>
+                                                            <Dropdown.Item key={i + "colchange"} onClick={() => updateElement(FocusedIndex, "colMd", "", "", col.value)}>
+                                                                {`${col.value}`}
+                                                                {/* <i className={`bi bi-${col.iconName}`}></i> */}
+                                                            </Dropdown.Item>)}
+                                                    </DropdownButton>
+                                                </div>
+                                                <div className="col-3 pt-2 justify-content-center align-items-center d-flex">
+                                                    <div>
+                                                        <i className="bi bi-laptop-fill lead"></i>
+                                                        <br />
+                                                        <small>Laptop</small>
+                                                    </div>
+                                                    <DropdownButton variant="light" title={ElementArray[FocusedIndex].colLg}>
+                                                        {ColValues.map((col, i) =>
+                                                            <Dropdown.Item key={i + "colchange"} onClick={() => updateElement(FocusedIndex, "colLg", "", "", col.value)}>
+                                                                {`${col.value}`}
+                                                                {/* <i className={`bi bi-${col.iconName}`}></i> */}
+                                                            </Dropdown.Item>)}
+                                                    </DropdownButton>
+                                                </div>
+                                                <div className="col-3 justify-content-center align-self-center">
+                                                    <OverlayTrigger
+                                                        placement="left"
+                                                        delay={{ show: 150, hide: 1500 }}
+                                                        overlay={<Tooltip id="button-grid-tooltip">
+                                                            Entire screen width is divided into 12 columns. If the value is 12, the block will cover entire screen width, if 6 it will cover half and so on. Other elements fit accordingly to cover the screen.<br /><br />
+                                     Choose separately for mobile, tablets and laptops as per your convenience and design. Read about <a href="https://www.tutorialrepublic.com/twitter-bootstrap-tutorial/bootstrap-grid-system.php" target="_blank">Bootstrap Grid System</a>
+                                                        </Tooltip>}
+                                                    >
+                                                        <i className="bi bi-question-circle-fill" style={{ fontSize: '1.5em' }}></i>
+                                                    </OverlayTrigger>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </Tab>
+                                ) : (<></>)) : (<></>)}
                             </Tabs>
                         </div>
                     </div>
