@@ -443,7 +443,7 @@ export default function EditorHTML(props) {
     else if (tag == "navbar") {
         return (
             <div className={`text-${props.element.alignment} bg-${props.element.bgColor} align-self-${props.element.alignSelf} p-0 col-${props.element.col} col-md-${props.element.colMd} col-lg-${props.element.colLg} ` + allClasses} onClick={() => props.handleFocus(props.index)}>
-                <Navbar bg={props.element.bgColor} expand="lg">
+                <Navbar bg={props.element.bgColor} variant={props.element.bgColor} expand="lg">
                     <Navbar.Brand href="#home">React-Bootstrap</Navbar.Brand>
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
                     <Navbar.Collapse id="basic-navbar-nav">

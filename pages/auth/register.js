@@ -46,7 +46,7 @@ export default function Register() {
       });
   }
   return (
-    <div className="container d-flex align-items-center justify-content-center text-center" style={{ height: '100vh', width: '100vw' }}>
+    <div className="container d-flex align-items-center justify-content-center text-center" style={{ height: '85vh', width: '100vw' }}>
       <div>
         <Head>
           <title>Register | Blog</title>
@@ -59,7 +59,7 @@ export default function Register() {
         <form onSubmit={handleSignup}>
           <div className="form-group">
             <label>Email</label>
-            <input type="text" value={userName} className="form-control"
+            <input type="text" autoFocus value={userName} className="form-control"
               onChange={({ target }) => setUsername(target.value)} placeholder="name@example.com" />
           </div>
           <div className="form-group">

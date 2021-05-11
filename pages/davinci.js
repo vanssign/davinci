@@ -153,7 +153,7 @@ var ColValues = [
 ]
 
 
-export default function DaVinci() {
+export default function Davinci() {
     //states
     const [ElementArray, setElementArray] = useState([{
         tag: "h1",
@@ -816,7 +816,7 @@ export default function DaVinci() {
     return (
         <>
             <Head>
-                <title>DaVinci | Paint blog posts</title>
+                <title>Davinci | Paint blog posts</title>
                 <meta name="viewport" content="initial-scale=1.0, width=device-width" />
             </Head>
             {/* Check LOGIN STATUS */}
@@ -838,7 +838,7 @@ export default function DaVinci() {
                     <div style={{ position: 'sticky', top: 0, zIndex: 10 }}>
                         {/* Toggle button */}
                         <div>
-                            <button type="button" className="btn btn-dark" onClick={() => setPreviewStatus(!PreviewStatus)}>{PreviewStatus ?
+                            <button type="button" className="btn btn-dark px-2 py-1" onClick={() => setPreviewStatus(!PreviewStatus)}>{PreviewStatus ?
                                 (<span><i className="bi bi-arrows-collapse"></i></span>) :
                                 (<i className="bi bi-arrows-expand"></i>)}</button>
                         </div>
@@ -980,7 +980,7 @@ export default function DaVinci() {
                     </div>
 
                     {/* Elements */}
-                    <div className="row">
+                    <div className="row border">
                         {ElementArray.map((element, index) =>
                             <EditorHTML key={element.tag + index} element={element} index={index} FocusedIndex={FocusedIndex} handleFocus={handleFocus} updateElement={updateElement} deleteElement={deleteElement} addElement={addElement} />
                         )
@@ -990,14 +990,14 @@ export default function DaVinci() {
             ) : (
                 LoginStatus !== "failure" ? (
                     // LOADING
-                    <div className="container d-flex align-items-center justify-content-center text-center" style={{ height: '100vh', width: '100vw' }}>
+                    <div className="container d-flex align-items-center justify-content-center text-center" style={{ height: '90vh', width: '100vw' }}>
                         <div className=""><i className="display-4 bi bi-hourglass-split"></i>
                             <h4>L O A D I N G</h4>
                             <small className="d-block d-sm-none">Tip: Use Desktop for better experience!</small>
                         </div>
                     </div>) : (
                     //NOT LOGGED IN
-                    <div className="container d-flex align-items-center justify-content-center text-center" style={{ height: '100vh', width: '100vw' }}>
+                    <div className="container d-flex align-items-center justify-content-center text-center" style={{ height: '90vh', width: '100vw' }}>
                         <div className=""><i className="display-4 bi bi-door-open-fill"></i>
                             <h4>NOT LOGGED IN</h4>
                             <h5><Link href="/auth/login"><a>Login here</a></Link></h5>

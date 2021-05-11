@@ -6,7 +6,7 @@ export default function Post({ postData }) {
     return (
         <div className="container-fluid py-2">
             <Head>
-                <title>{postData.elementArray[0].content} | DaVinci</title>
+                <title>{postData.elementArray[0].content} | Davinci</title>
                 <meta name="viewport" content="initial-scale=1.0, width=device-width" />
             </Head>
             <div className="row">

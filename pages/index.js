@@ -6,14 +6,14 @@ export default function Home() {
   return (
     <div className={styles.container}>
       <Head>
-        <title>DaVinci | Paint your blog ideas</title>
+        <title>Davinci | Paint your blog ideas</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
       <main className={styles.main}>
         <h1 className={styles.title}>
-          DaVinci
+          Davinci
         </h1>
 
         <p className={styles.description}>
@@ -27,13 +27,13 @@ export default function Home() {
           <Link href="/davinci"><a className={styles.card}>
             <h3>Editor &rarr;</h3>
             <i className="bi bi-input-cursor-text display-4"></i>
-            <p>Post a new blog using DaVinci block editor</p>
+            <p>Post a new blog using Davinci block editor</p>
           </a></Link>
 
           <Link href="/blog">
             <a className={styles.card}><h3>Blogs &rarr;</h3>
               <i className="bi bi-journal-richtext display-4"></i>
-              <p>List of all blogs painted with DaVinci</p></a>
+              <p>List of all blogs painted with Davinci</p></a>
           </Link>
 
           <Link href="/auth/login">

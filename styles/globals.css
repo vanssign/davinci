@@ -21,6 +21,9 @@ a {
 .text-primary{
   color: #21759b;
 }
+.bg-primary{
+  background-color: #21759b !important;
+}
 .btn:focus{
   outline:none !important;
 }
