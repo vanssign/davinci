@@ -846,7 +846,7 @@ export default function DaVinci() {
                         <div className={PreviewStatus ? ("d-none") : ("rounded border")} style={{ backgroundColor: 'white' }}>
                             <Tabs defaultActiveKey="format" id="uncontrolled-tab-example">
                                 <Tab eventKey="insert" title="Insert" className="bg-light">
-                                    <div className="d-flex justify-content-start align-items-stretch" >
+                                    <div className="d-flex justify-content-start align-items-stretch">
                                         {/* add text elements */}
                                         <DropdownButton id="dropdown-basic-button" variant="light" title={<><i className="bi bi-type"></i>{" "}Text</>}>
                                             <Dropdown.Item><button type="button" className="btn" onClick={() => addElement("h1")}><i className="bi bi-type-h1"></i>{" "}Heading</button></Dropdown.Item>
@@ -913,10 +913,23 @@ export default function DaVinci() {
                                     </div>
                                 </Tab>
                                 {ElementArray[FocusedIndex] ? (ElementArray[FocusedIndex].col ? (
-                                    <Tab eventKey="grid" title="Grid" className="bg-light">
+                                    <Tab eventKey="grid" title={
+                                        <>
+                                            {"Grid "}
+                                            < OverlayTrigger
+                                                placement="bottom"
+                                                delay={{ show: 150, hide: 1500 }}
+                                                overlay={<Tooltip id="button-grid-tooltip">
+                                                    Entire screen width is divided into 12 columns. If the value is 12, the block will cover entire screen width, if 6 it will cover half and so on. Other elements fit accordingly to cover the screen.<br /><br />
+                                                    Choose separately for mobile, tablets and laptops as per your convenience and design. Read about <a href="https://www.tutorialrepublic.com/twitter-bootstrap-tutorial/bootstrap-grid-system.php" target="_blank">Bootstrap Grid System</a>
+                                                </Tooltip>}
+                                            >
+                                                <i className="bi bi-question-circle-fill"></i>
+                                            </OverlayTrigger>
+                                        </>} className="bg-light">
                                         <div className="container-fluid">
                                             <div className="row text-center">
-                                                <div className="col-3 pt-2 justify-content-center align-items-center d-flex">
+                                                <div className="col-4 pt-2 justify-content-center align-items-center d-flex">
                                                     <div>
                                                         <i className="bi bi-phone-fill lead"></i>
                                                         <br />
@@ -930,7 +943,7 @@ export default function DaVinci() {
                                                             </Dropdown.Item>)}
                                                     </DropdownButton>
                                                 </div>
-                                                <div className="col-3 pt-2 justify-content-center align-items-center d-flex">
+                                                <div className="col-4 pt-2 justify-content-center align-items-center d-flex">
                                                     <div>
                                                         <i className="bi bi-tablet-fill lead"></i>
                                                         <br />
@@ -944,7 +957,7 @@ export default function DaVinci() {
                                                             </Dropdown.Item>)}
                                                     </DropdownButton>
                                                 </div>
-                                                <div className="col-3 pt-2 justify-content-center align-items-center d-flex">
+                                                <div className="col-4 pt-2 justify-content-center align-items-center d-flex">
                                                     <div>
                                                         <i className="bi bi-laptop-fill lead"></i>
                                                         <br />
@@ -957,19 +970,6 @@ export default function DaVinci() {
                                                                 {/* <i className={`bi bi-${col.iconName}`}></i> */}
                                                             </Dropdown.Item>)}
                                                     </DropdownButton>
-                                                </div>
-                                                <div className="col-3 justify-content-center align-self-center">
-                                                    <OverlayTrigger
-                                                        placement="left"
-                                                        delay={{ show: 150, hide: 1500 }}
-                                                        overlay={<Tooltip id="button-grid-tooltip">
-                                                            Entire screen width is divided into 12 columns. If the value is 12, the block will cover entire screen width, if 6 it will cover half and so on. Other elements fit accordingly to cover the screen.<br /><br />
-                                     Choose separately for mobile, tablets and laptops as per your convenience and design. Read about <a href="https://www.tutorialrepublic.com/twitter-bootstrap-tutorial/bootstrap-grid-system.php" target="_blank">Bootstrap Grid System</a>
-                                                        </Tooltip>}
-                                                    >
-                                                        <i className="bi bi-question-circle-fill" style={{ fontSize: '1.5em' }}></i>
-                                                    </OverlayTrigger>
-
                                                 </div>
                                             </div>
                                         </div>
