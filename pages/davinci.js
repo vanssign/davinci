@@ -866,46 +866,96 @@ export default function Davinci() {
 
 
                                         {/*add List Elements */}
-                                        <SplitButton id="dropdown-split-button" disabled variant="light" title={
-                                            <i className="bi bi-list-ul"></i>} onClick={() => addElement("ul")}>
-                                            <Dropdown.Item>
-                                                <button disable type="button" className="btn" onClick={() => { addElement("ol") }}><i className="bi bi-list-ol"></i>{" "}Numbered List</button>
-                                            </Dropdown.Item>
-                                            <Dropdown.Item>
-                                                <button disabled type="button" className="btn" onClick={() => { addElement("ul") }}><i className="bi bi-list-ul"></i>{" "}Bulleted List</button>
-                                            </Dropdown.Item>
-                                        </SplitButton>
+                                        <OverlayTrigger
+                                            placement="top"
+                                            overlay={
+                                                <Tooltip>
+                                                    Lists
+                                                </Tooltip>
+                                            }
+                                        >
+                                            <SplitButton id="dropdown-split-button" disabled variant="light" title={
+                                                <i className="bi bi-list-ul"></i>} onClick={() => addElement("ul")}>
+                                                <Dropdown.Item>
+                                                    <button disable type="button" className="btn" onClick={() => { addElement("ol") }}><i className="bi bi-list-ol"></i>{" "}Numbered List</button>
+                                                </Dropdown.Item>
+                                                <Dropdown.Item>
+                                                    <button disabled type="button" className="btn" onClick={() => { addElement("ul") }}><i className="bi bi-list-ul"></i>{" "}Bulleted List</button>
+                                                </Dropdown.Item>
+                                            </SplitButton>
+                                        </OverlayTrigger>
+
 
                                         {/* add Image and Media*/}
-                                        <SplitButton variant="light" title={<i className="bi bi-image"></i>} onClick={() => addElement("img")}>
-                                            <Dropdown.Item onClick={() => addElement("mediaText")}>
-                                                <i className="bi bi-image-fill"></i><i className="bi bi-text-paragraph"></i>{" "}Media Text
+                                        <OverlayTrigger
+                                            placement="top"
+                                            overlay={
+                                                <Tooltip>
+                                                    Image and Media Elements
+                                                </Tooltip>
+                                            }
+                                        >
+                                            <SplitButton variant="light" title={<i className="bi bi-image"></i>} onClick={() => addElement("img")}>
+                                                <Dropdown.Item onClick={() => addElement("mediaText")}>
+                                                    <i className="bi bi-image-fill"></i><i className="bi bi-text-paragraph"></i>{" "}Media Text
                                             </Dropdown.Item>
-                                            <Dropdown.Item onClick={() => addElement("carousel")}>
-                                                <i className="bi bi-collection-play-fill"></i>{" "}Carousel
+                                                <Dropdown.Item onClick={() => addElement("carousel")}>
+                                                    <i className="bi bi-collection-play-fill"></i>{" "}Carousel
                                             </Dropdown.Item>
-                                        </SplitButton>
+                                            </SplitButton>
+                                        </OverlayTrigger>
+
 
                                         {/* add Buttons */}
-                                        <SplitButton id="dropdown-split-button" variant="light" title={
-                                            <><i className="bi bi-stop-btn-fill"></i>{" "}Button</>} onClick={() => addElement("button")}>
-                                            <Dropdown.Item onClick={() => addElement("socialbtns")}>
-                                                Social Group<br />
-                                                <i className="bi bi-instagram"></i>
-                                                <i className="bi bi-facebook"></i>
-                                                <i className="bi bi-twitter"></i>
-                                                <i className="bi bi-whatsapp"></i>
-                                                <i className="bi bi-github"></i>
-                                                <i className="bi bi-linkedin"></i>
-                                                <i className="bi bi-youtube"></i>
-                                            </Dropdown.Item>
-                                        </SplitButton>
-                                        <button className="btn btn-light" onClick={() => addElement("hr")} title="Line">
+                                        <OverlayTrigger
+                                            placement="top"
+                                            overlay={
+                                                <Tooltip>
+                                                    Button and Button Groups
+                                                </Tooltip>
+                                            }
+                                        >
+                                            <SplitButton id="dropdown-split-button" variant="light" title={
+                                                <><i className="bi bi-stop-btn-fill"></i></>} onClick={() => addElement("button")}>
+                                                <Dropdown.Item onClick={() => addElement("socialbtns")}>
+                                                    Social Group<br />
+                                                    <i className="bi bi-instagram"></i>
+                                                    <i className="bi bi-facebook"></i>
+                                                    <i className="bi bi-twitter"></i>
+                                                    <i className="bi bi-whatsapp"></i>
+                                                    <i className="bi bi-github"></i>
+                                                    <i className="bi bi-linkedin"></i>
+                                                    <i className="bi bi-youtube"></i>
+                                                </Dropdown.Item>
+                                            </SplitButton>
+                                        </OverlayTrigger>
+                                        
+                                        <OverlayTrigger
+                                            placement="top"
+                                            overlay={
+                                                <Tooltip>
+                                                    Horizontal Line
+                                                </Tooltip>
+                                            }
+                                        >
+                                            <button className="btn btn-light" onClick={() => addElement("hr")} >
                                             <i className="bi bi-dash"></i>
                                         </button>
-                                        <button className="btn btn-light" onClick={() => addElement("navbar")} title="navigation">
+                                        </OverlayTrigger>
+                                        
+                                        <OverlayTrigger
+                                            placement="top"
+                                            overlay={
+                                                <Tooltip>
+                                                    Navigation 
+                                                </Tooltip>
+                                            }
+                                        >
+                                             <button disabled className="btn btn-light" onClick={() => addElement("navbar")}>
                                             <i className="bi bi-menu-app-fill"></i>
                                         </button>
+                                        </OverlayTrigger>
+                                       
                                     </div>
                                 </Tab>
 
@@ -941,7 +991,7 @@ export default function Davinci() {
                                                         <br />
                                                         <small>Mobile</small>
                                                     </div>
-                                                    <DropdownButton variant="light" title={ElementArray[FocusedIndex].col}>
+                                                    <DropdownButton size="sm" variant="light" title={ElementArray[FocusedIndex].col}>
                                                         {ColValues.map((col, i) =>
                                                             <Dropdown.Item key={i + "colchange"} onClick={() => updateElement(FocusedIndex, "col", "", "", col.value)}>
                                                                 {`${col.value}`}
@@ -955,7 +1005,7 @@ export default function Davinci() {
                                                         <br />
                                                         <small>Tablet</small>
                                                     </div>
-                                                    <DropdownButton variant="light" title={ElementArray[FocusedIndex].colMd}>
+                                                    <DropdownButton size="sm" variant="light" title={ElementArray[FocusedIndex].colMd}>
                                                         {ColValues.map((col, i) =>
                                                             <Dropdown.Item key={i + "colchange"} onClick={() => updateElement(FocusedIndex, "colMd", "", "", col.value)}>
                                                                 {`${col.value}`}
@@ -969,7 +1019,7 @@ export default function Davinci() {
                                                         <br />
                                                         <small>Laptop</small>
                                                     </div>
-                                                    <DropdownButton variant="light" title={ElementArray[FocusedIndex].colLg}>
+                                                    <DropdownButton size="sm" variant="light" title={ElementArray[FocusedIndex].colLg}>
                                                         {ColValues.map((col, i) =>
                                                             <Dropdown.Item key={i + "colchange"} onClick={() => updateElement(FocusedIndex, "colLg", "", "", col.value)}>
                                                                 {`${col.value}`}
@@ -986,7 +1036,7 @@ export default function Davinci() {
                     </div>
 
                     {/* Elements */}
-                    <div className="row border">
+                    <div className="row">
                         {ElementArray.map((element, index) =>
                             <EditorHTML key={element.tag + index} element={element} index={index} FocusedIndex={FocusedIndex} handleFocus={handleFocus} updateElement={updateElement} deleteElement={deleteElement} addElement={addElement} />
                         )

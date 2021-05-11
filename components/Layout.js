@@ -21,7 +21,7 @@ export default function Layout({ children }) {
     }
     return (
         <>
-            <Navbar bg="light" expand className="py-0" variant="light">
+            <Navbar bg="dark" expand className="py-0" variant="dark">
                 <Link href="/"><Navbar.Brand>Davinci</Navbar.Brand></Link>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
