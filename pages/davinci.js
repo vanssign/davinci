@@ -295,20 +295,20 @@ export default function Davinci() {
                 colLg: colLg,
             }
         }
-        else if (tag == "mediaCover") {
-            element = {
-                tag: tag,
-                src: "",
-                responsive: true,
-                alignment: 'left',
-                alignSelf: "center",
-                bgColor: "white",
-                content: "",
-                col: col,
-                colMd: colMd,
-                colLg: colLg,
-            }
-        }
+        // else if (tag == "mediaCover") {
+        //     element = {
+        //         tag: tag,
+        //         src: "",
+        //         responsive: true,
+        //         alignment: 'left',
+        //         alignSelf: "center",
+        //         bgColor: "white",
+        //         content: "",
+        //         col: col,
+        //         colMd: colMd,
+        //         colLg: colLg,
+        //     }
+        // }
 
         else if (tag == "button") {
             element = {
@@ -316,7 +316,7 @@ export default function Davinci() {
                 href: "",
                 content: "",
                 classes: "",
-                btnColor: "secondary",
+                btnColor: "light",
                 btnOutline: false,
                 iconName: "",
                 alignment: 'center',
@@ -529,11 +529,11 @@ export default function Davinci() {
     function buildActiveElementProperties(element, index) {
         if (index === FocusedIndex) {
             return (
-                <div key={index + "properties"} className="d-flex justify-content-start align-items-center">
+                <div key={index + "properties"} className="d-flex flex-wrap justify-content-start align-items-center">
                     <div className="px-2 text-center">
                         <small>Type</small>
                         {((element.tag == "h1" || element.tag === "h2" || element.tag === "h3" || element.tag === "p" || element.tag === "h4" || element.tag === "h5" || element.tag === "h6" || element.tag === "code") && index != 0) ?
-                            (<DropdownButton title={element.tag} variant="secondary">
+                            (<DropdownButton title={element.tag} variant="secondary" size="sm">
                                 {TextTags.map((t, i) =>
                                     <Dropdown.Item key={index + "propertieschange" + i} onClick={() => updateElement(FocusedIndex, "tag", "", "", t.tag)} >
                                         <i className={`bi ${t.iconName}`}></i>
@@ -542,7 +542,7 @@ export default function Davinci() {
                             </DropdownButton>) : (
                                 <>
                                     <br />
-                                    <button role="button" className="btn btn-secondary">{element.tag}</button>
+                                    <button role="button" className="btn btn-sm btn-secondary">{element.tag}</button>
                                 </>
                             )}
                     </div>
@@ -560,7 +560,7 @@ export default function Davinci() {
                     {element.alignment ? (
                         <div className="px-2 text-center">
                             <small>Align</small>
-                            <DropdownButton title={<i className={`bi bi-text-${element.alignment}`}></i>} variant="secondary">
+                            <DropdownButton title={<i className={`bi bi-text-${element.alignment}`}></i>} variant="secondary" size="sm">
                                 <Dropdown.Item>
                                     <button type="button" className={element.alignment === "left" ? ("btn btn -light btn-light-active") : ("btn btn-light")} onClick={() => updateElement(FocusedIndex, "alignment", "", "", "left")}  >
                                         <i className="bi  bi-text-left"></i>
@@ -583,7 +583,7 @@ export default function Davinci() {
                         (
                             <div className="px-2 text-center">
                                 <small>Align</small>
-                                <DropdownButton title={element.alignSelf == " " ? (<i className="bi  bi-align-top"></i>) : (
+                                <DropdownButton size="sm" title={element.alignSelf == " " ? (<i className="bi  bi-align-top"></i>) : (
                                     element.alignSelf == "center" ? (<i className="bi  bi-align-center"></i>) : (<i className="bi  bi-align-bottom"></i>)
                                 )} variant="secondary">
                                     <Dropdown.Item>
@@ -623,65 +623,61 @@ export default function Davinci() {
                     {element.btnColor ? (
                         <div className="px-2 text-center">
                             <small>Color</small>
-                            <div className="bg-white rounded">
-                                <DropdownButton title=" " variant={element.btnColor}>
-                                    {BootstrapColors.map((color, i) =>
-                                        <Dropdown.Item key={index + "propertieschange" + i + "color"}>
-                                            <button type="button" className={element.btnOutline ? (`btn btn-outline-${color.name}`) : (`btn btn-${color.name}`)}
-                                                onClick={() => updateElement(FocusedIndex, "btnColor", "", "", color.name)}>
-                                                {color.name}
-                                            </button>
-                                        </Dropdown.Item>)}
-                                    <Dropdown.Item>
-                                        <button type="button" className="btn btn-link" onClick={() => updateElement(FocusedIndex, "btnColor", "", "", "link")}>
-                                            link
+
+                            <DropdownButton title=" " variant={element.btnColor} size="sm">
+                                {BootstrapColors.map((color, i) =>
+                                    <Dropdown.Item key={index + "propertieschange" + i + "color"}>
+                                        <button type="button" className={element.btnOutline ? (`btn btn-outline-${color.name}`) : (`btn btn-${color.name}`)}
+                                            onClick={() => updateElement(FocusedIndex, "btnColor", "", "", color.name)}>
+                                            {color.name}
                                         </button>
-                                    </Dropdown.Item>
-                                    <Dropdown.Item>
-                                        <button type="button" className="btn " onClick={() => updateElement(FocusedIndex, "btnColor", "", "", " ")}>
-                                            transparent
+                                    </Dropdown.Item>)}
+                                <Dropdown.Item>
+                                    <button type="button" className="btn btn-link" onClick={() => updateElement(FocusedIndex, "btnColor", "", "", "link")}>
+                                        link
                                         </button>
-                                    </Dropdown.Item>
-                                </DropdownButton>
-                            </div>
+                                </Dropdown.Item>
+                                <Dropdown.Item>
+                                    <button type="button" className="btn " onClick={() => updateElement(FocusedIndex, "btnColor", "", "", " ")}>
+                                        transparent
+                                        </button>
+                                </Dropdown.Item>
+                            </DropdownButton>
                         </div>
                     ) : (<></>)}
                     {element.textColor ? (
                         <div className="px-2 text-center">
                             <small><i className="bi bi-fonts"></i> Color</small>
-                            <div className="bg-white rounded">
-                                <DropdownButton title=" " variant={element.textColor}>
-                                    <Dropdown.Item>
-                                        {BootstrapColors.map((color, i) =>
-                                            <button key={index + "propertieschange" + i + "color"} style={{ borderRadius: '100%', paddingTop: '12px' }} type="button" className={`btn btn-${color.name} border`}
-                                                onClick={() => updateElement(FocusedIndex, "textColor", "", "", color.name)}>
-                                            </button>
-                                        )}
-                                        <button style={{ borderRadius: '100%', paddingTop: '12px' }} type="button" className={`btn border`}
-                                            onClick={() => updateElement(FocusedIndex, "textColor", "", "", "white")}>
+
+                            <DropdownButton title=" " variant={element.textColor} size="sm">
+                                <Dropdown.Item>
+                                    {BootstrapColors.map((color, i) =>
+                                        <button key={index + "propertieschange" + i + "color"} style={{ borderRadius: '100%', paddingTop: '12px' }} type="button" className={`btn btn-${color.name} border`}
+                                            onClick={() => updateElement(FocusedIndex, "textColor", "", "", color.name)}>
                                         </button>
-                                    </Dropdown.Item>
-                                </DropdownButton>
-                            </div>
+                                    )}
+                                    <button style={{ borderRadius: '100%', paddingTop: '12px' }} type="button" className={`btn border`}
+                                        onClick={() => updateElement(FocusedIndex, "textColor", "", "", "white")}>
+                                    </button>
+                                </Dropdown.Item>
+                            </DropdownButton>
                         </div>
                     ) : (<></>)}
                     {element.bgColor ? (
                         <div className="px-2 text-center">
                             <small><i className="bi bi-back"></i> Color</small>
-                            <div className="bg-white rounded">
-                                <DropdownButton title=" " variant={element.bgColor} >
-                                    <Dropdown.Item>
-                                        {BootstrapColors.map((color, i) =>
-                                            <button key={index + "propertieschange" + i + "color"} style={{ borderRadius: '100%', paddingTop: '12px' }} type="button" className={`btn btn-${color.name} border`}
-                                                onClick={() => updateElement(FocusedIndex, "bgColor", "", "", color.name)}>
-                                            </button>
-                                        )}
-                                        <button style={{ borderRadius: '100%', paddingTop: '12px' }} type="button" className={`btn border`}
-                                            onClick={() => updateElement(FocusedIndex, "bgColor", "", "", "white")}>
+                            <DropdownButton title=" " variant={element.bgColor} size="sm" >
+                                <Dropdown.Item>
+                                    {BootstrapColors.map((color, i) =>
+                                        <button key={index + "propertieschange" + i + "color"} style={{ borderRadius: '100%', paddingTop: '12px' }} type="button" className={`btn btn-${color.name} border`}
+                                            onClick={() => updateElement(FocusedIndex, "bgColor", "", "", color.name)}>
                                         </button>
-                                    </Dropdown.Item>
-                                </DropdownButton>
-                            </div>
+                                    )}
+                                    <button style={{ borderRadius: '100%', paddingTop: '12px' }} type="button" className={`btn border`}
+                                        onClick={() => updateElement(FocusedIndex, "bgColor", "", "", "white")}>
+                                    </button>
+                                </Dropdown.Item>
+                            </DropdownButton>
                         </div>) : (<></>)}
 
                     {element.tag === "button" ?
@@ -737,7 +733,7 @@ export default function Davinci() {
                                     </Popover>
                                 }
                             >
-                                <button type="button" className="btn btn-light">Links <i className="bi bi-chevron-right"></i></button></OverlayTrigger>
+                                <button type="button" className="btn btn-light btn-sm">Links <i className="bi bi-chevron-right"></i></button></OverlayTrigger>
 
 
                         </div>
@@ -770,7 +766,7 @@ export default function Davinci() {
                             <>
                                 <div className="px-2 text-center">
                                     <small>Animation</small>
-                                    <DropdownButton title={element.animation} variant="light">
+                                    <DropdownButton title={element.animation} variant="light" size="sm">
                                         <Dropdown.Item onClick={() => updateElement(FocusedIndex, "animation", "", "", "fade")} >
                                             fade
                                     </Dropdown.Item>
@@ -781,17 +777,17 @@ export default function Davinci() {
                                 </div>
                                 <div className="px-2 text-center">
                                     <small>Interval(ms)</small><br />
-                                    <textarea rows="1" cols="4" value={element.interval} className="btn btn-light" styles={{ resize: 'none !important' }} onChange={(e) => updateElement(FocusedIndex, "interval", "", "", e.target.value)} placeholder="Interval" onFocus={() => setFocusedIndex(index)} />
+                                    <textarea rows="1" cols="4" value={element.interval} className="btn btn-light btn-sm" styles={{ resize: 'none !important' }} onChange={(e) => updateElement(FocusedIndex, "interval", "", "", e.target.value)} placeholder="Interval" onFocus={() => setFocusedIndex(index)} />
                                 </div>
                                 <div className="px-2 text-left">
                                     <small>Settings</small>
-                                    <div className="form-check">
+                                    <div className="form-check py-0">
                                         <input className="form-check-input" type="checkbox" defaultChecked={element.controls} id="controlsCheck" onChange
                                             ={() => updateElement(FocusedIndex, "controls", "", "", !element.controls)} />
                                         <label className="form-check-label" htmlFor="controlsCheck">
                                             Controls</label>
                                     </div>
-                                    <div className="form-check font-weight-smaller">
+                                    <div className="form-check py-0">
                                         <input className="form-check-input" type="checkbox" defaultChecked={element.indicators} id="indicatorsCheck" onChange
                                             ={() => updateElement(FocusedIndex, "indicators", "", "", !element.indicators)} />
                                         <label className="form-check-label" htmlFor="indicatorsCheck">
@@ -838,7 +834,7 @@ export default function Davinci() {
                     <div style={{ position: 'sticky', top: 0, zIndex: 10 }}>
                         {/* Toggle button */}
                         <div>
-                            <button type="button" className="btn btn-dark px-2 py-1" onClick={() => setPreviewStatus(!PreviewStatus)}>{PreviewStatus ?
+                            <button type="button" className="btn btn-dark px-2 py-0" onClick={() => setPreviewStatus(!PreviewStatus)}>{PreviewStatus ?
                                 (<span><i className="bi bi-arrows-collapse"></i></span>) :
                                 (<i className="bi bi-arrows-expand"></i>)}</button>
                         </div>
@@ -846,22 +842,32 @@ export default function Davinci() {
                         <div className={PreviewStatus ? ("d-none") : ("rounded border")} style={{ backgroundColor: 'white' }}>
                             <Tabs defaultActiveKey="format" id="uncontrolled-tab-example">
                                 <Tab eventKey="insert" title="Insert" className="bg-light">
-                                    <div className="d-flex justify-content-start align-items-stretch">
+                                    <div className="d-flex flex-wrap justify-content-start align-items-stretch">
                                         {/* add text elements */}
-                                        <DropdownButton id="dropdown-basic-button" variant="light" title={<><i className="bi bi-type"></i>{" "}Text</>}>
-                                            <Dropdown.Item><button type="button" className="btn" onClick={() => addElement("h1")}><i className="bi bi-type-h1"></i>{" "}Heading</button></Dropdown.Item>
-                                            <Dropdown.Item><button type="button" className="btn" onClick={() => addElement("h2")}><i className="bi bi-type-h2"></i>{" "}Heading</button></Dropdown.Item>
-                                            <Dropdown.Item><button type="button" className="btn" onClick={() => addElement("h3")}><i className="bi bi-type-h3"></i>{" "}Heading</button></Dropdown.Item>
-                                            <Dropdown.Item><button type="button" className="btn btn-light" onClick={() => addElement("h4")}>H4</button><button type="button" className="btn btn-light" onClick={() => addElement("h5")}>H5</button><button type="button" className="btn btn-light" onClick={() => addElement("h6")}>H6</button></Dropdown.Item>
-                                            <Dropdown.Item><button type="button" className="btn" onClick={() => addElement("p")}><i className="bi bi-paragraph"></i>{" "}Paragraph</button></Dropdown.Item>
-                                            <Dropdown.Divider />
-                                            <Dropdown.Item><button type="button" className="btn" onClick={() => addElement("code")}><i className="bi bi-code"></i>{" "}Code</button></Dropdown.Item>
-                                            <Dropdown.Item><button type="button" className="btn" onClick={() => addElement("blockquote")}><i className="bi bi-blockquote-left"></i>{" "}BlockQuote</button></Dropdown.Item>
-                                        </DropdownButton>
+                                        <OverlayTrigger
+                                            placement="top"
+                                            overlay={
+                                                <Tooltip>
+                                                    Text Elements
+                                                </Tooltip>
+                                            }
+                                        >
+                                            <DropdownButton id="dropdown-basic-button" variant="light" title={<i className="bi bi-type"></i>}>
+                                                <Dropdown.Item><button type="button" className="btn" onClick={() => addElement("h1")}><i className="bi bi-type-h1"></i>{" "}Heading</button></Dropdown.Item>
+                                                <Dropdown.Item><button type="button" className="btn" onClick={() => addElement("h2")}><i className="bi bi-type-h2"></i>{" "}Heading</button></Dropdown.Item>
+                                                <Dropdown.Item><button type="button" className="btn" onClick={() => addElement("h3")}><i className="bi bi-type-h3"></i>{" "}Heading</button></Dropdown.Item>
+                                                <Dropdown.Item><button type="button" className="btn btn-light" onClick={() => addElement("h4")}>H4</button><button type="button" className="btn btn-light" onClick={() => addElement("h5")}>H5</button><button type="button" className="btn btn-light" onClick={() => addElement("h6")}>H6</button></Dropdown.Item>
+                                                <Dropdown.Item><button type="button" className="btn" onClick={() => addElement("p")}><i className="bi bi-paragraph"></i>{" "}Paragraph</button></Dropdown.Item>
+                                                <Dropdown.Divider />
+                                                <Dropdown.Item><button type="button" className="btn" onClick={() => addElement("code")}><i className="bi bi-code"></i>{" "}Code</button></Dropdown.Item>
+                                                <Dropdown.Item><button type="button" className="btn" onClick={() => addElement("blockquote")}><i className="bi bi-blockquote-left"></i>{" "}BlockQuote</button></Dropdown.Item>
+                                            </DropdownButton>
+                                        </OverlayTrigger>
+
 
                                         {/*add List Elements */}
                                         <SplitButton id="dropdown-split-button" disabled variant="light" title={
-                                            <><i className="bi bi-list-ul"></i>{" "}List</>} onClick={() => addElement("ul")}>
+                                            <i className="bi bi-list-ul"></i>} onClick={() => addElement("ul")}>
                                             <Dropdown.Item>
                                                 <button disable type="button" className="btn" onClick={() => { addElement("ol") }}><i className="bi bi-list-ol"></i>{" "}Numbered List</button>
                                             </Dropdown.Item>
@@ -871,7 +877,7 @@ export default function Davinci() {
                                         </SplitButton>
 
                                         {/* add Image and Media*/}
-                                        <SplitButton variant="light" title={<span><i className="bi bi-image"></i> Image</span>} onClick={() => addElement("img")}>
+                                        <SplitButton variant="light" title={<i className="bi bi-image"></i>} onClick={() => addElement("img")}>
                                             <Dropdown.Item onClick={() => addElement("mediaText")}>
                                                 <i className="bi bi-image-fill"></i><i className="bi bi-text-paragraph"></i>{" "}Media Text
                                             </Dropdown.Item>
@@ -894,16 +900,16 @@ export default function Davinci() {
                                                 <i className="bi bi-youtube"></i>
                                             </Dropdown.Item>
                                         </SplitButton>
-                                        <button className="btn btn-light" onClick={() => addElement("hr")}>
-                                            <i className="bi bi-dash"></i>{" "}Line
+                                        <button className="btn btn-light" onClick={() => addElement("hr")} title="Line">
+                                            <i className="bi bi-dash"></i>
                                         </button>
-                                        <button className="btn btn-light" onClick={() => addElement("navbar")}>
-                                            <i className="bi bi-menu-app-fill"></i>{" "}Navbar
+                                        <button className="btn btn-light" onClick={() => addElement("navbar")} title="navigation">
+                                            <i className="bi bi-menu-app-fill"></i>
                                         </button>
                                     </div>
                                 </Tab>
 
-                                <Tab eventKey="format" title="Format" style={{ backgroundColor: '#f5f5f5' }}>
+                                <Tab eventKey="format" title="Format" style={{ backgroundColor: '#ffffff' }}>
                                     <div className="pb-1">
                                         {
                                             ElementArray.map((element, index) =>

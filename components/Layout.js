@@ -37,19 +37,19 @@ export default function Layout({ children }) {
                         </NavDropdown> */}
                     </Nav>
                     <Navbar.Text className="py-0">
-                        {LoginStatus ? (<button className="btn btn-danger py-0 px-1" onClick={() => handleLogout()}>
+                        {LoginStatus ? (<button className="btn btn-danger btn-sm" onClick={() => handleLogout()}>
 
                             <i className="bi bi-person-x-fill"></i>{" "}Logout
 
                         </button>) : (
                             <>
                             <Link href="/auth/login">
-                                <button className="btn btn-info py-0 px-1">
+                                <button className="btn btn-info btn-sm">
                                     <i className="bi bi-person-badge"></i>{" "}Login
                                         </button>
                             </Link>
                             <Link href="/auth/register">
-                                <button className="btn btn-secondary ml-1 py-0 px-1">
+                                <button className="btn btn-secondary ml-1 btn-sm">
                                     <i className="bi bi-person-plus-fill"></i>{" "}Signup
                                         </button>
                             </Link>

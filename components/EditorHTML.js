@@ -78,7 +78,7 @@ export default function EditorHTML(props) {
         }
         window.addEventListener("resize", handleResize);
         // }
-    })
+    },[props.FocusedIndex])
 
     //TEXT
     if (tag == "h1") {
@@ -334,14 +334,14 @@ export default function EditorHTML(props) {
                 <div className={`col-12 col-md-6 order-${props.element.order} text-center`}>
                     <div className={props.index == props.FocusedIndex ? ("d-flex justify-content-center align-items-stretch") : ("d-none")}>
                         <i className="bi bi-link-45deg lead"></i>
-                        <textarea rows="1" cols="10" value={props.element.src} className="btn btn-light btn-light-active" styles={{ resize: 'none' }} onChange={(e) => props.updateElement(props.index, "src", "", "", e.target.value)} placeholder="Image Link" ref={props.FocusedIndex == props.index ? (FocusedElement) : (null)} />
+                        <textarea rows="1" cols="10" value={props.element.src} className="btn btn-light btn-light-active" styles={{ resize: 'none' }} onChange={(e) => props.updateElement(props.index, "src", "", "", e.target.value)} placeholder="Image Link" />
                         <ImageUploader index={props.index} parentCallback={updateUrl} />
                         <button type="button" onClick={() => props.deleteElement(props.index)} className="btn btn-danger py-0 px-1"><i className="bi bi-trash lead"></i></button>
                     </div>
                     <img className={allClasses + " rounded "} src={props.element.src ? (props.element.src) : ("https://i.stack.imgur.com/y9DpT.jpg")} ></img>
                 </div>
                 <div className={`col-12 col-md-6`}>
-                    <p className={allClasses}><TextareaAutosize style={{ overflow: 'hidden' }} ref={props.FocusedIndex == props.index ? (FocusedElement) : (null)} value={content} className={styles.textareaInherit} onChange={(e) => props.updateElement(props.index, "content", "", "", e.target.value)} placeholder="A picture is worth a thousand words but a picture with a thousand words is better. Type here ..." onKeyDown={function (e) {
+                    <p className={allClasses}><TextareaAutosize style={{ overflow: 'hidden' }}  value={content} className={styles.textareaInherit} ref={props.FocusedIndex == props.index ? (FocusedElement) : (null)} onChange={(e) => props.updateElement(props.index, "content", "", "", e.target.value)} placeholder="A picture is worth a thousand words but a picture with a thousand words is better. Type here ..." onKeyDown={function (e) {
                         if (e.key === 'Enter') {
                             e.preventDefault();
                             props.addElement("p");
@@ -418,7 +418,7 @@ export default function EditorHTML(props) {
                             <i className={`bi bi-${props.element.iconName} font-weight-bolder`}></i>{" "}
                         </>
                     ) : (<></>)}
-                    <TextareaAutosize style={{ overflow: 'hidden' }} value={content} className={styles.textareaInheritBtn} onChange={(e) => props.updateElement(props.index, "content", "", "", e.target.value)} placeholder="Button Text. Type here ..." onFocus={() => props.handleFocus(props.index)} />
+                    <TextareaAutosize style={{ overflow: 'hidden' }} value={content} className={styles.textareaInheritBtn} onChange={(e) => props.updateElement(props.index, "content", "", "", e.target.value)} ref={props.FocusedIndex == props.index ? (FocusedElement) : (null)} placeholder="Button Text. Type here ..." onFocus={() => props.handleFocus(props.index)} />
                 </div>
             </button>
             <button type="button" onClick={() => props.deleteElement(props.index)} className={styles.delBtn}><i className="bi bi-x-circle-fill lead"></i></button>
