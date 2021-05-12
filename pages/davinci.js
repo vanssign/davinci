@@ -5,62 +5,13 @@ import { useState } from 'react';
 
 import { DropdownButton, Dropdown, SplitButton, Tabs, Tab, Tooltip, OverlayTrigger, Popover, Carousel } from 'react-bootstrap';
 
+import Layout from '../components/Layout';
 import EditorHTML from '../components/EditorHTML';
 import FormatTab from '../components/FormatTab';
+import GridTab from '../components/GridTab';
 
 import fire from '../config/fire-config';
-
-var ColValues = [
-    {
-        value: 12,
-        iconName: "square"
-    },
-    {
-        value: 11,
-        iconName: ""
-    },
-    {
-        value: 10,
-        iconName: ""
-    },
-    {
-        value: 9,
-        iconName: ""
-    },
-    {
-        value: 8,
-        iconName: ""
-    },
-    {
-        value: 7,
-        iconName: ""
-    },
-    {
-        value: 6,
-        iconName: "layout-split"
-    },
-    {
-        value: 5,
-        iconName: ""
-    },
-    {
-        value: 4,
-        iconName: "layout-three-columns"
-    },
-    {
-        value: 3,
-        iconName: ""
-    },
-    {
-        value: 2,
-        iconName: ""
-    },
-    {
-        value: 1,
-        iconName: ""
-    },
-]
-
+import InsertTab from '../components/InsertTab';
 
 export default function Davinci() {
     //states
@@ -104,7 +55,7 @@ export default function Davinci() {
     //Publish
     const handlePublish = (event) => {
         event.preventDefault();
-        if (ElementArray[0]) {
+        if (ElementArray[0].content) {
             fire.firestore()
                 .collection('blog')
                 .add({
@@ -363,7 +314,7 @@ export default function Davinci() {
             }
         }
         newElementArray.splice(FocusedIndex + 1, 0, element);
-        let newFocusedIndex=FocusedIndex+1;
+        let newFocusedIndex = FocusedIndex + 1;
         setFocusedIndex(newFocusedIndex);
         setElementArray(newElementArray);
     }
@@ -372,7 +323,7 @@ export default function Davinci() {
     function deleteElement(index) {
         let newElementArray = [...ElementArray];
         newElementArray = newElementArray.filter((e, i) => i !== index);
-        let newFocusedIndex=FocusedIndex-1;
+        let newFocusedIndex = FocusedIndex - 1;
         setFocusedIndex(newFocusedIndex);
         setElementArray(newElementArray);
     }
@@ -437,7 +388,7 @@ export default function Davinci() {
         setElementArray(newElementArray)
     }
 
-    
+
     // LOGS
     console.log(ElementArray);
     console.log(FocusedIndex);
@@ -447,7 +398,7 @@ export default function Davinci() {
     }
 
     return (
-        <>
+        <Layout loginStatus={LoginStatus}>
             <Head>
                 <title>Davinci | Paint blog posts</title>
                 <meta name="viewport" content="initial-scale=1.0, width=device-width" />
@@ -471,7 +422,9 @@ export default function Davinci() {
                     <div style={{ position: 'sticky', top: 0, zIndex: 10 }}>
                         {/* Toggle button */}
                         <div>
-                            <button type="button" className="btn btn-dark px-2 py-0" onClick={() => setPreviewStatus(!PreviewStatus)}>{PreviewStatus ?
+                            <button type="button" className={!PreviewStatus ?(`btn btn-dark px-2 py-0`):(
+                                `btn btn-dark px-2 py-0 opacityHalf`
+                            )} onClick={() => setPreviewStatus(!PreviewStatus)}>{PreviewStatus ?
                                 (<span><i className="bi bi-arrows-collapse"></i></span>) :
                                 (<i className="bi bi-arrows-expand"></i>)}</button>
                         </div>
@@ -479,130 +432,21 @@ export default function Davinci() {
                         <div className={PreviewStatus ? ("d-none") : ("rounded border")} style={{ backgroundColor: 'white' }}>
                             <Tabs defaultActiveKey="format" id="uncontrolled-tab-example">
                                 <Tab eventKey="insert" title="Insert" className="bg-light">
-                                    <div className="d-flex flex-wrap justify-content-start align-items-stretch">
-                                        {/* add text elements */}
-                                        <OverlayTrigger
-                                            placement="top"
-                                            overlay={
-                                                <Tooltip>
-                                                    Text Elements
-                                                </Tooltip>
-                                            }
-                                        >
-                                            <DropdownButton id="dropdown-basic-button" variant="light" title={<i className="bi bi-type"></i>}>
-                                                <Dropdown.Item><button type="button" className="btn" onClick={() => addElement("h1")}><i className="bi bi-type-h1"></i>{" "}Heading</button></Dropdown.Item>
-                                                <Dropdown.Item><button type="button" className="btn" onClick={() => addElement("h2")}><i className="bi bi-type-h2"></i>{" "}Heading</button></Dropdown.Item>
-                                                <Dropdown.Item><button type="button" className="btn" onClick={() => addElement("h3")}><i className="bi bi-type-h3"></i>{" "}Heading</button></Dropdown.Item>
-                                                <Dropdown.Item><button type="button" className="btn btn-light" onClick={() => addElement("h4")}>H4</button><button type="button" className="btn btn-light" onClick={() => addElement("h5")}>H5</button><button type="button" className="btn btn-light" onClick={() => addElement("h6")}>H6</button></Dropdown.Item>
-                                                <Dropdown.Item><button type="button" className="btn" onClick={() => addElement("p")}><i className="bi bi-paragraph"></i>{" "}Paragraph</button></Dropdown.Item>
-                                                <Dropdown.Divider />
-                                                <Dropdown.Item><button type="button" className="btn" onClick={() => addElement("code")}><i className="bi bi-code"></i>{" "}Code</button></Dropdown.Item>
-                                                <Dropdown.Item><button type="button" className="btn" onClick={() => addElement("blockquote")}><i className="bi bi-blockquote-left"></i>{" "}BlockQuote</button></Dropdown.Item>
-                                            </DropdownButton>
-                                        </OverlayTrigger>
-
-
-                                        {/*add List Elements */}
-                                        <OverlayTrigger
-                                            placement="top"
-                                            overlay={
-                                                <Tooltip>
-                                                    Lists
-                                                </Tooltip>
-                                            }
-                                        >
-                                            <SplitButton id="dropdown-split-button" disabled variant="light" title={
-                                                <i className="bi bi-list-ul"></i>} onClick={() => addElement("ul")}>
-                                                <Dropdown.Item>
-                                                    <button disable type="button" className="btn" onClick={() => { addElement("ol") }}><i className="bi bi-list-ol"></i>{" "}Numbered List</button>
-                                                </Dropdown.Item>
-                                                <Dropdown.Item>
-                                                    <button disabled type="button" className="btn" onClick={() => { addElement("ul") }}><i className="bi bi-list-ul"></i>{" "}Bulleted List</button>
-                                                </Dropdown.Item>
-                                            </SplitButton>
-                                        </OverlayTrigger>
-
-
-                                        {/* add Image and Media*/}
-                                        <OverlayTrigger
-                                            placement="top"
-                                            overlay={
-                                                <Tooltip>
-                                                    Image and Media Elements
-                                                </Tooltip>
-                                            }
-                                        >
-                                            <SplitButton variant="light" title={<i className="bi bi-image"></i>} onClick={() => addElement("img")}>
-                                                <Dropdown.Item onClick={() => addElement("mediaText")}>
-                                                    <i className="bi bi-image-fill"></i><i className="bi bi-text-paragraph"></i>{" "}Media Text
-                                            </Dropdown.Item>
-                                                <Dropdown.Item onClick={() => addElement("carousel")}>
-                                                    <i className="bi bi-collection-play-fill"></i>{" "}Carousel
-                                            </Dropdown.Item>
-                                            </SplitButton>
-                                        </OverlayTrigger>
-
-
-                                        {/* add Buttons */}
-                                        <OverlayTrigger
-                                            placement="top"
-                                            overlay={
-                                                <Tooltip>
-                                                    Button and Button Groups
-                                                </Tooltip>
-                                            }
-                                        >
-                                            <SplitButton id="dropdown-split-button" variant="light" title={
-                                                <><i className="bi bi-stop-btn-fill"></i></>} onClick={() => addElement("button")}>
-                                                <Dropdown.Item onClick={() => addElement("socialbtns")}>
-                                                    Social Group<br />
-                                                    <i className="bi bi-instagram"></i>
-                                                    <i className="bi bi-facebook"></i>
-                                                    <i className="bi bi-twitter"></i>
-                                                    <i className="bi bi-whatsapp"></i>
-                                                    <i className="bi bi-github"></i>
-                                                    <i className="bi bi-linkedin"></i>
-                                                    <i className="bi bi-youtube"></i>
-                                                </Dropdown.Item>
-                                            </SplitButton>
-                                        </OverlayTrigger>
-                                        
-                                        <OverlayTrigger
-                                            placement="top"
-                                            overlay={
-                                                <Tooltip>
-                                                    Horizontal Line
-                                                </Tooltip>
-                                            }
-                                        >
-                                            <button className="btn btn-light" onClick={() => addElement("hr")} >
-                                            <i className="bi bi-dash"></i>
-                                        </button>
-                                        </OverlayTrigger>
-                                        
-                                        <OverlayTrigger
-                                            placement="top"
-                                            overlay={
-                                                <Tooltip>
-                                                    Navigation 
-                                                </Tooltip>
-                                            }
-                                        >
-                                             <button disabled className="btn btn-light" onClick={() => addElement("navbar")}>
-                                            <i className="bi bi-menu-app-fill"></i>
-                                        </button>
-                                        </OverlayTrigger>
-                                       
-                                    </div>
+                                    {ElementArray[FocusedIndex] ? (
+                                        <InsertTab addElement={addElement} />
+                                    ) : (<div className="text-center py-3">
+                                        Select an Element after which you want to insert new Element
+                                    </div>)}
                                 </Tab>
+                                {ElementArray[FocusedIndex] ? (
+                                    <Tab eventKey="format" title="Format" style={{ backgroundColor: '#ffffff' }}>
+                                        <div className="pb-1">
 
-                                <Tab eventKey="format" title="Format" style={{ backgroundColor: '#ffffff' }}>
-                                    <div className="pb-1">
-                                        {ElementArray[FocusedIndex]?(
-                                            <FormatTab element={ElementArray[FocusedIndex]} index={FocusedIndex} updateElement={updateElement} changeElementIndex={changeElementIndex} ElementArrayLength={ElementArray.length}/>
-                                        ):(<></>)}
-                                    </div>
-                                </Tab>
+                                            <FormatTab element={ElementArray[FocusedIndex]} index={FocusedIndex} updateElement={updateElement} changeElementIndex={changeElementIndex} ElementArrayLength={ElementArray.length} />
+                                        </div>
+                                    </Tab>
+                                ) : (<></>)}
+
                                 {ElementArray[FocusedIndex] ? (ElementArray[FocusedIndex].col ? (
                                     <Tab eventKey="grid" title={
                                         <>
@@ -618,52 +462,7 @@ export default function Davinci() {
                                                 <i className="bi bi-question-circle-fill"></i>
                                             </OverlayTrigger>
                                         </>} className="bg-light">
-                                        <div className="container-fluid">
-                                            <div className="row text-center">
-                                                <div className="col-4 pt-2 justify-content-center align-items-center d-flex">
-                                                    <div>
-                                                        <i className="bi bi-phone-fill lead"></i>
-                                                        <br />
-                                                        <small>Mobile</small>
-                                                    </div>
-                                                    <DropdownButton size="sm" variant="light" title={ElementArray[FocusedIndex].col}>
-                                                        {ColValues.map((col, i) =>
-                                                            <Dropdown.Item key={i + "colchange"} onClick={() => updateElement(FocusedIndex, "col", "", "", col.value)}>
-                                                                {`${col.value}`}
-                                                                {/* <i className={`bi bi-${col.iconName}`}></i> */}
-                                                            </Dropdown.Item>)}
-                                                    </DropdownButton>
-                                                </div>
-                                                <div className="col-4 pt-2 justify-content-center align-items-center d-flex">
-                                                    <div>
-                                                        <i className="bi bi-tablet-fill lead"></i>
-                                                        <br />
-                                                        <small>Tablet</small>
-                                                    </div>
-                                                    <DropdownButton size="sm" variant="light" title={ElementArray[FocusedIndex].colMd}>
-                                                        {ColValues.map((col, i) =>
-                                                            <Dropdown.Item key={i + "colchange"} onClick={() => updateElement(FocusedIndex, "colMd", "", "", col.value)}>
-                                                                {`${col.value}`}
-                                                                {/* <i className={`bi bi-${col.iconName}`}></i> */}
-                                                            </Dropdown.Item>)}
-                                                    </DropdownButton>
-                                                </div>
-                                                <div className="col-4 pt-2 justify-content-center align-items-center d-flex">
-                                                    <div>
-                                                        <i className="bi bi-laptop-fill lead"></i>
-                                                        <br />
-                                                        <small>Laptop</small>
-                                                    </div>
-                                                    <DropdownButton size="sm" variant="light" title={ElementArray[FocusedIndex].colLg}>
-                                                        {ColValues.map((col, i) =>
-                                                            <Dropdown.Item key={i + "colchange"} onClick={() => updateElement(FocusedIndex, "colLg", "", "", col.value)}>
-                                                                {`${col.value}`}
-                                                                {/* <i className={`bi bi-${col.iconName}`}></i> */}
-                                                            </Dropdown.Item>)}
-                                                    </DropdownButton>
-                                                </div>
-                                            </div>
-                                        </div>
+                                        <GridTab index={FocusedIndex} col={ElementArray[FocusedIndex].col} colMd={ElementArray[FocusedIndex].colMd} colLg={ElementArray[FocusedIndex].colLg} updateElement={updateElement} />
                                     </Tab>
                                 ) : (<></>)) : (<></>)}
                             </Tabs>
@@ -696,6 +495,6 @@ export default function Davinci() {
                     </div>)
             )
             }
-        </>
+        </Layout>
     )
 }

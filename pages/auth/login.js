@@ -1,9 +1,9 @@
 import { useRouter } from 'next/router'
 import Link from "next/link";
 import Head from "next/head";
-
 import { useState, useRef } from 'react';
 
+import Layout from '../../components/Layout';
 import fire from '../../config/fire-config';
 
 export default function Login() {
@@ -12,8 +12,6 @@ export default function Login() {
   const [notify, setNotification] = useState('');
   const [LoginStatus, setLoginStatus] = useState(false);
   const router = useRouter();
-  // const UsernameInput = useRef();
-  // const PasswordInput = useRef();
 
   fire.auth()
     .onAuthStateChanged((user) => {
@@ -47,6 +45,7 @@ export default function Login() {
       })
   }
   return (
+    <Layout loginStatus={LoginStatus}>
     <div className="container d-flex align-items-center justify-content-center text-center" style={{ height: '90vh', width: '100vw' }}>
       <div>
         <Head>
@@ -85,5 +84,6 @@ export default function Login() {
         )}
       </div>
     </div>
+    </Layout>
   )
 }

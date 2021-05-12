@@ -3,17 +3,8 @@ import { useState } from 'react';
 import fire from '../config/fire-config';
 import { Nav, Navbar, NavDropdown } from 'react-bootstrap'
 
-export default function Layout({ children }) {
-    const [LoginStatus, setLoginStatus] = useState(false);
-    fire.auth()
-        .onAuthStateChanged((user) => {
-            if (user) {
-                setLoginStatus(true)
-            }
-            else {
-                setLoginStatus(false)
-            }
-        })
+export default function Layout({ children,loginStatus }) {
+
     const handleLogout = () => {
         console.log("logout");
         fire.auth()
@@ -37,7 +28,7 @@ export default function Layout({ children }) {
                         </NavDropdown> */}
                     </Nav>
                     <Navbar.Text className="py-0">
-                        {LoginStatus ? (<button className="btn btn-danger btn-sm" onClick={() => handleLogout()}>
+                        {loginStatus===true ? (<button className="btn btn-danger btn-sm" onClick={() => handleLogout()}>
 
                             <i className="bi bi-person-x-fill"></i>{" "}Logout
 

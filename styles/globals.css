@@ -81,3 +81,6 @@ color:black;
   border-width: 2px !important;
   border-color: black !important;
 }
+.opacityHalf{
+  opacity:0.5 !important;
+}

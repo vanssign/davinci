@@ -32,14 +32,14 @@ export default function Register() {
     fire.auth()
       .createUserWithEmailAndPassword(userName, password)
       .then(() => {
-        setNotification("Account created. Redirecting to Home Page");
-        setTimeout(() => { router.push("/") }, 5000)
+        setNotification("Account created. Redirecting to Login Page");
+        setTimeout(() => { router.push("/auth/login") }, 5000)
       })
       .catch((err) => {
         setNotification(err.message);
         setTimeout(() => {
           setNotification('')
-        }, 6000)
+        }, 7000)
         setUsername('')
         setPassword('');
         setPassConf('');

@@ -3,7 +3,7 @@ import ImageUploader from './uploadImage';
 import { buildClassName } from '../functions/BuildFunctions';
 
 import TextareaAutosize from 'react-textarea-autosize';
-import { Nav, Navbar, NavDropdown, DropdownButton, Dropdown, SplitButton, Tabs, Tab, Tooltip, OverlayTrigger, Popover, Carousel } from 'react-bootstrap';
+import { Nav, Navbar, NavDropdown, DropdownButton, Dropdown,Carousel } from 'react-bootstrap';
 import styles from '../styles/Davinci.module.css'
 var BootstrapColors = [
     {

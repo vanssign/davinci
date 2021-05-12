@@ -1,0 +1,121 @@
+import { DropdownButton, Dropdown, SplitButton, Tooltip, OverlayTrigger } from 'react-bootstrap';
+
+export default function InsertTab(props) {
+    return (
+        <div className="d-flex flex-wrap justify-content-start align-items-stretch">
+            {/* add text elements */}
+            <OverlayTrigger
+                placement="top"
+                overlay={
+                    <Tooltip>
+                        Text Elements
+                    </Tooltip>
+                }
+            >
+                <DropdownButton id="dropdown-basic-button" variant="light" title={<i className="bi bi-type"></i>}>
+                    <Dropdown.Item><button type="button" className="btn" onClick={() => props.addElement("h1")}><i className="bi bi-type-h1"></i>{" "}Heading</button></Dropdown.Item>
+                    <Dropdown.Item><button type="button" className="btn" onClick={() => props.addElement("h2")}><i className="bi bi-type-h2"></i>{" "}Heading</button></Dropdown.Item>
+                    <Dropdown.Item><button type="button" className="btn" onClick={() => props.addElement("h3")}><i className="bi bi-type-h3"></i>{" "}Heading</button></Dropdown.Item>
+                    <Dropdown.Item><button type="button" className="btn btn-light" onClick={() => props.addElement("h4")}>H4</button><button type="button" className="btn btn-light" onClick={() => props.addElement("h5")}>H5</button><button type="button" className="btn btn-light" onClick={() => props.addElement("h6")}>H6</button></Dropdown.Item>
+                    <Dropdown.Item><button type="button" className="btn" onClick={() => props.addElement("p")}><i className="bi bi-paragraph"></i>{" "}Paragraph</button></Dropdown.Item>
+                    <Dropdown.Divider />
+                    <Dropdown.Item><button type="button" className="btn" onClick={() => props.addElement("code")}><i className="bi bi-code"></i>{" "}Code</button></Dropdown.Item>
+                    <Dropdown.Item><button type="button" className="btn" onClick={() => props.addElement("blockquote")}><i className="bi bi-blockquote-left"></i>{" "}BlockQuote</button></Dropdown.Item>
+                </DropdownButton>
+            </OverlayTrigger>
+
+
+            {/*add List Elements */}
+            <OverlayTrigger
+                placement="top"
+                overlay={
+                    <Tooltip>
+                        Lists
+                    </Tooltip>
+                }
+            >
+                <SplitButton id="dropdown-split-button" disabled variant="light" title={
+                    <i className="bi bi-list-ul"></i>} onClick={() => props.addElement("ul")}>
+                    <Dropdown.Item>
+                        <button disable type="button" className="btn" onClick={() => { props.addElement("ol") }}><i className="bi bi-list-ol"></i>{" "}Numbered List</button>
+                    </Dropdown.Item>
+                    <Dropdown.Item>
+                        <button disabled type="button" className="btn" onClick={() => { props.addElement("ul") }}><i className="bi bi-list-ul"></i>{" "}Bulleted List</button>
+                    </Dropdown.Item>
+                </SplitButton>
+            </OverlayTrigger>
+
+
+            {/* add Image and Media*/}
+            <OverlayTrigger
+                placement="top"
+                overlay={
+                    <Tooltip>
+                        Image and Media Elements
+                    </Tooltip>
+                }
+            >
+                <SplitButton variant="light" title={<i className="bi bi-image"></i>} onClick={() => props.addElement("img")}>
+                    <Dropdown.Item onClick={() => props.addElement("mediaText")}>
+                        <i className="bi bi-image-fill"></i><i className="bi bi-text-paragraph"></i>{" "}Media Text
+                                            </Dropdown.Item>
+                    <Dropdown.Item onClick={() => props.addElement("carousel")}>
+                        <i className="bi bi-collection-play-fill"></i>{" "}Carousel
+                                            </Dropdown.Item>
+                </SplitButton>
+            </OverlayTrigger>
+
+
+            {/* add Buttons */}
+            <OverlayTrigger
+                placement="top"
+                overlay={
+                    <Tooltip>
+                        Button and Button Groups
+                                                </Tooltip>
+                }
+            >
+                <SplitButton id="dropdown-split-button" variant="light" title={
+                    <><i className="bi bi-stop-btn-fill"></i></>} onClick={() => props.addElement("button")}>
+                    <Dropdown.Item onClick={() => props.addElement("socialbtns")}>
+                        Social Group<br />
+                        <i className="bi bi-instagram"></i>
+                        <i className="bi bi-facebook"></i>
+                        <i className="bi bi-twitter"></i>
+                        <i className="bi bi-whatsapp"></i>
+                        <i className="bi bi-github"></i>
+                        <i className="bi bi-linkedin"></i>
+                        <i className="bi bi-youtube"></i>
+                    </Dropdown.Item>
+                </SplitButton>
+            </OverlayTrigger>
+
+            <OverlayTrigger
+                placement="top"
+                overlay={
+                    <Tooltip>
+                        Horizontal Line
+                                                </Tooltip>
+                }
+            >
+                <button className="btn btn-light" onClick={() => props.addElement("hr")} >
+                    <i className="bi bi-dash"></i>
+                </button>
+            </OverlayTrigger>
+
+            <OverlayTrigger
+                placement="top"
+                overlay={
+                    <Tooltip>
+                        Navigation
+                                                </Tooltip>
+                }
+            >
+                <button disabled className="btn btn-light" onClick={() => props.addElement("navbar")}>
+                    <i className="bi bi-menu-app-fill"></i>
+                </button>
+            </OverlayTrigger>
+
+        </div>
+    )
+}
