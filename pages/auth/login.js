@@ -2,7 +2,7 @@ import { useRouter } from 'next/router'
 import Link from "next/link";
 import Head from "next/head";
 
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 
 import fire from '../../config/fire-config';
 
@@ -12,6 +12,8 @@ export default function Login() {
   const [notify, setNotification] = useState('');
   const [LoginStatus, setLoginStatus] = useState(false);
   const router = useRouter();
+  // const UsernameInput = useRef();
+  // const PasswordInput = useRef();
 
   fire.auth()
     .onAuthStateChanged((user) => {
@@ -25,17 +27,24 @@ export default function Login() {
   //ON LOGIN
   const handleLogin = (e) => {
     e.preventDefault();
+    setNotification("Logging In...");
     fire.auth()
       .signInWithEmailAndPassword(username, password)
-      .then(() => router.push("/davinci"))
+      .then(() => {
+        router.push("/davinci");
+      })
       .catch((err) => {
         setNotification(err.message)
         setTimeout(() => {
           setNotification('')
-        }, 2000)
+        }, 7000)
+        setPassword('');
+        // PasswordInput.current.focus();
+        if (err.code == "auth/invalid-email") {
+          setUsername('');
+          // UsernameInput.current.focus();
+        }
       })
-    setUsername('')
-    setPassword('')
   }
   return (
     <div className="container d-flex align-items-center justify-content-center text-center" style={{ height: '90vh', width: '100vw' }}>
@@ -48,8 +57,7 @@ export default function Login() {
           <>
             <i className="display-4 bi bi-person-badge"></i>
             <h1>Login</h1>
-            {notify}
-
+            <small>{notify}</small>
             {/* LOGIN FORM */}
             <form onSubmit={handleLogin}>
               <div className="form-group">

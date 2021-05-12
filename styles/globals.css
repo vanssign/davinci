@@ -76,3 +76,8 @@ color:black;
 .carousel-item{
   text-align: center !important;
 }
+
+.borderActive{
+  border-width: 2px !important;
+  border-color: black !important;
+}

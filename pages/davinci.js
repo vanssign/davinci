@@ -6,100 +6,9 @@ import { useState } from 'react';
 import { DropdownButton, Dropdown, SplitButton, Tabs, Tab, Tooltip, OverlayTrigger, Popover, Carousel } from 'react-bootstrap';
 
 import EditorHTML from '../components/EditorHTML';
+import FormatTab from '../components/FormatTab';
 
 import fire from '../config/fire-config';
-
-const renderIconTooltip = (props) => (
-    <Tooltip id="button-icon-tooltip" {...props}>
-        Visit <a href="https://icons.getbootstrap.com/" target="_blank" rel="noreferrer">Bootstrap Icons</a> and add the name of the icon ex:alarm
-    </Tooltip>
-);
-
-var TextTags = [
-    {
-        tag: "h1",
-        shortName: "H1",
-        iconName: ""
-    },
-    {
-        tag: "h2",
-        shortName: "H2",
-        iconName: ""
-    },
-    {
-        tag: "h3",
-        shortName: "H3",
-        iconName: ""
-    },
-    {
-        tag: "p",
-        shortName: "",
-        iconName: "bi-paragraph"
-    },
-    {
-        tag: "h4",
-        shortName: "H4",
-        iconName: ""
-    },
-    {
-        tag: "h5",
-        shortName: "H5",
-        iconName: ""
-    },
-    {
-        tag: "h6",
-        shortName: "H6",
-        iconName: ""
-    },
-    {
-        tag: "code",
-        shortName: "",
-        iconName: "bi-code"
-    }
-];
-
-var BootstrapColors = [
-    {
-        name: 'primary',
-    },
-    {
-        name: 'secondary',
-    },
-    {
-        name: 'success',
-    },
-    {
-        name: 'danger',
-    },
-    {
-        name: 'warning',
-    }
-    ,
-    {
-        name: 'info',
-    },
-    {
-        name: 'light',
-    },
-    {
-        name: 'dark',
-    }
-]
-
-var SocialLinks = [
-    { name: 'instagram' },
-    { name: 'facebook' },
-    { name: 'twitter' },
-    { name: 'whatsapp' },
-    { name: 'github' },
-    { name: 'linkedin' },
-    { name: 'youtube' },
-    { name: 'google' },
-    { name: 'telegram' },
-    { name: 'slack' },
-    { name: 'discord' },
-    { name: 'twitch' }
-]
 
 var ColValues = [
     {
@@ -242,9 +151,9 @@ export default function Davinci() {
         let newElementArray = [...ElementArray];
         let element;
 
-        let colMd = determineCol(ElementArray[FocusedIndex].colMd, "colMd");
-        let col = determineCol(ElementArray[FocusedIndex].col, "col")
-        let colLg = determineCol(ElementArray[FocusedIndex].colLg, "colLg")
+        let colMd = determineCol(newElementArray[FocusedIndex].colMd, "colMd");
+        let col = determineCol(newElementArray[FocusedIndex].col, "col")
+        let colLg = determineCol(newElementArray[FocusedIndex].colLg, "colLg")
 
         if (tag == "ul" || tag == "ol") {
             element = {
@@ -454,14 +363,17 @@ export default function Davinci() {
             }
         }
         newElementArray.splice(FocusedIndex + 1, 0, element);
-        setFocusedIndex(FocusedIndex + 1);
+        let newFocusedIndex=FocusedIndex+1;
+        setFocusedIndex(newFocusedIndex);
         setElementArray(newElementArray);
     }
 
     //delete focused element
     function deleteElement(index) {
-        let newElementArray = ElementArray.filter((e, i) => i !== index);
-        setFocusedIndex(FocusedIndex - 1);
+        let newElementArray = [...ElementArray];
+        newElementArray = newElementArray.filter((e, i) => i !== index);
+        let newFocusedIndex=FocusedIndex-1;
+        setFocusedIndex(newFocusedIndex);
         setElementArray(newElementArray);
     }
 
@@ -525,282 +437,7 @@ export default function Davinci() {
         setElementArray(newElementArray)
     }
 
-    //Properties in Format tab
-    function buildActiveElementProperties(element, index) {
-        if (index === FocusedIndex) {
-            return (
-                <div key={index + "properties"} className="d-flex flex-wrap justify-content-start align-items-center">
-                    <div className="px-2 text-center">
-                        <small>Type</small>
-                        {((element.tag == "h1" || element.tag === "h2" || element.tag === "h3" || element.tag === "p" || element.tag === "h4" || element.tag === "h5" || element.tag === "h6" || element.tag === "code") && index != 0) ?
-                            (<DropdownButton title={element.tag} variant="secondary" size="sm">
-                                {TextTags.map((t, i) =>
-                                    <Dropdown.Item key={index + "propertieschange" + i} onClick={() => updateElement(FocusedIndex, "tag", "", "", t.tag)} >
-                                        <i className={`bi ${t.iconName}`}></i>
-                                        {t.shortName}
-                                    </Dropdown.Item>)}
-                            </DropdownButton>) : (
-                                <>
-                                    <br />
-                                    <button role="button" className="btn btn-sm btn-secondary">{element.tag}</button>
-                                </>
-                            )}
-                    </div>
-                    <div className="px-2 text-center">
-                        <small>Reorder</small>
-                        <br />
-                        <button type="button" className="btn btn-secondary py-0 px-1" onClick={() => changeElementIndex(FocusedIndex, -1)} disabled={(FocusedIndex === 0) || (FocusedIndex === 1) ? (true) : (false)}>
-                            <i className="bi bi-chevron-compact-up"></i>
-                        </button>
-                        <button type="button" className="btn btn-secondary py-0 px-1" onClick={() => changeElementIndex(FocusedIndex, 1)} disabled={(FocusedIndex === ElementArray.length - 1) || (FocusedIndex === 0) ? (true) : (false)}>
-                            <i className="bi bi-chevron-compact-down"></i>
-                        </button>
-                    </div>
-
-                    {element.alignment ? (
-                        <div className="px-2 text-center">
-                            <small>Align</small>
-                            <DropdownButton title={<i className={`bi bi-text-${element.alignment}`}></i>} variant="secondary" size="sm">
-                                <Dropdown.Item>
-                                    <button type="button" className={element.alignment === "left" ? ("btn btn -light btn-light-active") : ("btn btn-light")} onClick={() => updateElement(FocusedIndex, "alignment", "", "", "left")}  >
-                                        <i className="bi  bi-text-left"></i>
-                                    </button>
-
-                                    <button type="button" className={element.alignment === "center" ? ("btn btn-light btn-light-active") : ("btn btn-light")} onClick={() => updateElement(FocusedIndex, "alignment", "", "", "center")}>
-                                        <i className="bi  bi-text-center"></i>
-                                    </button>
-
-                                    <button type="button" className={element.alignment === "right" ? ("btn btn -light btn-light-active") : ("btn btn-light")} onClick={() => updateElement(FocusedIndex, "alignment", "", "", "right")}>
-                                        <i className="bi  bi-text-right"></i>
-                                    </button>
-
-                                </Dropdown.Item>
-                            </DropdownButton>
-                        </div>
-                    ) : (<></>)}
-
-                    {element.alignSelf ?
-                        (
-                            <div className="px-2 text-center">
-                                <small>Align</small>
-                                <DropdownButton size="sm" title={element.alignSelf == " " ? (<i className="bi  bi-align-top"></i>) : (
-                                    element.alignSelf == "center" ? (<i className="bi  bi-align-center"></i>) : (<i className="bi  bi-align-bottom"></i>)
-                                )} variant="secondary">
-                                    <Dropdown.Item>
-                                        <button type="button" className={element.alignSelf === " " ? ("btn btn -light btn-light-active") : ("btn btn-light")} onClick={() => updateElement(FocusedIndex, "alignSelf", "", "", " ")}  >
-                                            <i className="bi  bi-align-top"></i>
-                                        </button>
-
-                                        <button type="button" className={element.alignSelf === "center" ? ("btn btn-light btn-light-active") : ("btn btn-light")} onClick={() => updateElement(FocusedIndex, "alignSelf", "", "", "center")}>
-                                            <i className="bi  bi-align-center"></i>
-                                        </button>
-
-                                        <button type="button" className={element.alignSelf === "end" ? ("btn btn -light btn-light-active") : ("btn btn-light")} onClick={() => updateElement(FocusedIndex, "alignSelf", "", "", "end")}>
-                                            <i className="bi  bi-align-bottom"></i>
-                                        </button>
-
-                                    </Dropdown.Item>
-                                </DropdownButton>
-                            </div>
-                        ) : (<></>)}
-
-
-                    {element.typography ? (
-                        <div className="px-2 text-center">
-                            <small>Typography</small>
-                            <br />
-                            {Object.entries(element.typography).map((t, i) => {
-                                return (
-                                    <button key={index + t[0]} type="button" className={t[1] ? ("btn btn-light-active py-0 px-1") : ("btn btn-light py-0 px-1")} onClick={() => updateElement(FocusedIndex, "typography", t[0], "", "")}>
-                                        <i className={`bi  bi-type-${t[0]}`}></i>
-                                    </button>
-                                )
-                            })}
-                        </div>
-                    ) : (<></>)}
-
-
-                    {element.btnColor ? (
-                        <div className="px-2 text-center">
-                            <small>Color</small>
-
-                            <DropdownButton title=" " variant={element.btnColor} size="sm">
-                                {BootstrapColors.map((color, i) =>
-                                    <Dropdown.Item key={index + "propertieschange" + i + "color"}>
-                                        <button type="button" className={element.btnOutline ? (`btn btn-outline-${color.name}`) : (`btn btn-${color.name}`)}
-                                            onClick={() => updateElement(FocusedIndex, "btnColor", "", "", color.name)}>
-                                            {color.name}
-                                        </button>
-                                    </Dropdown.Item>)}
-                                <Dropdown.Item>
-                                    <button type="button" className="btn btn-link" onClick={() => updateElement(FocusedIndex, "btnColor", "", "", "link")}>
-                                        link
-                                        </button>
-                                </Dropdown.Item>
-                                <Dropdown.Item>
-                                    <button type="button" className="btn " onClick={() => updateElement(FocusedIndex, "btnColor", "", "", " ")}>
-                                        transparent
-                                        </button>
-                                </Dropdown.Item>
-                            </DropdownButton>
-                        </div>
-                    ) : (<></>)}
-                    {element.textColor ? (
-                        <div className="px-2 text-center">
-                            <small><i className="bi bi-fonts"></i> Color</small>
-
-                            <DropdownButton title=" " variant={element.textColor} size="sm">
-                                <Dropdown.Item>
-                                    {BootstrapColors.map((color, i) =>
-                                        <button key={index + "propertieschange" + i + "color"} style={{ borderRadius: '100%', paddingTop: '12px' }} type="button" className={`btn btn-${color.name} border`}
-                                            onClick={() => updateElement(FocusedIndex, "textColor", "", "", color.name)}>
-                                        </button>
-                                    )}
-                                    <button style={{ borderRadius: '100%', paddingTop: '12px' }} type="button" className={`btn border`}
-                                        onClick={() => updateElement(FocusedIndex, "textColor", "", "", "white")}>
-                                    </button>
-                                </Dropdown.Item>
-                            </DropdownButton>
-                        </div>
-                    ) : (<></>)}
-                    {element.bgColor ? (
-                        <div className="px-2 text-center">
-                            <small><i className="bi bi-back"></i> Color</small>
-                            <DropdownButton title=" " variant={element.bgColor} size="sm" >
-                                <Dropdown.Item>
-                                    {BootstrapColors.map((color, i) =>
-                                        <button key={index + "propertieschange" + i + "color"} style={{ borderRadius: '100%', paddingTop: '12px' }} type="button" className={`btn btn-${color.name} border`}
-                                            onClick={() => updateElement(FocusedIndex, "bgColor", "", "", color.name)}>
-                                        </button>
-                                    )}
-                                    <button style={{ borderRadius: '100%', paddingTop: '12px' }} type="button" className={`btn border`}
-                                        onClick={() => updateElement(FocusedIndex, "bgColor", "", "", "white")}>
-                                    </button>
-                                </Dropdown.Item>
-                            </DropdownButton>
-                        </div>) : (<></>)}
-
-                    {element.tag === "button" ?
-                        (<>
-                            <div className="px-2">
-                                <div className="form-check">
-                                    <input className="form-check-input" type="checkbox" defaultChecked={element.btnOutline} id="btnOutlineCheck" onChange
-                                        ={() => updateElement(FocusedIndex, "btnOutline", "", "", !element.btnOutline)} />
-                                    <label className="form-check-label" htmlFor="defaultCheck1">
-                                        Outline</label>
-                                </div>
-                            </div>
-                            <div className="px-2 text-center">
-                                <small><i className="bi bi-link-45deg"></i>{" "}Link</small>
-                                <br />
-                                <textarea rows="1" cols="5" value={element.href} className="btn btn-light" styles={{ resize: 'none !important' }} onChange={(e) => updateElement(index, "href", "", "", e.target.value)} placeholder="Link" onFocus={() => setFocusedIndex(index)} />
-                            </div>
-                            <div className="px-2 text-center">
-                                <small>Icon{" "}</small>
-                                <OverlayTrigger
-                                    placement="top"
-                                    delay={{ show: 150, hide: 1500 }}
-                                    overlay={renderIconTooltip}
-                                >
-                                    <i className="bi bi-info-circle-fill"></i>
-                                </OverlayTrigger>
-                                <br />
-                                <textarea rows="1" cols="3" value={element.iconName} className="btn btn-light" styles={{ resize: 'none !important' }} onChange={(e) => updateElement(index, "iconName", "", "", e.target.value)} placeholder="icon" onFocus={() => setFocusedIndex(index)} />
-                            </div>
-                        </>
-
-                        ) : (<></>)}
-
-                    {element.tag === "socialbtns" ?
-                        (<div className="px-2 text-center">
-                            <small>Add Links</small>
-                            <br />
-                            <OverlayTrigger
-                                trigger="click" placement="right"
-                                delay={{ hide: 20000 }}
-                                overlay={
-                                    <Popover id="popover-basic">
-                                        <Popover.Title as="h3">Social Links</Popover.Title>
-                                        <Popover.Content>
-                                            <>
-                                                {SocialLinks.map((s, i) =>
-                                                    <div key={index + "propertieschange" + i}>
-                                                        <i className={`bi bi-${s.name} lead mr-2`}></i>
-                                                        <textarea rows="1" cols="10" value={element[s.name]} className="btn btn-light my-1" styles={{ resize: 'none !important' }} onChange={(e) => updateElement(index, s.name, "", "", e.target.value)} placeholder={s.name} onFocus={() => setFocusedIndex(index)} />
-                                                    </div>)}
-                                            </>
-                                        </Popover.Content>
-                                    </Popover>
-                                }
-                            >
-                                <button type="button" className="btn btn-light btn-sm">Links <i className="bi bi-chevron-right"></i></button></OverlayTrigger>
-
-
-                        </div>
-                        ) : (<></>)}
-
-                    {element.tag === "mediaText" ? (
-                        <div className="px-2 text-center">
-                            <small>Order</small>
-                            <br />
-                            <button type="button" className={element.order === 0 ? ("btn btn-light btn-light-active p-0") : ("btn btn-light p-0")} onClick={() => updateElement(FocusedIndex, "order", "", "", 0)} >
-                                <i className="bi bi-image-fill"></i><i className="bi bi-text-paragraph"></i>
-                            </button>
-                            <button type="button" className={element.order === 1 ? ("btn btn-light btn-light-active p-0") : ("btn btn-light p-0")} onClick={() => updateElement(FocusedIndex, "order", "", "", 1)} >
-                                <i className="bi bi-text-paragraph"></i><i className="bi bi-image-fill"></i>
-                            </button>
-                        </div>) : (<></>)}
-
-                    {element.tag === "img" || element.tag === "mediaText" ?
-                        (
-                            <div className="form-check">
-                                <input className="form-check-input" type="checkbox" defaultChecked={element.responsive} id="imgResponsiveCheck" onChange
-                                    ={() => updateElement(FocusedIndex, "responsive", "", "", !element.responsive)} />
-                                <label className="form-check-label" htmlFor="imgResponsiveCheck">
-                                    Responsive</label>
-                            </div>
-                        ) : (<></>)}
-
-                    {element.tag == "carousel" ?
-                        (
-                            <>
-                                <div className="px-2 text-center">
-                                    <small>Animation</small>
-                                    <DropdownButton title={element.animation} variant="light" size="sm">
-                                        <Dropdown.Item onClick={() => updateElement(FocusedIndex, "animation", "", "", "fade")} >
-                                            fade
-                                    </Dropdown.Item>
-                                        <Dropdown.Item onClick={() => updateElement(FocusedIndex, "animation", "", "", "slide")} >
-                                            slide
-                                    </Dropdown.Item>
-                                    </DropdownButton>
-                                </div>
-                                <div className="px-2 text-center">
-                                    <small>Interval(ms)</small><br />
-                                    <textarea rows="1" cols="4" value={element.interval} className="btn btn-light btn-sm" styles={{ resize: 'none !important' }} onChange={(e) => updateElement(FocusedIndex, "interval", "", "", e.target.value)} placeholder="Interval" onFocus={() => setFocusedIndex(index)} />
-                                </div>
-                                <div className="px-2 text-left">
-                                    <small>Settings</small>
-                                    <div className="form-check py-0">
-                                        <input className="form-check-input" type="checkbox" defaultChecked={element.controls} id="controlsCheck" onChange
-                                            ={() => updateElement(FocusedIndex, "controls", "", "", !element.controls)} />
-                                        <label className="form-check-label" htmlFor="controlsCheck">
-                                            Controls</label>
-                                    </div>
-                                    <div className="form-check py-0">
-                                        <input className="form-check-input" type="checkbox" defaultChecked={element.indicators} id="indicatorsCheck" onChange
-                                            ={() => updateElement(FocusedIndex, "indicators", "", "", !element.indicators)} />
-                                        <label className="form-check-label" htmlFor="indicatorsCheck">
-                                            Indicators</label>
-                                    </div>
-                                </div>
-                            </>
-                        ) : (<></>)}
-                </div>
-            )
-        }
-        else return (<span key={"none" + index} ></span>)
-    }
+    
     // LOGS
     console.log(ElementArray);
     console.log(FocusedIndex);
@@ -961,11 +598,9 @@ export default function Davinci() {
 
                                 <Tab eventKey="format" title="Format" style={{ backgroundColor: '#ffffff' }}>
                                     <div className="pb-1">
-                                        {
-                                            ElementArray.map((element, index) =>
-                                                buildActiveElementProperties(element, index)
-                                            )
-                                        }
+                                        {ElementArray[FocusedIndex]?(
+                                            <FormatTab element={ElementArray[FocusedIndex]} index={FocusedIndex} updateElement={updateElement} changeElementIndex={changeElementIndex} ElementArrayLength={ElementArray.length}/>
+                                        ):(<></>)}
                                     </div>
                                 </Tab>
                                 {ElementArray[FocusedIndex] ? (ElementArray[FocusedIndex].col ? (
