@@ -61,7 +61,7 @@ export default function GridTab(props) {
                 </div>
                 <DropdownButton size="sm" variant="light" title={props.col}>
                     {ColValues.map((col, i) =>
-                        <Dropdown.Item key={i + "colchange"} onClick={() => props.updateElement(props.index, "col", "", "", col.value)}>
+                        <Dropdown.Item key={i + "colchange"} active={props.col==col.value?(true):(false)} onClick={() => props.updateElement(props.index, "col", "", "", col.value)}>
                             {`${col.value}`}
                             {/* <i className={`bi bi-${col.iconName}`}></i> */}
                         </Dropdown.Item>)}
@@ -75,7 +75,7 @@ export default function GridTab(props) {
                 </div>
                 <DropdownButton size="sm" variant="light" title={props.colMd}>
                     {ColValues.map((col, i) =>
-                        <Dropdown.Item key={i + "colchange"} onClick={() => props.updateElement(props.index, "colMd", "", "", col.value)}>
+                        <Dropdown.Item key={i + "colchange"} active={props.colMd==col.value?(true):(false)} onClick={() => props.updateElement(props.index, "colMd", "", "", col.value)}>
                             {`${col.value}`}
                             {/* <i className={`bi bi-${col.iconName}`}></i> */}
                         </Dropdown.Item>)}
@@ -89,7 +89,7 @@ export default function GridTab(props) {
                 </div>
                 <DropdownButton size="sm" variant="light" title={props.colLg}>
                     {ColValues.map((col, i) =>
-                        <Dropdown.Item key={i + "colchange"} onClick={() => props.updateElement(props.index, "colLg", "", "", col.value)}>
+                        <Dropdown.Item key={i + "colchange"} active={props.colLg==col.value?(true):(false)} onClick={() => props.updateElement(props.index, "colLg", "", "", col.value)}>
                             {`${col.value}`}
                             {/* <i className={`bi bi-${col.iconName}`}></i> */}
                         </Dropdown.Item>)}

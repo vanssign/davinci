@@ -28,7 +28,7 @@ export default function Davinci() {
         textColor: "dark",
         alignment: "left",
         alignSelf: "center",
-        bgColor: "white",
+        bgColor: "transparent",
         col: 12,
         colMd: 12,
         colLg: 12,
@@ -120,7 +120,7 @@ export default function Davinci() {
                 textColor: "dark",
                 alignment: "left",
                 alignSelf: "center",
-                bgColor: "white",
+                bgColor: "transparent",
                 col: col,
                 colMd: colMd,
                 colLg: colLg,
@@ -133,7 +133,7 @@ export default function Davinci() {
                 responsive: true,
                 alignment: 'center',
                 alignSelf: "center",
-                bgColor: "white",
+                bgColor: "transparent",
                 col: col,
                 colMd: colMd,
                 colLg: colLg,
@@ -146,7 +146,7 @@ export default function Davinci() {
                 responsive: true,
                 alignment: 'left',
                 alignSelf: "center",
-                bgColor: "white",
+                bgColor: "transparent",
                 order: 0,
                 content: "",
                 textColor: "dark",
@@ -162,7 +162,7 @@ export default function Davinci() {
         //         responsive: true,
         //         alignment: 'left',
         //         alignSelf: "center",
-        //         bgColor: "white",
+        //         bgColor: "transparent",
         //         content: "",
         //         col: col,
         //         colMd: colMd,
@@ -181,7 +181,7 @@ export default function Davinci() {
                 iconName: "",
                 alignment: 'center',
                 alignSelf: "center",
-                bgColor: "white",
+                bgColor: "transparent",
                 col: col,
                 colMd: colMd,
                 colLg: colLg,
@@ -204,7 +204,7 @@ export default function Davinci() {
                 twitch: "",
                 alignment: "center",
                 alignSelf: "center",
-                bgColor: "white",
+                bgColor: "transparent",
                 col: col,
                 colMd: colMd,
                 colLg: colLg,
@@ -225,7 +225,7 @@ export default function Davinci() {
                 textColor: "dark",
                 alignment: "left",
                 alignSelf: "center",
-                bgColor: "white",
+                bgColor: "transparent",
                 col: col,
                 colMd: colMd,
                 colLg: colLg,
@@ -234,7 +234,7 @@ export default function Davinci() {
         else if (tag == "hr") {
             element = {
                 tag: tag,
-                bgColor: "white",
+                bgColor: "transparent",
             }
         }
         else if (tag == 'carousel') {
@@ -259,7 +259,7 @@ export default function Davinci() {
                 controls: true,
                 indicators: true,
                 alignSelf: "center",
-                bgColor: "white",
+                bgColor: "transparent",
                 col: col,
                 colMd: colMd,
                 colLg: colLg,
@@ -287,7 +287,7 @@ export default function Davinci() {
                 }],
                 alignment: "left",
                 alignSelf: "center",
-                bgColor: "white",
+                bgColor: "transparent",
                 col: col,
                 colMd: colMd,
                 colLg: colLg,
@@ -307,7 +307,7 @@ export default function Davinci() {
                 textColor: "dark",
                 alignment: "left",
                 alignSelf: "center",
-                bgColor: "white",
+                bgColor: "transparent",
                 col: col,
                 colMd: colMd,
                 colLg: colLg,
@@ -421,10 +421,8 @@ export default function Davinci() {
                     {/* Add new Element */}
                     <div style={{ position: 'sticky', top: 0, zIndex: 10 }}>
                         {/* Toggle button */}
-                        <div>
-                            <button type="button" className={!PreviewStatus ?(`btn btn-dark px-2 py-0`):(
-                                `btn btn-dark px-2 py-0 opacityHalf`
-                            )} onClick={() => setPreviewStatus(!PreviewStatus)}>{PreviewStatus ?
+                        <div className={PreviewStatus?("opacityHalf"):("bg-white")}>
+                            <button type="button" className="btn btn-dark px-2 py-0" onClick={() => setPreviewStatus(!PreviewStatus)}>{PreviewStatus ?
                                 (<span><i className="bi bi-arrows-collapse"></i></span>) :
                                 (<i className="bi bi-arrows-expand"></i>)}</button>
                         </div>

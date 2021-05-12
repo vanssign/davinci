@@ -96,7 +96,7 @@ export default function FormatTab(props) {
                 {((props.element.tag == "h1" || props.element.tag === "h2" || props.element.tag === "h3" || props.element.tag === "p" || props.element.tag === "h4" || props.element.tag === "h5" || props.element.tag === "h6" || props.element.tag === "code") && props.index != 0) ?
                     (<DropdownButton title={props.element.tag} variant="secondary" size="sm">
                         {TextTags.map((t, i) =>
-                            <Dropdown.Item key={props.index + "propertieschange" + i} onClick={() => props.updateElement(props.index, "tag", "", "", t.tag)} >
+                            <Dropdown.Item key={props.index + "propertieschange" + i} onClick={() => props.updateElement(props.index, "tag", "", "", t.tag)} active={props.element.tag==t.tag?(true):(false)} >
                                 <i className={`bi ${t.iconName}`}></i>
                                 {t.shortName}
                             </Dropdown.Item>)}
@@ -186,19 +186,19 @@ export default function FormatTab(props) {
                     <small>Color</small>
                     <DropdownButton title=" " variant={props.element.btnColor} size="sm">
                         {BootstrapColors.map((color, i) =>
-                            <Dropdown.Item key={props.index + "propertieschange" + i + "color"}>
+                            <Dropdown.Item key={props.index + "propertieschange" + i + "color"} active={props.element.btnColor==color.name?(true):(false)} onClick={() => props.updateElement(props.index, "btnColor", "", "", color.name)}>
                                 <button type="button" className={props.element.btnOutline ? (`btn btn-outline-${color.name}`) : (`btn btn-${color.name}`)}
-                                    onClick={() => props.updateElement(props.index, "btnColor", "", "", color.name)}>
+                                    >
                                     {color.name}
                                 </button>
                             </Dropdown.Item>)}
-                        <Dropdown.Item>
-                            <button type="button" className="btn btn-link" onClick={() => props.updateElement(props.index, "btnColor", "", "", "link")}>
+                        <Dropdown.Item active={props.element.btnColor=="link"?(true):(false)} onClick={() => props.updateElement(props.index, "btnColor", "", "", "link")}>
+                            <button type="button" className="btn btn-link">
                                 link
                                     </button>
                         </Dropdown.Item>
-                        <Dropdown.Item>
-                            <button type="button" className="btn " onClick={() => props.updateElement(props.index, "btnColor", "", "", " ")}>
+                        <Dropdown.Item active={props.element.btnColor=="transparent"?(true):(false)} onClick={() => props.updateElement(props.index, "btnColor", "", "", "transparent")}>
+                            <button type="button" className="btn ">
                                 transparent
                                     </button>
                         </Dropdown.Item>
@@ -236,9 +236,9 @@ export default function FormatTab(props) {
                             <button style={{ borderRadius: '100%', paddingTop: '12px' }} type="button" className={props.element.bgColor == "white" ? (`borderActive btn `) : (`border btn `)}
                                 onClick={() => props.updateElement(props.index, "bgColor", "", "", "white")}>
                             </button>
-                            {/* <button style={{ borderRadius: '100%', paddingTop: '12px',backgroundImage:"https://firebasestorage.googleapis.com/v0/b/davinci-4d7ea.appspot.com/o/images%2FbgTran.jpg?alt=media&token=55c9220c-6a96-4b37-9c74-1eb0d9de7441" }} type="button" className={`btn border`}
-                                    onClick={() => props.updateElement(props.index, "bgColor", "", "", "white")}>
-                                </button> */}
+                            <button style={{ borderRadius: '100%', paddingTop: '12px'}} type="button" className={props.element.bgColor == "transparent" ? (`borderActive btn bg-checkered `) : (`border btn bg-checkered`)}
+                                    onClick={() => props.updateElement(props.index, "bgColor", "", "", "transparent")}>
+                                </button>
                         </Dropdown.Item>
                     </DropdownButton>
                 </div>) : (<></>)}

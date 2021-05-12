@@ -84,3 +84,16 @@ color:black;
 .opacityHalf{
   opacity:0.5 !important;
 }
+.bg-white{
+  background-color: white;
+}
+.bg-transparent{
+  background-color: transparent;
+}
+.bg-checkered{
+ background: repeating-conic-gradient(#808080 0% 25%, transparent 0% 50%) 
+ 50% / 8px 8px !important;
+}
+.btn-transparent{
+  background-color: transparent;
+}

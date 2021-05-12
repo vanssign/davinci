@@ -1,5 +1,48 @@
 import { DropdownButton, Dropdown, SplitButton, Tooltip, OverlayTrigger } from 'react-bootstrap';
 
+var TextTags = [
+    {
+        tag: "h1",
+        shortName: "H1",
+        iconName: ""
+    },
+    {
+        tag: "h2",
+        shortName: "H2",
+        iconName: ""
+    },
+    {
+        tag: "h3",
+        shortName: "H3",
+        iconName: ""
+    },
+    {
+        tag: "p",
+        shortName: "",
+        iconName: "bi-paragraph"
+    },
+    {
+        tag: "h4",
+        shortName: "H4",
+        iconName: ""
+    },
+    {
+        tag: "h5",
+        shortName: "H5",
+        iconName: ""
+    },
+    {
+        tag: "h6",
+        shortName: "H6",
+        iconName: ""
+    },
+    {
+        tag: "code",
+        shortName: "",
+        iconName: "bi-code"
+    }
+];
+
 export default function InsertTab(props) {
     return (
         <div className="d-flex flex-wrap justify-content-start align-items-stretch">
@@ -13,17 +56,16 @@ export default function InsertTab(props) {
                 }
             >
                 <DropdownButton id="dropdown-basic-button" variant="light" title={<i className="bi bi-type"></i>}>
-                    <Dropdown.Item><button type="button" className="btn" onClick={() => props.addElement("h1")}><i className="bi bi-type-h1"></i>{" "}Heading</button></Dropdown.Item>
-                    <Dropdown.Item><button type="button" className="btn" onClick={() => props.addElement("h2")}><i className="bi bi-type-h2"></i>{" "}Heading</button></Dropdown.Item>
-                    <Dropdown.Item><button type="button" className="btn" onClick={() => props.addElement("h3")}><i className="bi bi-type-h3"></i>{" "}Heading</button></Dropdown.Item>
-                    <Dropdown.Item><button type="button" className="btn btn-light" onClick={() => props.addElement("h4")}>H4</button><button type="button" className="btn btn-light" onClick={() => props.addElement("h5")}>H5</button><button type="button" className="btn btn-light" onClick={() => props.addElement("h6")}>H6</button></Dropdown.Item>
-                    <Dropdown.Item><button type="button" className="btn" onClick={() => props.addElement("p")}><i className="bi bi-paragraph"></i>{" "}Paragraph</button></Dropdown.Item>
+                    <Dropdown.Item onClick={() => props.addElement("h1")}><i className="bi bi-type-h1"></i>{" "}Heading</Dropdown.Item>
+                    <Dropdown.Item onClick={() => props.addElement("h2")}><i className="bi bi-type-h2"></i>{" "}Heading</Dropdown.Item>
+                    <Dropdown.Item onClick={() => props.addElement("h3")}><i className="bi bi-type-h3"></i>{" "}Heading</Dropdown.Item>
+                    <Dropdown.Item><button type="button" className="btn btn-sm btn-light" onClick={() => props.addElement("h4")}>H4</button><button type="button" className="btn btn-sm btn-light" onClick={() => props.addElement("h5")}>H5</button><button type="button" className="btn btn-sm btn-light" onClick={() => props.addElement("h6")}>H6</button></Dropdown.Item>
+                    <Dropdown.Item onClick={() => props.addElement("p")}><i className="bi bi-paragraph"></i>{" "}Paragraph</Dropdown.Item>
                     <Dropdown.Divider />
-                    <Dropdown.Item><button type="button" className="btn" onClick={() => props.addElement("code")}><i className="bi bi-code"></i>{" "}Code</button></Dropdown.Item>
-                    <Dropdown.Item><button type="button" className="btn" onClick={() => props.addElement("blockquote")}><i className="bi bi-blockquote-left"></i>{" "}BlockQuote</button></Dropdown.Item>
+                    <Dropdown.Item onClick={() => props.addElement("code")}><i className="bi bi-code"></i>{" "}Code</Dropdown.Item>
+                    <Dropdown.Item onClick={() => props.addElement("blockquote")}><i className="bi bi-blockquote-left"></i>{" "}BlockQuote</Dropdown.Item>
                 </DropdownButton>
             </OverlayTrigger>
-
 
             {/*add List Elements */}
             <OverlayTrigger

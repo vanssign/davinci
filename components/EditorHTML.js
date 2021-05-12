@@ -374,7 +374,7 @@ export default function EditorHTML(props) {
                                 <div className={props.index == props.FocusedIndex ? ("d-flex justify-content-center align-items-stretch") : ("d-none")} >
                                     <i className="bi bi-link-45deg lead"></i>
                                     <textarea rows="1" cols="10" value={slide.src} className="btn btn-light btn-light-active" styles={{ resize: 'none' }} onChange={(e) => props.updateElement(props.index, "slides", i, "src", e.target.value)} placeholder="Image Link" />
-                                    <DropdownButton title={<><i className="bi bi-fonts"></i>Color</>} variant={slide.textColor}>
+                                    <DropdownButton title={<i className="bi bi-fonts"></i>} variant={slide.textColor}>
                                         <Dropdown.Item>
                                             {BootstrapColors.map((color, j) =>
                                                 <button key={props.index + "propertieschange" + j + "color"} style={{ borderRadius: '100%', paddingTop: '12px' }} type="button" className={`btn btn-${color.name}`}
