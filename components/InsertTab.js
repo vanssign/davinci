@@ -97,24 +97,32 @@ export default function InsertTab(props) {
                     </Tooltip>
                 }
             >
-                <SplitButton variant="light" title={<i className="bi bi-image"></i>} onClick={() => props.addElement("img")}>
-                    <Dropdown.Item onClick={() => props.addElement("mediaText")}>
-                        <i className="bi bi-image-fill"></i><i className="bi bi-text-paragraph"></i>{" "}Media Text
-                                            </Dropdown.Item>
-                    <Dropdown.Item onClick={() => props.addElement("carousel")}>
-                        <i className="bi bi-collection-play-fill"></i>{" "}Carousel
-                                            </Dropdown.Item>
-                </SplitButton>
-            </OverlayTrigger>
+                {props.customDisabled ? (
+                    <button type="button" className="btn btn-light" onClick={() => props.addElement("img")}>
+                        <i className="bi bi-image"></i>
+                    </button>
+                ) : (
+                    <SplitButton variant="light" title={<i className="bi bi-image"></i>} onClick={() => props.addElement("img")}>
+                        <Dropdown.Item onClick={() => props.addElement("mediaText")}>
+                            <i className="bi bi-image-fill"></i><i className="bi bi-text-paragraph"></i>{" "}Media Text
+                                             </Dropdown.Item>
+                        <Dropdown.Item onClick={() => props.addElement("carousel")}>
+                            <i className="bi bi-collection-play-fill"></i>{" "}Carousel
+                                             </Dropdown.Item>
+                    </SplitButton>
+                )
+                }
+
+            </OverlayTrigger >
 
 
             {/* add Buttons */}
-            <OverlayTrigger
+            < OverlayTrigger
                 placement="top"
                 overlay={
-                    <Tooltip>
+                    < Tooltip >
                         Button and Button Groups
-                                                </Tooltip>
+                                                </Tooltip >
                 }
             >
                 <SplitButton id="dropdown-split-button" variant="light" title={
@@ -130,14 +138,14 @@ export default function InsertTab(props) {
                         <i className="bi bi-youtube"></i>
                     </Dropdown.Item>
                 </SplitButton>
-            </OverlayTrigger>
+            </OverlayTrigger >
 
             <OverlayTrigger
                 placement="top"
                 overlay={
                     <Tooltip>
                         Horizontal Line
-                                                </Tooltip>
+                     </Tooltip>
                 }
             >
                 <button className="btn btn-light" onClick={() => props.addElement("hr")} >
@@ -145,19 +153,35 @@ export default function InsertTab(props) {
                 </button>
             </OverlayTrigger>
 
-            <OverlayTrigger
-                placement="top"
-                overlay={
-                    <Tooltip>
-                        Navigation
-                                                </Tooltip>
-                }
-            >
-                <button disabled className="btn btn-light" onClick={() => props.addElement("navbar")}>
-                    <i className="bi bi-menu-app-fill"></i>
-                </button>
-            </OverlayTrigger>
-
-        </div>
+            {props.customDisabled ? (<></>) : (
+                <>
+                    <OverlayTrigger
+                        placement="top"
+                        overlay={
+                            <Tooltip>
+                                Navigation
+                            </Tooltip>
+                        }
+                    >
+                        <button disabled className="btn btn-light" onClick={() => props.addElement("navbar")}>
+                            <i className="bi bi-menu-app-fill"></i>
+                        </button>
+                    </OverlayTrigger>
+                    <OverlayTrigger
+                        placement="top"
+                        overlay={
+                            <Tooltip>
+                                Custom Block <br />
+                                Build your own element based on basic elements
+                        </Tooltip>
+                        }
+                    >
+                        <button className="btn btn-light" onClick={() => props.addElement("custom")}>
+                            <i className="bi bi-hammer"></i>
+                        </button>
+                    </OverlayTrigger>
+                </>
+            )}
+        </div >
     )
 }

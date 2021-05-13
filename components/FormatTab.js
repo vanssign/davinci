@@ -93,10 +93,10 @@ export default function FormatTab(props) {
         <div className="d-flex flex-wrap justify-content-start align-items-center">
             <div className="px-2 text-center">
                 <small>Type</small>
-                {((props.element.tag == "h1" || props.element.tag === "h2" || props.element.tag === "h3" || props.element.tag === "p" || props.element.tag === "h4" || props.element.tag === "h5" || props.element.tag === "h6" || props.element.tag === "code") && props.index != 0) ?
+                {((props.element.tag == "h1" || props.element.tag === "h2" || props.element.tag === "h3" || props.element.tag === "p" || props.element.tag === "h4" || props.element.tag === "h5" || props.element.tag === "h6" || props.element.tag === "code") ) ?
                     (<DropdownButton title={props.element.tag} variant="secondary" size="sm">
                         {TextTags.map((t, i) =>
-                            <Dropdown.Item key={props.index + "propertieschange" + i} onClick={() => props.updateElement(props.index, "tag", "", "", t.tag)} active={props.element.tag==t.tag?(true):(false)} >
+                            <Dropdown.Item key={props.index + "propertieschange" + i} onClick={() => props.updateElement(props.index, "tag", "", "", t.tag)} active={props.element.tag == t.tag ? (true) : (false)} >
                                 <i className={`bi ${t.iconName}`}></i>
                                 {t.shortName}
                             </Dropdown.Item>)}
@@ -110,10 +110,10 @@ export default function FormatTab(props) {
             <div className="px-2 text-center">
                 <small>Reorder</small>
                 <br />
-                <button type="button" className="btn btn-secondary py-0 px-1" onClick={() => props.changeElementIndex(props.index, -1)} disabled={(props.index === 0) || (props.index === 1) ? (true) : (false)}>
+                <button type="button" className="btn btn-secondary py-0 px-1" onClick={() => props.changeElementIndex(props.index, -1)} disabled={props.index === 0}>
                     <i className="bi bi-chevron-compact-up"></i>
                 </button>
-                <button type="button" className="btn btn-secondary py-0 px-1" onClick={() => props.changeElementIndex(props.index, 1)} disabled={(props.index === props.ElementArraylength - 1) || (props.index === 0) ? (true) : (false)}>
+                <button type="button" className="btn btn-secondary py-0 px-1" onClick={() => props.changeElementIndex(props.index, 1)} disabled={props.index == props.lastIndex}>
                     <i className="bi bi-chevron-compact-down"></i>
                 </button>
             </div>
@@ -186,18 +186,18 @@ export default function FormatTab(props) {
                     <small>Color</small>
                     <DropdownButton title=" " variant={props.element.btnColor} size="sm">
                         {BootstrapColors.map((color, i) =>
-                            <Dropdown.Item key={props.index + "propertieschange" + i + "color"} active={props.element.btnColor==color.name?(true):(false)} onClick={() => props.updateElement(props.index, "btnColor", "", "", color.name)}>
+                            <Dropdown.Item key={props.index + "propertieschange" + i + "color"} active={props.element.btnColor == color.name ? (true) : (false)} onClick={() => props.updateElement(props.index, "btnColor", "", "", color.name)}>
                                 <button type="button" className={props.element.btnOutline ? (`btn btn-outline-${color.name}`) : (`btn btn-${color.name}`)}
-                                    >
+                                >
                                     {color.name}
                                 </button>
                             </Dropdown.Item>)}
-                        <Dropdown.Item active={props.element.btnColor=="link"?(true):(false)} onClick={() => props.updateElement(props.index, "btnColor", "", "", "link")}>
+                        <Dropdown.Item active={props.element.btnColor == "link" ? (true) : (false)} onClick={() => props.updateElement(props.index, "btnColor", "", "", "link")}>
                             <button type="button" className="btn btn-link">
                                 link
                                     </button>
                         </Dropdown.Item>
-                        <Dropdown.Item active={props.element.btnColor=="transparent"?(true):(false)} onClick={() => props.updateElement(props.index, "btnColor", "", "", "transparent")}>
+                        <Dropdown.Item active={props.element.btnColor == "transparent" ? (true) : (false)} onClick={() => props.updateElement(props.index, "btnColor", "", "", "transparent")}>
                             <button type="button" className="btn ">
                                 transparent
                                     </button>
@@ -236,9 +236,9 @@ export default function FormatTab(props) {
                             <button style={{ borderRadius: '100%', paddingTop: '12px' }} type="button" className={props.element.bgColor == "white" ? (`borderActive btn `) : (`border btn `)}
                                 onClick={() => props.updateElement(props.index, "bgColor", "", "", "white")}>
                             </button>
-                            <button style={{ borderRadius: '100%', paddingTop: '12px'}} type="button" className={props.element.bgColor == "transparent" ? (`borderActive btn bg-checkered `) : (`border btn bg-checkered`)}
-                                    onClick={() => props.updateElement(props.index, "bgColor", "", "", "transparent")}>
-                                </button>
+                            <button style={{ borderRadius: '100%', paddingTop: '12px' }} type="button" className={props.element.bgColor == "transparent" ? (`borderActive btn bg-checkered `) : (`border btn bg-checkered`)}
+                                onClick={() => props.updateElement(props.index, "bgColor", "", "", "transparent")}>
+                            </button>
                         </Dropdown.Item>
                     </DropdownButton>
                 </div>) : (<></>)}
@@ -256,7 +256,7 @@ export default function FormatTab(props) {
                     <div className="px-2 text-center">
                         <small><i className="bi bi-link-45deg"></i>{" "}Link</small>
                         <br />
-                        <textarea rows="1" cols="5" value={props.element.href} className="btn btn-light" styles={{ resize: 'none !important' }} onChange={(e) => props.updateElement(props.index, "href", "", "", e.target.value)} placeholder="Link" onFocus={() => setprops.index(props.index)} />
+                        <textarea rows="1" cols="5" value={props.element.href} className="btn btn-light" styles={{ resize: 'none !important' }} onChange={(e) => props.updateElement(props.index, "href", "", "", e.target.value)} placeholder="Link"  />
                     </div>
                     <div className="px-2 text-center">
                         <small>Icon{" "}</small>
@@ -270,7 +270,7 @@ export default function FormatTab(props) {
                             <i className="bi bi-info-circle-fill"></i>
                         </OverlayTrigger>
                         <br />
-                        <textarea rows="1" cols="3" value={props.element.iconName} className="btn btn-light" styles={{ resize: 'none !important' }} onChange={(e) => props.updateElement(props.index, "iconName", "", "", e.target.value)} placeholder="icon" onFocus={() => setprops.index(props.index)} />
+                        <textarea rows="1" cols="3" value={props.element.iconName} className="btn btn-light" styles={{ resize: 'none !important' }} onChange={(e) => props.updateElement(props.index, "iconName", "", "", e.target.value)} placeholder="icon"  />
                     </div>
                 </>
 
@@ -291,7 +291,7 @@ export default function FormatTab(props) {
                                         {SocialLinks.map((s, i) =>
                                             <div key={props.index + "propertieschange" + i}>
                                                 <i className={`bi bi-${s.name} lead mr-2`}></i>
-                                                <textarea rows="1" cols="10" value={props.element[s.name]} className="btn btn-light my-1" styles={{ resize: 'none !important' }} onChange={(e) => props.updateElement(props.index, s.name, "", "", e.target.value)} placeholder={s.name} onFocus={() => setprops.index(props.index)} />
+                                                <textarea rows="1" cols="10" value={props.element[s.name]} className="btn btn-light my-1" styles={{ resize: 'none !important' }} onChange={(e) => props.updateElement(props.index, s.name, "", "", e.target.value)} placeholder={s.name}  />
                                             </div>)}
                                     </>
                                 </Popover.Content>
@@ -342,7 +342,7 @@ export default function FormatTab(props) {
                         </div>
                         <div className="px-2 text-center">
                             <small>Interval(ms)</small><br />
-                            <textarea rows="1" cols="4" value={props.element.interval} className="btn btn-light btn-sm" styles={{ resize: 'none !important' }} onChange={(e) => props.updateElement(props.index, "interval", "", "", e.target.value)} placeholder="Interval" onFocus={() => setprops.index(props.index)} />
+                            <textarea rows="1" cols="4" value={props.element.interval} className="btn btn-light btn-sm" styles={{ resize: 'none !important' }} onChange={(e) => props.updateElement(props.index, "interval", "", "", e.target.value)} placeholder="Interval"  />
                         </div>
                         <div className="px-2 text-left">
                             <small>Settings</small>

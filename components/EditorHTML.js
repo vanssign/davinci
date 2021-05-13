@@ -1,10 +1,11 @@
 import { useRef, useEffect, useState } from 'react'
 import ImageUploader from './uploadImage';
 import { buildClassName } from '../functions/BuildFunctions';
-
+import EditorTabs from './EditorTabs';
 import TextareaAutosize from 'react-textarea-autosize';
-import { Nav, Navbar, NavDropdown, DropdownButton, Dropdown,Carousel } from 'react-bootstrap';
+import { Nav, Navbar, NavDropdown, DropdownButton, Dropdown, Carousel } from 'react-bootstrap';
 import styles from '../styles/Davinci.module.css'
+
 var BootstrapColors = [
     {
         name: 'primary',
@@ -78,18 +79,18 @@ export default function EditorHTML(props) {
         }
         window.addEventListener("resize", handleResize);
         // }
-    },[props.FocusedIndex])
+    }, [props.focusedIndex])
 
     //TEXT
     if (tag == "h1") {
         return (
-            <div className={`bg-${props.element.bgColor} align-self-${props.element.alignSelf} col-${props.element.col} col-md-${props.element.colMd} col-lg-${props.element.colLg}`}>
-                <h1 className={allClasses}><TextareaAutosize style={{ overflow: 'hidden' }} value={content} ref={props.FocusedIndex == props.index ? (FocusedElement) : (null)} className={styles.textareaInherit} onChange={(e) => props.updateElement(props.index, "content", "", "", e.target.value)} placeholder={props.index == 0 ? ("Title.Type here..") : ("H1 heading. Type here..")} onKeyDown={function (e) {
+            <div className={props.focusedIndex == props.index ? (`bg-${props.element.bgColor} align-self-${props.element.alignSelf} col-${props.element.col} col-md-${props.element.colMd} col-lg-${props.element.colLg} borderPrimary`) : (`bg-${props.element.bgColor} align-self-${props.element.alignSelf} col-${props.element.col} col-md-${props.element.colMd} col-lg-${props.element.colLg}`)}>
+                <h1 className={allClasses}><TextareaAutosize style={{ overflow: 'hidden' }} value={content} ref={props.focusedIndex == props.index ? (FocusedElement) : (null)} className={styles.textareaInherit} onChange={(e) => props.updateElement(props.index, "content", "", "", e.target.value)} placeholder="H1 heading. Type here.."onKeyDown={function (e) {
                     if (e.key === 'Enter') {
                         e.preventDefault();
                         props.addElement("p");
                     }
-                    if (e.key === 'Backspace' && content === "" && props.index !== 0) {
+                    if (e.key === 'Backspace' && content === "") {
                         e.preventDefault();
                         props.deleteElement(props.index);
                     }
@@ -101,7 +102,7 @@ export default function EditorHTML(props) {
     else if (tag == "h2") {
         return (
             <div className={`bg-${props.element.bgColor} align-self-${props.element.alignSelf} col-${props.element.col} col-md-${props.element.colMd} col-lg-${props.element.colLg}`}>
-                <h2 className={allClasses}><TextareaAutosize style={{ overflow: 'hidden' }} value={content} ref={props.FocusedIndex == props.index ? (FocusedElement) : (null)} className={styles.textareaInherit} onChange={(e) => props.updateElement(props.index, "content", "", "", e.target.value)} placeholder="H2 Heading. Type here ..." onKeyDown={function (e) {
+                <h2 className={allClasses}><TextareaAutosize style={{ overflow: 'hidden' }} value={content} ref={props.focusedIndex == props.index ? (FocusedElement) : (null)} className={styles.textareaInherit} onChange={(e) => props.updateElement(props.index, "content", "", "", e.target.value)} placeholder="H2 Heading. Type here ..." onKeyDown={function (e) {
                     if (e.key === 'Enter') {
                         e.preventDefault();
                         props.addElement("p");
@@ -118,7 +119,7 @@ export default function EditorHTML(props) {
     else if (tag == "p") {
         return (
             <div className={`bg-${props.element.bgColor} align-self-${props.element.alignSelf} col-${props.element.col} col-md-${props.element.colMd} col-lg-${props.element.colLg}`}>
-                <p className={allClasses}><TextareaAutosize style={{ overflow: 'hidden' }} ref={props.FocusedIndex == props.index ? (FocusedElement) : (null)} value={content} className={styles.textareaInherit} onChange={(e) => props.updateElement(props.index, "content", "", "", e.target.value)} placeholder="Paragraph. Type here ..." onKeyDown={function (e) {
+                <p className={allClasses}><TextareaAutosize style={{ overflow: 'hidden' }} ref={props.focusedIndex == props.index ? (FocusedElement) : (null)} value={content} className={styles.textareaInherit} onChange={(e) => props.updateElement(props.index, "content", "", "", e.target.value)} placeholder="Paragraph. Type here ..." onKeyDown={function (e) {
                     if (e.key === 'Enter') {
                         e.preventDefault();
                         props.addElement("p");
@@ -138,7 +139,7 @@ export default function EditorHTML(props) {
     else if (tag == "h3") {
         return (
             <div className={`bg-${props.element.bgColor} align-self-${props.element.alignSelf} col-${props.element.col} col-md-${props.element.colMd} col-lg-${props.element.colLg}`}>
-                <h3 className={allClasses}><TextareaAutosize style={{ overflow: 'hidden' }} value={content} ref={props.FocusedIndex == props.index ? (FocusedElement) : (null)} className={styles.textareaInherit} onChange={(e) => props.updateElement(props.index, "content", "", "", e.target.value)} placeholder="H3 Heading. Type here ..." onKeyDown={function (e) {
+                <h3 className={allClasses}><TextareaAutosize style={{ overflow: 'hidden' }} value={content} ref={props.focusedIndex == props.index ? (FocusedElement) : (null)} className={styles.textareaInherit} onChange={(e) => props.updateElement(props.index, "content", "", "", e.target.value)} placeholder="H3 Heading. Type here ..." onKeyDown={function (e) {
                     if (e.key === "Enter") {
                         e.preventDefault();
                         props.addElement("p");
@@ -156,7 +157,7 @@ export default function EditorHTML(props) {
     else if (tag == "h4") {
         return (
             <div className={`bg-${props.element.bgColor} align-self-${props.element.alignSelf} col-${props.element.col} col-md-${props.element.colMd} col-lg-${props.element.colLg}`}>
-                <h4 className={allClasses}><TextareaAutosize style={{ overflow: 'hidden' }} value={content} ref={props.FocusedIndex == props.index ? (FocusedElement) : (null)} className={styles.textareaInherit} onChange={(e) => props.updateElement(props.index, "content", "", "", e.target.value)} placeholder="H4 Heading. Type here ..." onKeyDown={function (e) {
+                <h4 className={allClasses}><TextareaAutosize style={{ overflow: 'hidden' }} value={content} ref={props.focusedIndex == props.index ? (FocusedElement) : (null)} className={styles.textareaInherit} onChange={(e) => props.updateElement(props.index, "content", "", "", e.target.value)} placeholder="H4 Heading. Type here ..." onKeyDown={function (e) {
                     if (e.key === 'Enter') {
                         e.preventDefault();
                         props.addElement("p");
@@ -174,7 +175,7 @@ export default function EditorHTML(props) {
     else if (tag == "h5") {
         return (
             <div className={`bg-${props.element.bgColor} align-self-${props.element.alignSelf} col-${props.element.col} col-md-${props.element.colMd} col-lg-${props.element.colLg}`}>
-                <h5 className={allClasses}><TextareaAutosize style={{ overflow: 'hidden' }} value={content} ref={props.FocusedIndex == props.index ? (FocusedElement) : (null)} className={styles.textareaInherit} onChange={(e) => props.updateElement(props.index, "content", "", "", e.target.value)} placeholder="H5 heading. Type here ..." onKeyDown={function (e) {
+                <h5 className={allClasses}><TextareaAutosize style={{ overflow: 'hidden' }} value={content} ref={props.focusedIndex == props.index ? (FocusedElement) : (null)} className={styles.textareaInherit} onChange={(e) => props.updateElement(props.index, "content", "", "", e.target.value)} placeholder="H5 heading. Type here ..." onKeyDown={function (e) {
                     if (e.key === 'Enter') {
                         e.preventDefault();
                         props.addElement("p");
@@ -192,7 +193,7 @@ export default function EditorHTML(props) {
     else if (tag == "h6") {
         return (
             <div className={`bg-${props.element.bgColor} align-self-${props.element.alignSelf} col-${props.element.col} col-md-${props.element.colMd} col-lg-${props.element.colLg}`}>
-                <h6 className={allClasses}><TextareaAutosize style={{ overflow: 'hidden' }} value={content} ref={props.FocusedIndex == props.index ? (FocusedElement) : (null)} className={styles.textareaInherit} onChange={(e) => props.updateElement(props.index, "content", "", "", e.target.value)} placeholder="H6 Heading. Type here ..." onKeyDown={function (e) {
+                <h6 className={allClasses}><TextareaAutosize style={{ overflow: 'hidden' }} value={content} ref={props.focusedIndex == props.index ? (FocusedElement) : (null)} className={styles.textareaInherit} onChange={(e) => props.updateElement(props.index, "content", "", "", e.target.value)} placeholder="H6 Heading. Type here ..." onKeyDown={function (e) {
                     if (e.key === 'Enter') {
                         e.preventDefault();
                         props.addElement("p");
@@ -211,7 +212,7 @@ export default function EditorHTML(props) {
         return (
             <div className={`bg-${props.element.bgColor} align-self-${props.element.alignSelf} col-${props.element.col} col-md-${props.element.colMd} col-lg-${props.element.colLg}`}>
                 <code className={allClasses}>
-                    <TextareaAutosize style={{ overflow: 'hidden' }} value={content} ref={props.FocusedIndex == props.index ? (FocusedElement) : (null)} className={styles.textareaInherit} onChange={(e) => props.updateElement(props.index, "content", "", "", e.target.value)} placeholder="Code Snippet. Type here ..."
+                    <TextareaAutosize style={{ overflow: 'hidden' }} value={content} ref={props.focusedIndex == props.index ? (FocusedElement) : (null)} className={styles.textareaInherit} onChange={(e) => props.updateElement(props.index, "content", "", "", e.target.value)} placeholder="Code Snippet. Type here ..."
                         onKeyDown={function (e) {
                             if (e.key === 'Backspace' && content === "") {
                                 e.preventDefault();
@@ -229,7 +230,7 @@ export default function EditorHTML(props) {
             <div className={`bg-${props.element.bgColor} align-self-${props.element.alignSelf} col-${props.element.col} col-md-${props.element.colMd} col-lg-${props.element.colLg}`}>
                 <div className="d-flex justify-content-start">
                     <i className="bi bi-link-45deg"></i>{" "}<TextareaAutosize style={{ overflow: 'hidden' }} value={props.element.cite} className={styles.textareaInherit} onChange={(e) => props.updateElement(props.index, "cite", "", "", e.target.value)} placeholder="Cite Link or source" onFocus={() => props.handleFocus(props.index)} /></div>
-                <blockquote className={allClasses}><TextareaAutosize style={{ overflow: 'hidden' }} value={content} ref={props.FocusedIndex == props.index ? (FocusedElement) : (null)} className={styles.textareaInherit} onChange={(e) => props.updateElement(props.index, "content", "", "", e.target.value)} placeholder="BlockQuote text. Type here ..."
+                <blockquote className={allClasses}><TextareaAutosize style={{ overflow: 'hidden' }} value={content} ref={props.focusedIndex == props.index ? (FocusedElement) : (null)} className={styles.textareaInherit} onChange={(e) => props.updateElement(props.index, "content", "", "", e.target.value)} placeholder="BlockQuote text. Type here ..."
                     onKeyDown={function (e) {
                         if (e.key === "Enter") {
                             e.preventDefault();
@@ -252,8 +253,8 @@ export default function EditorHTML(props) {
         return (
             <div className={`bg-${props.element.bgColor} align-self-${props.element.alignSelf} col-${props.element.col} col-md-${props.element.colMd} col-lg-${props.element.colLg}`}>
                 <ul className={allClasses}>
-                    {ElementArray[props.index].content.map((c, i) =>
-                        <li key={tag + props.index + "c.value" + i}><TextareaAutosize style={{ overflow: 'hidden' }} value={c.value} ref={props.FocusedIndex == props.index ? (FocusedElement) : (null)} className={styles.textareaInherit} onChange={(e) => props.updateElement(props.index, "content", i, "value", e.target.value)} placeholder="List Item" onKeyDown={function (e) {
+                    {props.elementArray[props.index].content.map((c, i) =>
+                        <li key={tag + props.index + "c.value" + i}><TextareaAutosize style={{ overflow: 'hidden' }} value={c.value} ref={props.focusedIndex == props.index ? (FocusedElement) : (null)} className={styles.textareaInherit} onChange={(e) => props.updateElement(props.index, "content", i, "value", e.target.value)} placeholder="List Item" onKeyDown={function (e) {
                             if (e.key === 'Enter') {
                                 e.preventDefault();
                                 if (c.value === "" && i !== 0) {
@@ -285,8 +286,8 @@ export default function EditorHTML(props) {
         return (
             <div className={`bg-${props.element.bgColor} align-self-${props.element.alignSelf} col-${props.element.col} col-md-${props.element.colMd} col-lg-${props.element.colLg}`}>
                 <ol className={allClasses}>
-                    {ElementArray[props.index].content.map((c, i) =>
-                        <li key={tag + props.index + "c.value" + i}><TextareaAutosize style={{ overflow: 'hidden' }} value={c.value} ref={props.FocusedIndex == props.index ? (FocusedElement) : (null)} className={styles.textareaInherit} onChange={(e) => props.updateElement(props.index, "content", i, "value", e.target.value)} placeholder="List Item" onKeyDown={function (e) {
+                    {props.elementArray[props.index].content.map((c, i) =>
+                        <li key={tag + props.index + "c.value" + i}><TextareaAutosize style={{ overflow: 'hidden' }} value={c.value} ref={props.focusedIndex == props.index ? (FocusedElement) : (null)} className={styles.textareaInherit} onChange={(e) => props.updateElement(props.index, "content", i, "value", e.target.value)} placeholder="List Item" onKeyDown={function (e) {
                             if (e.key === 'Enter') {
                                 e.preventDefault();
                                 if (c.value === "" && i !== 0) {
@@ -317,9 +318,9 @@ export default function EditorHTML(props) {
     else if (tag == "img") {
         return (
             <div className={`text-${props.element.alignment} py-3 bg-${props.element.bgColor} align-self-${props.element.alignSelf} col-${props.element.col} col-md-${props.element.colMd} col-lg-${props.element.colLg}`} onClick={() => props.handleFocus(props.index)}>
-                <div className={props.index == props.FocusedIndex ? ("d-flex justify-content-center align-items-stretch") : ("d-none")}>
+                <div className={props.index == props.focusedIndex ? ("d-flex justify-content-center align-items-stretch") : ("d-none")}>
                     <i className="bi bi-link-45deg lead"></i>
-                    <textarea rows="1" cols="10" value={props.element.src} className="btn btn-light btn-light-active" styles={{ resize: 'none' }} onChange={(e) => props.updateElement(props.index, "src", "", "", e.target.value)} placeholder="Image Link" ref={props.FocusedIndex == props.index ? (FocusedElement) : (null)} />
+                    <textarea rows="1" cols="10" value={props.element.src} className="btn btn-light btn-light-active" styles={{ resize: 'none' }} onChange={(e) => props.updateElement(props.index, "src", "", "", e.target.value)} placeholder="Image Link" ref={props.focusedIndex == props.index ? (FocusedElement) : (null)} />
                     <ImageUploader index={props.index} parentCallback={updateUrl} />
                     <button type="button" onClick={() => props.deleteElement(props.index)} className="btn btn-danger py-0 px-1"><i className="bi bi-trash lead"></i></button>
                 </div>
@@ -332,7 +333,7 @@ export default function EditorHTML(props) {
         return (
             <div className={`bg-${props.element.bgColor} align-self-${props.element.alignSelf} col-${props.element.col} col-md-${props.element.colMd} col-lg-${props.element.colLg}`}><div className={`text-${props.element.alignment} row align-items-center py-3`} onClick={() => props.handleFocus(props.index)}>
                 <div className={`col-12 col-md-6 order-${props.element.order} text-center`}>
-                    <div className={props.index == props.FocusedIndex ? ("d-flex justify-content-center align-items-stretch") : ("d-none")}>
+                    <div className={props.index == props.focusedIndex ? ("d-flex justify-content-center align-items-stretch") : ("d-none")}>
                         <i className="bi bi-link-45deg lead"></i>
                         <textarea rows="1" cols="10" value={props.element.src} className="btn btn-light btn-light-active" styles={{ resize: 'none' }} onChange={(e) => props.updateElement(props.index, "src", "", "", e.target.value)} placeholder="Image Link" />
                         <ImageUploader index={props.index} parentCallback={updateUrl} />
@@ -341,7 +342,7 @@ export default function EditorHTML(props) {
                     <img className={allClasses + " rounded "} src={props.element.src ? (props.element.src) : ("https://i.stack.imgur.com/y9DpT.jpg")} ></img>
                 </div>
                 <div className={`col-12 col-md-6`}>
-                    <p className={allClasses}><TextareaAutosize style={{ overflow: 'hidden' }}  value={content} className={styles.textareaInherit} ref={props.FocusedIndex == props.index ? (FocusedElement) : (null)} onChange={(e) => props.updateElement(props.index, "content", "", "", e.target.value)} placeholder="A picture is worth a thousand words but a picture with a thousand words is better. Type here ..." onKeyDown={function (e) {
+                    <p className={allClasses}><TextareaAutosize style={{ overflow: 'hidden' }} value={content} className={styles.textareaInherit} ref={props.focusedIndex == props.index ? (FocusedElement) : (null)} onChange={(e) => props.updateElement(props.index, "content", "", "", e.target.value)} placeholder="A picture is worth a thousand words but a picture with a thousand words is better. Type here ..." onKeyDown={function (e) {
                         if (e.key === 'Enter') {
                             e.preventDefault();
                             props.addElement("p");
@@ -371,7 +372,7 @@ export default function EditorHTML(props) {
                     >
                         {props.element.slides.map((slide, i) =>
                             <Carousel.Item key={tag + props.index + "slide" + i}>
-                                <div className={props.index == props.FocusedIndex ? ("d-flex justify-content-center align-items-stretch") : ("d-none")} >
+                                <div className={props.index == props.focusedIndex ? ("d-flex justify-content-center align-items-stretch") : ("d-none")} >
                                     <i className="bi bi-link-45deg lead"></i>
                                     <textarea rows="1" cols="10" value={slide.src} className="btn btn-light btn-light-active" styles={{ resize: 'none' }} onChange={(e) => props.updateElement(props.index, "slides", i, "src", e.target.value)} placeholder="Image Link" />
                                     <DropdownButton title={<i className="bi bi-fonts"></i>} variant={slide.textColor}>
@@ -418,7 +419,7 @@ export default function EditorHTML(props) {
                             <i className={`bi bi-${props.element.iconName} font-weight-bolder`}></i>{" "}
                         </>
                     ) : (<></>)}
-                    <TextareaAutosize style={{ overflow: 'hidden' }} value={content} className={styles.textareaInheritBtn} onChange={(e) => props.updateElement(props.index, "content", "", "", e.target.value)} ref={props.FocusedIndex == props.index ? (FocusedElement) : (null)} placeholder="Button Text. Type here ..." onFocus={() => props.handleFocus(props.index)} />
+                    <TextareaAutosize style={{ overflow: 'hidden' }} value={content} className={styles.textareaInheritBtn} onChange={(e) => props.updateElement(props.index, "content", "", "", e.target.value)} ref={props.focusedIndex == props.index ? (FocusedElement) : (null)} placeholder="Button Text. Type here ..." onFocus={() => props.handleFocus(props.index)} />
                 </div>
             </button>
             <button type="button" onClick={() => props.deleteElement(props.index)} className={styles.delBtn}><i className="bi bi-x-circle-fill lead"></i></button>
@@ -431,7 +432,7 @@ export default function EditorHTML(props) {
                 <div role="group" className="btn-group" onClick={() => props.handleFocus(props.index)}>
                     {SocialLinks.filter((s, i) => props.element[s.name] !== "")
                         .map((sb, i) =>
-                            <button key={tag+sb.name+props.index} type="button" className="btn btn-secondary"><i className={`bi bi-${sb.name} lead`}></i></button>)
+                            <button key={tag + sb.name + props.index} type="button" className="btn btn-secondary"><i className={`bi bi-${sb.name} lead`}></i></button>)
                     }
                 </div>
                 <button type="button" onClick={() => props.deleteElement(props.index)} className={styles.delBtn}><i className="bi bi-x-circle-fill lead"></i></button>
@@ -480,17 +481,55 @@ export default function EditorHTML(props) {
                     </div>
                 </div>
             </div>
-
         )
     }
 
     else if (tag == "custom") {
+        function addChildElement(tag) {
+            props.updateElement(props.index, "elementArray", props.innerFocusedIndex, "increase", tag)
+        }
+        function deleteChildElement(index) {
+            props.updateElement(props.index, "elementArray", props.innerFocusedIndex, "decrease", "")
+        }
+        function updateChildElement(index, key, index2, key2, value) {
+            if (key == "typography") {
+                props.updateElement(props.index, "elementArray", index, "typography", index2)
+            }
+            else
+                props.updateElement(props.index, "elementArray", index, key, value)
+        }
+        function changeChildElementIndex(index, value) {
+            if (value == -1) {
+                props.updateElement(props.index, "elementArray", index, "up", "")
+            }
+            else if (value == 1) {
+                props.updateElement(props.index, "elementArray", index, "down", "")
+            }
+        }
+
+        const nestedItems = props.element.elementArray.map((e, i) => {
+            return <EditorHTML key={props.element.tag + "children" + i} element={e} index={i} focusedIndex={props.innerFocusedIndex} handleFocus={props.handleInnerFocus} updateElement={updateChildElement} deleteElement={deleteChildElement} addElement={addChildElement} />
+        });
         return (
-            <div className={`text-${props.element.alignment} bg-${props.element.bgColor} align-self-${props.element.alignSelf} col-${props.element.col} col-md-${props.element.colMd} col-lg-${props.element.colLg} `} >
-                {props.element.props.elementArray.map((children, i) => {
-                    buildtextareaHTML(children, i)
-                })}
-            </div>
+            <>
+                <div className={`text-${props.element.alignment} bg-${props.element.bgColor} align-self-${props.element.alignSelf} col-${props.element.col} col-md-${props.element.colMd} col-lg-${props.element.colLg}`} onClick={() => props.handleFocus(props.index)} >
+                    {props.focusedIndex === props.index ? (
+                        <EditorTabs elementArray={props.element.elementArray} focusedIndex={props.innerFocusedIndex} lastIndex={props.innerLastIndex} updateElement={updateChildElement} addElement={addChildElement}
+                        changeElementIndex={changeChildElementIndex} customDisabled={true}
+                        />
+                    ) : (
+                        props.element.elementArray.length == 0 ? (
+                        <div style={{ minHeight: '8vh' }} className="d-flex align-items-center justify-content-around border text-center rounded">
+                            <span><i className="bi bi-hammer lead"></i> Build your own Custom Element here</span>
+                            <button type="button" onClick={() => props.deleteElement(props.index)} className="btn btn-danger my-1 py-0 px-1"><i className="bi bi-trash lead"></i></button>
+                        </div>
+                    ) : (<></>))
+                    }
+                    <div className={props.index==props.focusedIndex?("row border"):("row")}>
+                        {nestedItems}
+                    </div>
+                </div>
+            </>
         )
     }
     else {

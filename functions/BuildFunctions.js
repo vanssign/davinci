@@ -40,167 +40,209 @@ export function buildClassName(element, index) {
     return allClasses;
 }
 
-//BUILD HTML
-export function buildHTML(element, index) {
-    const [windowWidth, setWindowWidth] = useState(0);
-    const [windowHeight, setWindowHeight] = useState(0);
-    useEffect(() => {
-        if (windowWidth == 0) {
-            setWindowHeight(window.innerHeight);
-            setWindowWidth(window.innerWidth);
+//auto determine col for newly inserted element
+function determineCol(elementArray, currentIndex, screenSize) {
+    let nextCol = 12, status = 0;
+
+    if (elementArray[currentIndex]) {
+        if (elementArray[currentIndex][screenSize]) {
+            let currentCol = elementArray[currentIndex][screenSize]
+            if ((currentCol == 4) || (currentCol == 6) || (currentCol == 3)) {
+                for (let i in elementArray) {
+                    if (elementArray[elementArray.length - i - 1][screenSize] == currentCol) {
+                        status += 1
+                    }
+                    else break;
+                }
+                if (status % (12 / currentCol) != 0) nextCol = currentCol;
+            }
         }
-        window.addEventListener("resize", handleResize);
-    })
-
-    const handleResize = (e) => {
-        setWindowWidth(window.innerWidth);
-        setWindowHeight(window.innerHeight);
-    };
-    let tag = element.tag;
-    let content = element.content;
-    let allClasses = buildClassName(element, index)
-    if (tag == "h1") {
-        return (
-            <div key={tag + index} className={` bg-${element.bgColor} align-self-${element.alignSelf} col-${element.col} col-md-${element.colMd} col-lg-${element.colLg}`}><h1 className={allClasses}>{content}</h1>
-            </div>)
     }
-    if (tag == "h2") {
-        return (
-            <div key={tag + index} className={` bg-${element.bgColor} align-self-${element.alignSelf} col-${element.col} col-md-${element.colMd} col-lg-${element.colLg}`}><h2 className={allClasses}>{content}</h2>
-            </div>)
-    }
-    if (tag == "p") {
-        return (
-            <div key={tag + index} className={` bg-${element.bgColor} align-self-${element.alignSelf} col-${element.col} col-md-${element.colMd} col-lg-${element.colLg}`}><p className={allClasses}>{content}</p></div>)
-    }
-    if (tag == "h3") {
-        return (
-            <div key={tag + index} className={` bg-${element.bgColor} align-self-${element.alignSelf} col-${element.col} col-md-${element.colMd} col-lg-${element.colLg}`}><h3 className={allClasses}>{content}</h3></div>)
-    }
-    if (tag == "img") {
-        return (
-            <div key={tag + index} className={`text-${element.alignment} py-3  bg-${element.bgColor} align-self-${element.alignSelf} col-${element.col} col-md-${element.colMd} col-lg-${element.colLg}`}>
-                <img className={allClasses + " rounded "} src={element.src} />
-            </div>
-        )
-    }
-    if (tag == "mediaText") {
-        return (
-            <div key={tag + index} className={` bg-${element.bgColor} align-self-${element.alignSelf} col-${element.col} col-md-${element.colMd} col-lg-${element.colLg}`}>
-                <div className={`text-${element.alignment} row align-items-center py-3`}>
-                    <div className={`col-12 col-md-6 order-${element.order} text-center`}>
-                        <img className={allClasses + " rounded "} src={element.src} />
-                    </div>
-                    <div className="col-12 col-md-6">
-                        <p className={allClasses}>{content}</p>
-                    </div>
-                </div>
-            </div>
-        )
-    }
-    if (tag == "carousel") {
-        return (
-            <div key={tag + index} className={` bg-${element.bgColor} align-self-${element.alignSelf} col-${element.col} col-md-${element.colMd} col-lg-${element.colLg}`}>
-                <div className="px-0 col-12 col-md-10 offset-md-1 col-lg-8 offset-lg-2">
-                    <Carousel
-                        fade={element.animation == "fade" ? (true) : (false)}
-                        interval={parseInt(element.interval)}
-                        indicators={element.indicators}
-                        controls={element.controls}>
-                        {element.slides.map((slide, i) =>
-                            <Carousel.Item key={tag + index + "slide" + i}>
-                                <img
-                                    className="d-block w-100 rounded"
-                                    src={slide.src}
-                                    height={windowWidth < windowHeight ? (windowWidth * 9 / 16) : (windowHeight * 5 / 6)}
-                                />
-                                <Carousel.Caption className={`text-${slide.textColor}`}>
-                                    <h3>{slide.label}</h3>
-                                    <p>{slide.caption}</p>
-                                </Carousel.Caption>
-                            </Carousel.Item>
-                        )}
-                    </Carousel>
-                </div>
-            </div>
-        )
-    }
-    if (tag == "h4") {
-        return (
-            <div key={tag + index} className={` bg-${element.bgColor} align-self-${element.alignSelf} col-${element.col} col-md-${element.colMd} col-lg-${element.colLg}`}><h4 className={allClasses}>{content}</h4></div>)
-    }
-    if (tag == "h5") {
-        return (<div key={tag + index} className={` bg-${element.bgColor} align-self-${element.alignSelf} col-${element.col} col-md-${element.colMd} col-lg-${element.colLg}`}><h5 className={allClasses}>{content}</h5></div>)
-    }
-    if (tag == "h6") {
-        return (<div key={tag + index} className={` bg-${element.bgColor} align-self-${element.alignSelf} col-${element.col} col-md-${element.colMd} col-lg-${element.colLg}`}><h6 className={allClasses}>{content}</h6></div>)
-    }
-    if (tag == "ul") {
-        return (
-            <div key={tag + index} className={` bg-${element.bgColor} align-self-${element.alignSelf} col-${element.col} col-md-${element.colMd} col-lg-${element.colLg}`}>
-                <ul className={allClasses} style={{ position: 'relative' }}>
-                    {element.content.map((c, i) =>
-                        <li key={tag + index + "c" + i}>{c.value}</li>
-                    )
-                    }
-                </ul>
-            </div>
-        )
-    }
-    if (tag == "ol") {
-        return (
-            <div key={tag + index} className={` bg-${element.bgColor} align-self-${element.alignSelf} col-${element.col} col-md-${element.colMd} col-lg-${element.colLg}`}>
-                <ol className={allClasses} style={{ position: 'relative' }}>
-                    {element.content.map((c, i) =>
-                        <li key={tag + index + "c" + i}>{c.value}</li>
-                    )
-                    }
-                </ol>
-            </div>
-        )
-    }
-    if (tag == "button") {
-        return (
-            <div key={tag + index} className={`text-${element.alignment} bg-${element.bgColor} align-self-${element.alignSelf} col-${element.col} col-md-${element.colMd} col-lg-${element.colLg}`}>
-                <a className="text-reset" href={element.href} target="_blank">
-                    <button className={element.btnOutline ? (`btn btn-outline-${element.btnColor}`) : (`btn btn-${element.btnColor}`)}>
-                        {element.iconName ? (<i className={`bi bi-${element.iconName} lead`}></i>) : (<></>)}
-                        {" "} {content}</button>
-                </a>
-            </div>
-        )
-    }
-    //SOCIAL BUTTONS
-    if (tag == "socialbtns") {
-        return (
-            <div key={tag + index} className={`text-${element.alignment}  bg-${element.bgColor} align-self-${element.alignSelf} col-${element.col} col-md-${element.colMd} col-lg-${element.colLg}`}>
-                <div className="btn-group" role="group" aria-label="btn-group">
-                    {SocialLinks.filter((s, i) => element[s.name] !== "")
-                        .map((sb, i) =>
-
-                            <button key={tag + index + "sociallinks" + i} type="button" className="btn btn-secondary">
-                                <a className="text-reset" href={element[sb.name]} target="_blank">
-                                    <i className={`bi bi-${sb.name} lead`}></i>
-                                </a>
-                            </button>
-                        )
-                    }
-                </div>
-            </div>
-        )
-    }
-    if (tag == "code") {
-        return (<div key={tag + index} className={` bg-${element.bgColor} align-self-${element.alignSelf} col-${element.col} col-md-${element.colMd} col-lg-${element.colLg}`}><code className={allClasses} style={{ whiteSpace: 'pre-wrap' }}>{content}</code></div>)
-    }
-    if (tag == "blockquote") {
-        return (<div key={tag + index} className={` bg-${element.bgColor} align-self-${element.alignSelf} col-${element.col} col-md-${element.colMd} col-lg-${element.colLg}`}><blockquote className={allClasses} cite={element.cite}>{content}</blockquote></div>)
-    }
-    if (tag == "hr") {
-        return (
-            <div key={tag + index} className={`col-12 bg-${element.bgColor}`} >
-                <hr/>
-            </div>
-        )
-    }
+    return nextCol;
 }
+
+export function determineElementStructure(tag, elementArray, currentIndex) {
+    let colMd = determineCol(elementArray, currentIndex, "colMd");
+    let col = determineCol(elementArray, currentIndex, "col")
+    let colLg = determineCol(elementArray, currentIndex, "colLg")
+    let element;
+    if (tag == "ul" || tag == "ol") {
+        element = {
+            tag: tag,
+            content: [{ value: "" },],
+            classes: "",
+            typography: {
+                bold: false,
+                italic: false,
+                underline: false,
+                strikethrough: false,
+            },
+            textColor: "dark",
+            alignment: "left",
+            alignSelf: "center",
+            bgColor: "transparent",
+            col: col,
+            colMd: colMd,
+            colLg: colLg,
+        }
+    }
+    else if (tag == "img") {
+        element = {
+            tag: tag,
+            src: "",
+            responsive: true,
+            alignment: 'center',
+            alignSelf: "center",
+            bgColor: "transparent",
+            col: col,
+            colMd: colMd,
+            colLg: colLg,
+        }
+    }
+    else if (tag == "mediaText") {
+        element = {
+            tag: tag,
+            src: "",
+            responsive: true,
+            alignment: 'left',
+            alignSelf: "center",
+            bgColor: "transparent",
+            order: 0,
+            content: "",
+            textColor: "dark",
+            col: col,
+            colMd: colMd,
+            colLg: colLg,
+        }
+    }
+    else if (tag == "button") {
+        element = {
+            tag: tag,
+            href: "",
+            content: "",
+            classes: "",
+            btnColor: "light",
+            btnOutline: false,
+            iconName: "",
+            alignment: 'center',
+            alignSelf: "center",
+            bgColor: "transparent",
+            col: col,
+            colMd: colMd,
+            colLg: colLg,
+        }
+    }
+    else if (tag == "socialbtns") {
+        element = {
+            tag: tag,
+            instagram: "",
+            facebook: "",
+            twitter: "",
+            whatsapp: "",
+            github: "https://github.com/vanssign",
+            linkedin: "https://www.linkedin.com/in/vansh-singh/",
+            youtube: "",
+            google: "",
+            telegram: "",
+            slack: "",
+            discord: "",
+            twitch: "",
+            alignment: "center",
+            alignSelf: "center",
+            bgColor: "transparent",
+            col: col,
+            colMd: colMd,
+            colLg: colLg,
+        }
+    }
+    else if (tag == "blockquote") {
+        element = {
+            tag: tag,
+            content: "",
+            cite: "",
+            classes: "",
+            typography: {
+                bold: false,
+                italic: false,
+                underline: false,
+                strikethrough: false,
+            },
+            textColor: "dark",
+            alignment: "left",
+            alignSelf: "center",
+            bgColor: "transparent",
+            col: col,
+            colMd: colMd,
+            colLg: colLg,
+        }
+    }
+    else if (tag == "hr") {
+        element = {
+            tag: tag,
+            bgColor: "transparent",
+        }
+    }
+    else if (tag == 'carousel') {
+        element = {
+            tag: tag,
+            slides: [
+                {
+                    src: "",
+                    label: "",
+                    caption: "",
+                    textColor: "light",
+                },
+                {
+                    src: "",
+                    label: "",
+                    caption: "",
+                    textColor: "light",
+                },
+            ],
+            animation: "slide",
+            interval: 5000,
+            controls: true,
+            indicators: true,
+            alignSelf: "center",
+            bgColor: "transparent",
+            col: col,
+            colMd: colMd,
+            colLg: colLg,
+        }
+    }
+    else if (tag == "custom") {
+        element = {
+            tag: tag,
+            elementArray: [],
+            alignment: "left",
+            alignSelf: "center",
+            bgColor: "transparent",
+            col: col,
+            colMd: colMd,
+            colLg: colLg,
+        }
+    }
+    else {
+        element = {
+            tag: tag,
+            content: "",
+            classes: "",
+            typography: {
+                bold: false,
+                italic: false,
+                underline: false,
+                strikethrough: false,
+            },
+            textColor: "dark",
+            alignment: "left",
+            alignSelf: "center",
+            bgColor: "transparent",
+            col: col,
+            colMd: colMd,
+            colLg: colLg,
+        }
+    }
+    return element;
+}
+
 

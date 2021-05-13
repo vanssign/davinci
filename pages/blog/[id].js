@@ -1,6 +1,6 @@
 import Head from "next/head";
 import fire from "../../config/fire-config";
-import {buildHTML} from '../../functions/BuildFunctions';
+import PageHTML from '../../components/PageHTML';
 
 export default function Post({ postData }) {   
     return (
@@ -12,7 +12,7 @@ export default function Post({ postData }) {
             <div className="row">
             {
                 postData.elementArray.map((element, index) =>
-                    buildHTML(element, index)
+                    <PageHTML key={element.tag+index} element={element} index={index}/>
                 )
             }
             </div>
