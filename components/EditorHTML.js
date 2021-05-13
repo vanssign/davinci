@@ -95,10 +95,18 @@ export default function EditorHTML(props) {
                         e.preventDefault();
                         props.addElement("p");
                     }
-                    if (e.key === 'Backspace' && content === "") {
+                    if ((e.key === 'Backspace' || e.key === 'Delete') && content === "") {
                         e.preventDefault();
                         props.deleteElement(props.index);
                     }
+                    if (e.key === "Control" && e.key === "Shift" && e.key === "Delete") {
+                        e.preventDefault();
+                        props.deleteElement(props.index);
+                    }
+                    // if(e.key==="ArrowDown" && e.key==="Control"){
+                    //     e.preventDefault();
+                    //     props.handleFocus(props.index+1);
+                    // }
                 }} onFocus={() => props.handleFocus(props.index)} /></h1>
             </div>)
     }
@@ -106,13 +114,17 @@ export default function EditorHTML(props) {
     //H2
     else if (tag == "h2") {
         return (
-            <div className={`bg-${props.element.bgColor} align-self-${props.element.alignSelf} col-${props.element.col} col-md-${props.element.colMd} col-lg-${props.element.colLg}`+activeBorder}>
+            <div className={`bg-${props.element.bgColor} align-self-${props.element.alignSelf} col-${props.element.col} col-md-${props.element.colMd} col-lg-${props.element.colLg}` + activeBorder}>
                 <h2 className={allClasses}><TextareaAutosize style={{ overflow: 'hidden' }} value={content} ref={props.focusedIndex == props.index ? (FocusedElement) : (null)} className={styles.textareaInherit} onChange={(e) => props.updateElement(props.index, "content", "", "", e.target.value)} placeholder="H2 Heading. Type here ..." onKeyDown={function (e) {
                     if (e.key === 'Enter') {
                         e.preventDefault();
                         props.addElement("p");
                     }
-                    if (e.key === 'Backspace' && content === "") {
+                    if ((e.key === 'Backspace' || e.key === 'Delete') && content === "") {
+                        e.preventDefault();
+                        props.deleteElement(props.index);
+                    }
+                    if (e.key === "Control" && e.key === "Shift" && e.key === "Delete") {
                         e.preventDefault();
                         props.deleteElement(props.index);
                     }
@@ -123,13 +135,17 @@ export default function EditorHTML(props) {
     //paragraph
     else if (tag == "p") {
         return (
-            <div className={`bg-${props.element.bgColor} align-self-${props.element.alignSelf} col-${props.element.col} col-md-${props.element.colMd} col-lg-${props.element.colLg}`+activeBorder}>
+            <div className={`bg-${props.element.bgColor} align-self-${props.element.alignSelf} col-${props.element.col} col-md-${props.element.colMd} col-lg-${props.element.colLg}` + activeBorder}>
                 <p className={allClasses}><TextareaAutosize style={{ overflow: 'hidden' }} ref={props.focusedIndex == props.index ? (FocusedElement) : (null)} value={content} className={styles.textareaInherit} onChange={(e) => props.updateElement(props.index, "content", "", "", e.target.value)} placeholder="Paragraph. Type here ..." onKeyDown={function (e) {
                     if (e.key === 'Enter') {
                         e.preventDefault();
                         props.addElement("p");
                     }
-                    if (e.key === 'Backspace' && content === "") {
+                    if ((e.key === 'Backspace' || e.key === 'Delete') && content === "") {
+                        e.preventDefault();
+                        props.deleteElement(props.index);
+                    }
+                    if (e.key === "Control" && e.key === "Shift" && e.key === "Delete") {
                         e.preventDefault();
                         props.deleteElement(props.index);
                     }
@@ -143,13 +159,17 @@ export default function EditorHTML(props) {
     //H3
     else if (tag == "h3") {
         return (
-            <div className={`bg-${props.element.bgColor} align-self-${props.element.alignSelf} col-${props.element.col} col-md-${props.element.colMd} col-lg-${props.element.colLg}`+activeBorder}>
+            <div className={`bg-${props.element.bgColor} align-self-${props.element.alignSelf} col-${props.element.col} col-md-${props.element.colMd} col-lg-${props.element.colLg}` + activeBorder}>
                 <h3 className={allClasses}><TextareaAutosize style={{ overflow: 'hidden' }} value={content} ref={props.focusedIndex == props.index ? (FocusedElement) : (null)} className={styles.textareaInherit} onChange={(e) => props.updateElement(props.index, "content", "", "", e.target.value)} placeholder="H3 Heading. Type here ..." onKeyDown={function (e) {
                     if (e.key === "Enter") {
                         e.preventDefault();
                         props.addElement("p");
                     }
-                    if (e.key === 'Backspace' && content === "") {
+                    if ((e.key === 'Backspace' || e.key === 'Delete') && content === "") {
+                        e.preventDefault();
+                        props.deleteElement(props.index);
+                    }
+                    if (e.key === "Control" && e.key === "Shift" && e.key === "Delete") {
                         e.preventDefault();
                         props.deleteElement(props.index);
                     }
@@ -161,13 +181,17 @@ export default function EditorHTML(props) {
     //H4
     else if (tag == "h4") {
         return (
-            <div className={`bg-${props.element.bgColor} align-self-${props.element.alignSelf} col-${props.element.col} col-md-${props.element.colMd} col-lg-${props.element.colLg}`+activeBorder}>
+            <div className={`bg-${props.element.bgColor} align-self-${props.element.alignSelf} col-${props.element.col} col-md-${props.element.colMd} col-lg-${props.element.colLg}` + activeBorder}>
                 <h4 className={allClasses}><TextareaAutosize style={{ overflow: 'hidden' }} value={content} ref={props.focusedIndex == props.index ? (FocusedElement) : (null)} className={styles.textareaInherit} onChange={(e) => props.updateElement(props.index, "content", "", "", e.target.value)} placeholder="H4 Heading. Type here ..." onKeyDown={function (e) {
                     if (e.key === 'Enter') {
                         e.preventDefault();
                         props.addElement("p");
                     }
-                    if (e.key === 'Backspace' && content === "") {
+                    if ((e.key === 'Backspace' || e.key === 'Delete') && content === "") {
+                        e.preventDefault();
+                        props.deleteElement(props.index);
+                    }
+                    if (e.key === "Control" && e.key === "Shift" && e.key === "Delete") {
                         e.preventDefault();
                         props.deleteElement(props.index);
                     }
@@ -179,13 +203,17 @@ export default function EditorHTML(props) {
     //H5
     else if (tag == "h5") {
         return (
-            <div className={`bg-${props.element.bgColor} align-self-${props.element.alignSelf} col-${props.element.col} col-md-${props.element.colMd} col-lg-${props.element.colLg}`+activeBorder}>
+            <div className={`bg-${props.element.bgColor} align-self-${props.element.alignSelf} col-${props.element.col} col-md-${props.element.colMd} col-lg-${props.element.colLg}` + activeBorder}>
                 <h5 className={allClasses}><TextareaAutosize style={{ overflow: 'hidden' }} value={content} ref={props.focusedIndex == props.index ? (FocusedElement) : (null)} className={styles.textareaInherit} onChange={(e) => props.updateElement(props.index, "content", "", "", e.target.value)} placeholder="H5 heading. Type here ..." onKeyDown={function (e) {
                     if (e.key === 'Enter') {
                         e.preventDefault();
                         props.addElement("p");
                     }
-                    if (e.key === 'Backspace' && content === "") {
+                    if ((e.key === 'Backspace' || e.key === 'Delete') && content === "") {
+                        e.preventDefault();
+                        props.deleteElement(props.index);
+                    }
+                    if (e.key === "Control" && e.key === "Shift" && e.key === "Delete") {
                         e.preventDefault();
                         props.deleteElement(props.index);
                     }
@@ -197,13 +225,17 @@ export default function EditorHTML(props) {
     //H6
     else if (tag == "h6") {
         return (
-            <div className={`bg-${props.element.bgColor} align-self-${props.element.alignSelf} col-${props.element.col} col-md-${props.element.colMd} col-lg-${props.element.colLg}`+activeBorder}>
+            <div className={`bg-${props.element.bgColor} align-self-${props.element.alignSelf} col-${props.element.col} col-md-${props.element.colMd} col-lg-${props.element.colLg}` + activeBorder}>
                 <h6 className={allClasses}><TextareaAutosize style={{ overflow: 'hidden' }} value={content} ref={props.focusedIndex == props.index ? (FocusedElement) : (null)} className={styles.textareaInherit} onChange={(e) => props.updateElement(props.index, "content", "", "", e.target.value)} placeholder="H6 Heading. Type here ..." onKeyDown={function (e) {
                     if (e.key === 'Enter') {
                         e.preventDefault();
                         props.addElement("p");
                     }
-                    if (e.key === 'Backspace' && content === "") {
+                    if ((e.key === 'Backspace' || e.key === 'Delete') && content === "") {
+                        e.preventDefault();
+                        props.deleteElement(props.index);
+                    }
+                    if (e.key === "Control" && e.key === "Shift" && e.key === "Delete") {
                         e.preventDefault();
                         props.deleteElement(props.index);
                     }
@@ -215,11 +247,15 @@ export default function EditorHTML(props) {
     //Code
     else if (tag == "code") {
         return (
-            <div className={`bg-${props.element.bgColor} align-self-${props.element.alignSelf} col-${props.element.col} col-md-${props.element.colMd} col-lg-${props.element.colLg}`+activeBorder}>
+            <div className={`bg-${props.element.bgColor} align-self-${props.element.alignSelf} col-${props.element.col} col-md-${props.element.colMd} col-lg-${props.element.colLg}` + activeBorder}>
                 <code className={allClasses}>
                     <TextareaAutosize style={{ overflow: 'hidden' }} value={content} ref={props.focusedIndex == props.index ? (FocusedElement) : (null)} className={styles.textareaInherit} onChange={(e) => props.updateElement(props.index, "content", "", "", e.target.value)} placeholder="Code Snippet. Type here ..."
                         onKeyDown={function (e) {
-                            if (e.key === 'Backspace' && content === "") {
+                            if ((e.key === 'Backspace' || e.key === 'Delete') && content === "") {
+                                e.preventDefault();
+                                props.deleteElement(props.index);
+                            }
+                            if (e.key === "Control" && e.key === "Shift" && e.key === "Delete") {
                                 e.preventDefault();
                                 props.deleteElement(props.index);
                             }
@@ -232,7 +268,7 @@ export default function EditorHTML(props) {
     //Blockquote
     else if (tag == "blockquote") {
         return (
-            <div className={`bg-${props.element.bgColor} align-self-${props.element.alignSelf} col-${props.element.col} col-md-${props.element.colMd} col-lg-${props.element.colLg}`+activeBorder}>
+            <div className={`bg-${props.element.bgColor} align-self-${props.element.alignSelf} col-${props.element.col} col-md-${props.element.colMd} col-lg-${props.element.colLg}` + activeBorder}>
                 <div className="d-flex justify-content-start">
                     <i className="bi bi-link-45deg"></i>{" "}<TextareaAutosize style={{ overflow: 'hidden' }} value={props.element.cite} className={styles.textareaInherit} onChange={(e) => props.updateElement(props.index, "cite", "", "", e.target.value)} placeholder="Cite Link or source" onFocus={() => props.handleFocus(props.index)} /></div>
                 <blockquote className={allClasses}><TextareaAutosize style={{ overflow: 'hidden' }} value={content} ref={props.focusedIndex == props.index ? (FocusedElement) : (null)} className={styles.textareaInherit} onChange={(e) => props.updateElement(props.index, "content", "", "", e.target.value)} placeholder="BlockQuote text. Type here ..."
@@ -241,7 +277,11 @@ export default function EditorHTML(props) {
                             e.preventDefault();
                             props.addElement("p");
                         }
-                        if (e.key === 'Backspace' && content === "") {
+                        if ((e.key === 'Backspace' || e.key === 'Delete') && content === "") {
+                            e.preventDefault();
+                            props.deleteElement(props.index);
+                        }
+                        if (e.key === "Control" && e.key === "Shift" && e.key === "Delete") {
                             e.preventDefault();
                             props.deleteElement(props.index);
                         }
@@ -256,7 +296,7 @@ export default function EditorHTML(props) {
     //unordered list
     else if (tag == "ul") {
         return (
-            <div className={`bg-${props.element.bgColor} align-self-${props.element.alignSelf} col-${props.element.col} col-md-${props.element.colMd} col-lg-${props.element.colLg}`+activeBorder}>
+            <div className={`bg-${props.element.bgColor} align-self-${props.element.alignSelf} col-${props.element.col} col-md-${props.element.colMd} col-lg-${props.element.colLg}` + activeBorder}>
                 <ul className={allClasses}>
                     {props.elementArray[props.index].content.map((c, i) =>
                         <li key={tag + props.index + "c.value" + i}><TextareaAutosize style={{ overflow: 'hidden' }} value={c.value} ref={props.focusedIndex == props.index ? (FocusedElement) : (null)} className={styles.textareaInherit} onChange={(e) => props.updateElement(props.index, "content", i, "value", e.target.value)} placeholder="List Item" onKeyDown={function (e) {
@@ -269,7 +309,7 @@ export default function EditorHTML(props) {
                                 else
                                     props.updateElement(props.index, "content", "increase", "value", "")
                             }
-                            if (e.key === 'Backspace' && c.value === "") {
+                            if ((e.key === 'Backspace' || e.key === 'Delete') && c.value === "") {
                                 e.preventDefault();
                                 if (i === 0) {
                                     props.deleteElement(props.index);
@@ -289,7 +329,7 @@ export default function EditorHTML(props) {
     //ordered list
     else if (tag == "ol") {
         return (
-            <div className={`bg-${props.element.bgColor} align-self-${props.element.alignSelf} col-${props.element.col} col-md-${props.element.colMd} col-lg-${props.element.colLg}`+activeBorder}>
+            <div className={`bg-${props.element.bgColor} align-self-${props.element.alignSelf} col-${props.element.col} col-md-${props.element.colMd} col-lg-${props.element.colLg}` + activeBorder}>
                 <ol className={allClasses}>
                     {props.elementArray[props.index].content.map((c, i) =>
                         <li key={tag + props.index + "c.value" + i}><TextareaAutosize style={{ overflow: 'hidden' }} value={c.value} ref={props.focusedIndex == props.index ? (FocusedElement) : (null)} className={styles.textareaInherit} onChange={(e) => props.updateElement(props.index, "content", i, "value", e.target.value)} placeholder="List Item" onKeyDown={function (e) {
@@ -302,7 +342,7 @@ export default function EditorHTML(props) {
                                 else
                                     props.updateElement(props.index, "content", "increase", "", "")
                             }
-                            if (e.key === 'Backspace' && c.value === "") {
+                            if ((e.key === 'Backspace' || e.key === 'Delete') && c.value === "") {
                                 e.preventDefault();
                                 if (i === 0) {
                                     props.deleteElement(props.index);
@@ -322,7 +362,7 @@ export default function EditorHTML(props) {
     //IMAGE
     else if (tag == "img") {
         return (
-            <div className={`text-${props.element.alignment} py-3 bg-${props.element.bgColor} align-self-${props.element.alignSelf} col-${props.element.col} col-md-${props.element.colMd} col-lg-${props.element.colLg}`+activeBorder} onClick={() => props.handleFocus(props.index)}>
+            <div className={`text-${props.element.alignment} py-3 bg-${props.element.bgColor} align-self-${props.element.alignSelf} col-${props.element.col} col-md-${props.element.colMd} col-lg-${props.element.colLg}` + activeBorder} onClick={() => props.handleFocus(props.index)} >
                 <div className={props.index == props.focusedIndex ? ("d-flex justify-content-center align-items-stretch") : ("d-none")}>
                     <i className="bi bi-link-45deg lead"></i>
                     <textarea rows="1" cols="10" value={props.element.src} className="btn btn-light btn-light-active" styles={{ resize: 'none' }} onChange={(e) => props.updateElement(props.index, "src", "", "", e.target.value)} placeholder="Image Link" ref={props.focusedIndex == props.index ? (FocusedElement) : (null)} />
@@ -336,11 +376,20 @@ export default function EditorHTML(props) {
     //Media Text.
     else if (tag == "mediaText") {
         return (
-            <div className={`bg-${props.element.bgColor} align-self-${props.element.alignSelf} col-${props.element.col} col-md-${props.element.colMd} col-lg-${props.element.colLg}`+activeBorder}><div className={`text-${props.element.alignment} row align-items-center py-3`} onClick={() => props.handleFocus(props.index)}>
+            <div className={`bg-${props.element.bgColor} align-self-${props.element.alignSelf} col-${props.element.col} col-md-${props.element.colMd} col-lg-${props.element.colLg}` + activeBorder}><div className={`text-${props.element.alignment} row align-items-center py-3`} onClick={() => props.handleFocus(props.index)}>
                 <div className={`col-12 col-md-6 order-${props.element.order} text-center`}>
                     <div className={props.index == props.focusedIndex ? ("d-flex justify-content-center align-items-stretch") : ("d-none")}>
                         <i className="bi bi-link-45deg lead"></i>
-                        <textarea rows="1" cols="10" value={props.element.src} className="btn btn-light btn-light-active" styles={{ resize: 'none' }} onChange={(e) => props.updateElement(props.index, "src", "", "", e.target.value)} placeholder="Image Link" />
+                        <textarea rows="1" cols="10" value={props.element.src} className="btn btn-light btn-light-active" styles={{ resize: 'none' }} onChange={(e) => props.updateElement(props.index, "src", "", "", e.target.value)} placeholder="Image Link" onKeyDown={function (e) {
+                            if ((e.key === 'Backspace' || e.key === 'Delete') && content === "") {
+                                e.preventDefault();
+                                props.deleteElement(props.index);
+                            }
+                            if (e.key === "Control" && e.key === "Shift" && e.key === "Delete") {
+                                e.preventDefault();
+                                props.deleteElement(props.index);
+                            }
+                        }} />
                         <ImageUploader index={props.index} parentCallback={updateUrl} />
                         <button type="button" onClick={() => props.deleteElement(props.index)} className="btn btn-danger py-0 px-1"><i className="bi bi-trash lead"></i></button>
                     </div>
@@ -352,7 +401,11 @@ export default function EditorHTML(props) {
                             e.preventDefault();
                             props.addElement("p");
                         }
-                        if (e.key === 'Backspace' && content === "") {
+                        if ((e.key === 'Backspace' || e.key === 'Delete') && content === "") {
+                            e.preventDefault();
+                            props.deleteElement(props.index);
+                        }
+                        if (e.key === "Control" && e.key === "Shift" && e.key === "Delete") {
                             e.preventDefault();
                             props.deleteElement(props.index);
                         }
@@ -366,7 +419,7 @@ export default function EditorHTML(props) {
     //carousel
     else if (tag == "carousel") {
         return (
-            <div className={`bg-${props.element.bgColor} align-self-${props.element.alignSelf} col-${props.element.col} col-md-${props.element.colMd} col-lg-${props.element.colLg}`+activeBorder}>
+            <div className={`bg-${props.element.bgColor} align-self-${props.element.alignSelf} col-${props.element.col} col-md-${props.element.colMd} col-lg-${props.element.colLg}` + activeBorder}>
                 <div className="px-0 col-12 col-md-10 offset-md-1 col-lg-8 offset-lg-2"
                     onClick={() => props.handleFocus(props.index)}>
                     <Carousel
@@ -416,7 +469,7 @@ export default function EditorHTML(props) {
 
     //BUTTONS
     else if (tag == "button") {
-        return (<div className={`py-2 text-${props.element.alignment} bg-${props.element.bgColor} align-self-${props.element.alignSelf} col-${props.element.col} col-md-${props.element.colMd} col-lg-${props.element.colLg}`+activeBorder} >
+        return (<div className={`py-2 text-${props.element.alignment} bg-${props.element.bgColor} align-self-${props.element.alignSelf} col-${props.element.col} col-md-${props.element.colMd} col-lg-${props.element.colLg}` + activeBorder} >
             <button type="button" className={props.element.btnOutline ? (`btn btn-outline-${props.element.btnColor}`) : (`btn btn-${props.element.btnColor}`)} style={{ position: 'relative' }}>
                 <div className="d-flex justify-content-start">
                     {props.element.iconName ? (
@@ -424,7 +477,16 @@ export default function EditorHTML(props) {
                             <i className={`bi bi-${props.element.iconName} font-weight-bolder`}></i>{" "}
                         </>
                     ) : (<></>)}
-                    <TextareaAutosize style={{ overflow: 'hidden' }} value={content} className={styles.textareaInheritBtn} onChange={(e) => props.updateElement(props.index, "content", "", "", e.target.value)} ref={props.focusedIndex == props.index ? (FocusedElement) : (null)} placeholder="Button Text. Type here ..." onFocus={() => props.handleFocus(props.index)} />
+                    <TextareaAutosize style={{ overflow: 'hidden' }} value={content} className={styles.textareaInheritBtn} onChange={(e) => props.updateElement(props.index, "content", "", "", e.target.value)} ref={props.focusedIndex == props.index ? (FocusedElement) : (null)} placeholder="Button Text. Type here ..." onFocus={() => props.handleFocus(props.index)} onKeyDown={function (e) {
+                        if ((e.key === 'Backspace' || e.key === 'Delete') && content === "") {
+                            e.preventDefault();
+                            props.deleteElement(props.index);
+                        }
+                        if (e.key === "Control" && e.key === "Shift" && e.key === "Delete") {
+                            e.preventDefault();
+                            props.deleteElement(props.index);
+                        }
+                    }} />
                 </div>
             </button>
             <button type="button" onClick={() => props.deleteElement(props.index)} className={styles.delBtn}><i className="bi bi-x-circle-fill lead"></i></button>
@@ -433,7 +495,7 @@ export default function EditorHTML(props) {
     //SOCIAL BUTTONS
     else if (tag == "socialbtns") {
         return (
-            <div className={`py-2 text-${props.element.alignment} bg-${props.element.bgColor} align-self-${props.element.alignSelf} col-${props.element.col} col-md-${props.element.colMd} col-lg-${props.element.colLg}`+activeBorder} aria-label="btn-group" onClick={() => props.handleFocus(props.index)}>
+            <div className={`py-2 text-${props.element.alignment} bg-${props.element.bgColor} align-self-${props.element.alignSelf} col-${props.element.col} col-md-${props.element.colMd} col-lg-${props.element.colLg}` + activeBorder} aria-label="btn-group" onClick={() => props.handleFocus(props.index)}>
                 <div role="group" className="btn-group" onClick={() => props.handleFocus(props.index)}>
                     {SocialLinks.filter((s, i) => props.element[s.name] !== "")
                         .map((sb, i) =>
@@ -448,7 +510,7 @@ export default function EditorHTML(props) {
     //NAVIGATION 
     else if (tag == "navbar") {
         return (
-            <div className={`text-${props.element.alignment} bg-${props.element.bgColor} align-self-${props.element.alignSelf} p-0 col-${props.element.col} col-md-${props.element.colMd} col-lg-${props.element.colLg}`+activeBorder + allClasses} onClick={() => props.handleFocus(props.index)}>
+            <div className={`text-${props.element.alignment} bg-${props.element.bgColor} align-self-${props.element.alignSelf} p-0 col-${props.element.col} col-md-${props.element.colMd} col-lg-${props.element.colLg}` + activeBorder + allClasses} onClick={() => props.handleFocus(props.index)}>
                 <Navbar bg={props.element.bgColor} variant={props.element.bgColor} expand="lg">
                     <Navbar.Brand href="#home">React-Bootstrap</Navbar.Brand>
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
@@ -476,7 +538,7 @@ export default function EditorHTML(props) {
     //horizontal rule
     else if (tag == "hr") {
         return (
-            <div className={`col-12 bg-${props.element.bgColor}`+activeBorder}>
+            <div className={`col-12 bg-${props.element.bgColor}` + activeBorder}>
                 <div className="row" onClick={() => props.handleFocus(props.index)}>
                     <div className="col-11 pr-0">
                         <hr />
@@ -517,11 +579,17 @@ export default function EditorHTML(props) {
         });
         return (
             <>
-                <div className={`text-${props.element.alignment} bg-${props.element.bgColor} align-self-${props.element.alignSelf} col-${props.element.col} col-md-${props.element.colMd} col-lg-${props.element.colLg}`+activeBorder} onClick={() => props.handleFocus(props.index)} >
+                <div className={`text-${props.element.alignment} bg-${props.element.bgColor} align-self-${props.element.alignSelf} col-${props.element.col} col-md-${props.element.colMd} col-lg-${props.element.colLg}` + activeBorder} onClick={() => props.handleFocus(props.index)} >
                     {props.focusedIndex === props.index ? (
-                        <EditorTabs elementArray={props.element.elementArray} focusedIndex={props.innerFocusedIndex} lastIndex={props.innerLastIndex} updateElement={updateChildElement} addElement={addChildElement}
-                            changeElementIndex={changeChildElementIndex} customDisabled={true}
-                        />
+                        <div className={props.element.elementArray.length == 0 ?("d-flex"):("border")}>
+                            <EditorTabs elementArray={props.element.elementArray} focusedIndex={props.innerFocusedIndex} lastIndex={props.innerLastIndex} updateElement={updateChildElement} addElement={addChildElement}
+                                changeElementIndex={changeChildElementIndex} customDisabled={true}
+                            />
+                            {props.element.elementArray.length == 0 ? (
+                                <button type="button" onClick={() => props.deleteElement(props.index)} className="btn btn-danger my-1 py-0 px-1"><i className="bi bi-trash lead"></i></button>)
+                                : (<></>)
+                            }
+                        </div>
                     ) : (
                         props.element.elementArray.length == 0 ? (
                             <div className="d-flex align-items-center justify-content-around border text-center rounded bg-light" style={{ cursor: 'pointer', minHeight: '8vh' }}>
