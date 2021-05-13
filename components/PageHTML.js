@@ -2,6 +2,21 @@ import { Carousel } from 'react-bootstrap'
 import { useState, useEffect } from 'react';
 import {buildClassName} from '../functions/BuildFunctions';
 //BUILD HTML
+var SocialLinks = [
+    { name: 'instagram' },
+    { name: 'facebook' },
+    { name: 'twitter' },
+    { name: 'whatsapp' },
+    { name: 'github' },
+    { name: 'linkedin' },
+    { name: 'youtube' },
+    { name: 'google' },
+    { name: 'telegram' },
+    { name: 'slack' },
+    { name: 'discord' },
+    { name: 'twitch' }
+]
+
 export default function PageHTML({element, index}) {
     const [windowWidth, setWindowWidth] = useState(0);
     const [windowHeight, setWindowHeight] = useState(0);
