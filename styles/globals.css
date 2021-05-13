@@ -15,16 +15,6 @@ a {
 * {
   box-sizing: border-box;
 }
-.btn-primary{
-  background-color:#21759b;
-  border-color: #21759b;
-}
-.text-primary{
-  color: #21759b;
-}
-.bg-primary{
-  background-color: #21759b !important;
-}
 
 .borderPrimary{
   border-color: #21759b !important;

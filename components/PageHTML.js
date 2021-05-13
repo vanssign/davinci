@@ -137,7 +137,7 @@ export default function PageHTML({element, index}) {
     }
     if (tag == "button") {
         return (
-            <div className={`text-${element.alignment} bg-${element.bgColor} align-self-${element.alignSelf} col-${element.col} col-md-${element.colMd} col-lg-${element.colLg}`}>
+            <div className={`py-2 text-${element.alignment} bg-${element.bgColor} align-self-${element.alignSelf} col-${element.col} col-md-${element.colMd} col-lg-${element.colLg}`}>
                 <a className="text-reset" href={element.href} target="_blank">
                     <button className={element.btnOutline ? (`btn btn-outline-${element.btnColor}`) : (`btn btn-${element.btnColor}`)}>
                         {element.iconName ? (<i className={`bi bi-${element.iconName} lead`}></i>) : (<></>)}
@@ -149,7 +149,7 @@ export default function PageHTML({element, index}) {
     //SOCIAL BUTTONS
     if (tag == "socialbtns") {
         return (
-            <div className={`text-${element.alignment}  bg-${element.bgColor} align-self-${element.alignSelf} col-${element.col} col-md-${element.colMd} col-lg-${element.colLg}`}>
+            <div className={`py-2 text-${element.alignment}  bg-${element.bgColor} align-self-${element.alignSelf} col-${element.col} col-md-${element.colMd} col-lg-${element.colLg}`}>
                 <div className="btn-group" role="group" aria-label="btn-group">
                     {SocialLinks.filter((s, i) => element[s.name] !== "")
                         .map((sb, i) =>

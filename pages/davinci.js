@@ -121,16 +121,14 @@ export default function Davinci() {
         let temp = newElementArray[index];
         //decrease index
         if (value === -1) {
-            let a = newElementArray[index]
-            let b = newElementArray[index - 1];
-            [a, b] = [b, a]
+            newElementArray[index]=newElementArray[index-1]
+            newElementArray[index-1]=temp;
             setFocusedIndex(index - 1);
         }
         //increase  index
         else if (value == 1) {
-            let a = newElementArray[index];
-            let b = newElementArray[index + 1];
-            [a, b] = [b, a]
+            newElementArray[index]=newElementArray[index+1]
+            newElementArray[index+1]=temp;
             setFocusedIndex(index + 1);
         }
         setElementArray(newElementArray);
@@ -177,15 +175,16 @@ export default function Davinci() {
                         setInnerFocusedIndex(InnerFocusedIndex - 1);
                     }
                     else if (key2 == "up") {
-                        let a = newElementArray[index].elementArray[index2];
-                        let b = newElementArray[index].elementArray[index2 - 1];
-                        [a, b] = [b, a];
-
+                        let temp = newElementArray[index].elementArray[index2];
+                        newElementArray[index].elementArray[index2]=newElementArray[index].elementArray[index2-1]
+                        newElementArray[index].elementArray[index2-1]=temp;
+                        setInnerFocusedIndex(InnerFocusedIndex-1);
                     }
                     else if (key2 == "down") {
-                        let a = newElementArray[index].elementArray[index2];
-                        let b = newElementArray[index].elementArray[index2 + 1];
-                        [a, b] = [b, a];
+                        let temp = newElementArray[index].elementArray[index2];
+                        newElementArray[index].elementArray[index2]=newElementArray[index].elementArray[index2+1]
+                        newElementArray[index].elementArray[index2+1]=temp;
+                        setInnerFocusedIndex(InnerFocusedIndex+1);
                     }
                     else if (key2 == "typography") {
                         newElementArray[index].elementArray[index2][key2][value] = !newElementArray[index].elementArray[index2][key2][value]
@@ -251,7 +250,7 @@ export default function Davinci() {
                     </div>
 
                     {/* Elements */}
-                    <div className="row">
+                    <div className="row px-1">
                         {ElementArray.map((element, index) =>
                             <EditorHTML key={element.tag + index} element={element} index={index} focusedIndex={FocusedIndex} handleFocus={handleFocus} innerFocusedIndex={InnerFocusedIndex} handleInnerFocus={handleInnerFocus} updateElement={updateElement} deleteElement={deleteElement} addElement={addElement} innerLastIndex={InnerLastIndex} />
                         )
