@@ -82,10 +82,11 @@ export default function EditorHTML(props) {
     }, [props.focusedIndex])
 
     useEffect(() => {
+        if(!(props.index<props.lastIndex)){
         if (FocusedElement.current) {
-            FocusedElement.current.focus();
             FocusedElement.current.scrollIntoView();
         }
+    }
         if (windowWidth == 0) {
             setWindowHeight(window.innerHeight);
             setWindowWidth(window.innerWidth);
@@ -382,11 +383,11 @@ export default function EditorHTML(props) {
                 <div className={`w-100 align-self-${props.element.alignSelf}` + allClasses}>
                     <div className={props.index == props.focusedIndex ? ("d-flex justify-content-center align-items-stretch") : ("d-none")}>
                         <i className="bi bi-link-45deg lead"></i>
-                        <textarea rows="1" cols="10" value={props.element.src} className="btn btn-light btn-light-active" styles={{ resize: 'none' }} onChange={(e) => props.updateElement(props.index, "src", "", "", e.target.value)} placeholder="Image Link" ref={props.focusedIndex == props.index ? (FocusedElement) : (null)} />
+                        <textarea rows="1" cols="10" value={props.element.src} className="btn btn-light btn-light-active" styles={{ resize: 'none' }} onChange={(e) => props.updateElement(props.index, "src", "", "", e.target.value)} placeholder="Image Link" />
                         <ImageUploader index={props.index} parentCallback={updateUrl} />
                         <button type="button" onClick={() => props.deleteElement(props.index)} className="btn btn-danger py-0 px-1"><i className="bi bi-trash lead"></i></button>
                     </div>
-                    <img className={allClasses + " rounded "} src={props.element.src ? (props.element.src) : ("https://i.stack.imgur.com/y9DpT.jpg")} ></img>
+                    <img ref={props.focusedIndex == props.index ? (FocusedElement) : (null)} className={allClasses + " rounded "} src={props.element.src ? (props.element.src) : ("https://i.stack.imgur.com/y9DpT.jpg")} ></img>
                 </div>
             </div>
         )
@@ -575,7 +576,7 @@ export default function EditorHTML(props) {
         });
         return (
             <>
-                <div className={`text-${props.element.alignment} ` + containerClasses + activeBorder} onClick={() => props.handleFocus(props.index)} >
+                <div className={`text-${props.element.alignment} ` + containerClasses + activeBorder} onClick={() => props.handleFocus(props.index)} ref={props.focusedIndex == props.index ? (FocusedElement) : (null)}>
                     <div className={`w-100 align-self-${props.element.alignSelf}`}>
                         {props.focusedIndex === props.index ? (
                             <div className={props.element.elementArray.length == 0 ? ("d-flex") : ("border")}>
