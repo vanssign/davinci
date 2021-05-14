@@ -5,6 +5,9 @@ body {
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
     box-sizing: border-box !important;
+  scroll-behavior: smooth;
+    
+    
 }
 
 a {
@@ -17,8 +20,11 @@ a {
 }
 
 .borderPrimary{
-  border-color: #21759b !important;
-  border-width: 3px !important;
+  outline: #21759b !important;
+  outline-width: 3px !important;
+}
+.borderPrimary{
+  outline: 3px solid #21759b !important;
 }
 .btn:focus{
   outline:none !important;

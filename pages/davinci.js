@@ -35,7 +35,7 @@ export default function Davinci() {
     }])
 
     const [LoginStatus, setLoginStatus] = useState("");
-    const [Notification, setNotification] = useState("Check out all blogs");
+    const [Notification, setNotification] = useState("");
     const [LiveBlogId, setLiveBlogId] = useState("");
     const [PreviewStatus, setPreviewStatus] = useState(false);
 
@@ -79,17 +79,17 @@ export default function Davinci() {
                 .add({
                     elementArray: ElementArray
                 }).then((docRef) => {
-                    setNotification("Blog live");
+                    setNotification("Blog live at");
                     setLiveBlogId(docRef.id)
                 })
                 .catch(function (error) {
-                    setNotification("Error adding document: " + error);
+                    setNotification("Error: " + error);
                 });
         }
         else {
-            setNotification("Title not added! Check all blogs")
+            setNotification("Title not added!")
             setTimeout(() => {
-                setNotification("Check out all blogs")
+                setNotification("")
             }, 7000)
         }
     }
@@ -121,14 +121,14 @@ export default function Davinci() {
         let temp = newElementArray[index];
         //decrease index
         if (value === -1) {
-            newElementArray[index]=newElementArray[index-1]
-            newElementArray[index-1]=temp;
+            newElementArray[index] = newElementArray[index - 1]
+            newElementArray[index - 1] = temp;
             setFocusedIndex(index - 1);
         }
         //increase  index
         else if (value == 1) {
-            newElementArray[index]=newElementArray[index+1]
-            newElementArray[index+1]=temp;
+            newElementArray[index] = newElementArray[index + 1]
+            newElementArray[index + 1] = temp;
             setFocusedIndex(index + 1);
         }
         setElementArray(newElementArray);
@@ -176,15 +176,15 @@ export default function Davinci() {
                     }
                     else if (key2 == "up") {
                         let temp = newElementArray[index].elementArray[index2];
-                        newElementArray[index].elementArray[index2]=newElementArray[index].elementArray[index2-1]
-                        newElementArray[index].elementArray[index2-1]=temp;
-                        setInnerFocusedIndex(InnerFocusedIndex-1);
+                        newElementArray[index].elementArray[index2] = newElementArray[index].elementArray[index2 - 1]
+                        newElementArray[index].elementArray[index2 - 1] = temp;
+                        setInnerFocusedIndex(InnerFocusedIndex - 1);
                     }
                     else if (key2 == "down") {
                         let temp = newElementArray[index].elementArray[index2];
-                        newElementArray[index].elementArray[index2]=newElementArray[index].elementArray[index2+1]
-                        newElementArray[index].elementArray[index2+1]=temp;
-                        setInnerFocusedIndex(InnerFocusedIndex+1);
+                        newElementArray[index].elementArray[index2] = newElementArray[index].elementArray[index2 + 1]
+                        newElementArray[index].elementArray[index2 + 1] = temp;
+                        setInnerFocusedIndex(InnerFocusedIndex + 1);
                     }
                     else if (key2 == "typography") {
                         newElementArray[index].elementArray[index2][key2][value] = !newElementArray[index].elementArray[index2][key2][value]
@@ -204,9 +204,9 @@ export default function Davinci() {
         setElementArray(newElementArray)
     }
     // LOGS
-    // console.log(ElementArray);
-    console.log(InnerFocusedIndex);
-    console.log(InnerLastIndex);
+    console.log(ElementArray);
+    // console.log(InnerFocusedIndex);
+    // console.log(InnerLastIndex);
     function handleFocus(index) {
         setFocusedIndex(index);
     }
@@ -223,40 +223,47 @@ export default function Davinci() {
             {/* Check LOGIN STATUS */}
             {LoginStatus === true ? (
                 // LOGGED IN AND LOADED
-                <div className="container-fluid py-2">
+                <>
 
                     {/* Notification and publish button */}
-                    <div className="d-flex justify-content-between">
-                        <div>
-                            {Notification + " at "}
-                            <Link href={`/blog/${LiveBlogId}`}><a>https://davinci.vercel.app/blog/{LiveBlogId}</a></Link>
-                        </div>
-                        <button type="button" className="btn btn-primary" onClick={(e) => handlePublish(e)}>
-                            Publish</button>
-                    </div>
 
                     {/* Add new Element */}
-                    <div style={{ position: 'sticky', top: 0, zIndex: 10 }}>
-                        {/* Toggle button */}
-                        <div className={PreviewStatus ? ("opacityHalf") : ("bg-white")}>
-                            <button type="button" className="btn btn-dark px-2 py-0" onClick={() => setPreviewStatus(!PreviewStatus)}>{PreviewStatus ?
-                                (<span><i className="bi bi-arrows-collapse"></i></span>) :
-                                (<i className="bi bi-arrows-expand"></i>)}</button>
-                        </div>
+                    <div style={{ position: 'sticky', top: 0, zIndex: 10, marginBottom: '5px'}} className="bg-light" >
+                        <div className="container-fluid">
+                            {/* Toggle button */}
+                            <div className="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <button type="button" className="btn btn-dark px-2 py-0" onClick={() => setPreviewStatus(!PreviewStatus)}>{PreviewStatus ?
+                                        (<span><i className="bi bi-arrows-collapse"></i></span>) :
+                                        (<i className="bi bi-arrows-expand"></i>)}</button>
+                                </div>
+                                <div className="text-center">
+                                    {Notification +" "}
+                                    {LiveBlogId ? (
+                                        <Link href={`/blog/${LiveBlogId}`}><a>/blog/{LiveBlogId}</a></Link>
+                                    ) : (<></>)}
+                                </div>
+                                <button type="button" className="btn my-1 btn-info" onClick={(e) => handlePublish(e)}>
+                                    Publish</button>
 
-                        <div className={PreviewStatus ? ("d-none") : ("rounded border")} style={{ backgroundColor: 'white' }}>
-                            <EditorTabs elementArray={ElementArray} focusedIndex={FocusedIndex} lastIndex={LastIndex} updateElement={updateElement} changeElementIndex={changeElementIndex} addElement={addElement} customDisabled={false} />
+                            </div>
+
+                            <div className={PreviewStatus ? ("d-none") : ("rounded border")} style={{ backgroundColor: 'white' }}>
+                                <EditorTabs elementArray={ElementArray} focusedIndex={FocusedIndex} lastIndex={LastIndex} updateElement={updateElement} changeElementIndex={changeElementIndex} addElement={addElement} customDisabled={false} />
+                            </div>
                         </div>
                     </div>
 
                     {/* Elements */}
-                    <div className="row px-1">
-                        {ElementArray.map((element, index) =>
-                            <EditorHTML key={element.tag + index} element={element} index={index} focusedIndex={FocusedIndex} handleFocus={handleFocus} innerFocusedIndex={InnerFocusedIndex} handleInnerFocus={handleInnerFocus} updateElement={updateElement} deleteElement={deleteElement} addElement={addElement} innerLastIndex={InnerLastIndex} />
-                        )
-                        }
+                    <div className="container-fluid">
+                        <div className="row px-1">
+                            {ElementArray.map((element, index) =>
+                                <EditorHTML key={element.tag + index} element={element} index={index} focusedIndex={FocusedIndex} handleFocus={handleFocus} innerFocusedIndex={InnerFocusedIndex} handleInnerFocus={handleInnerFocus} updateElement={updateElement} deleteElement={deleteElement} addElement={addElement} innerLastIndex={InnerLastIndex} />
+                            )
+                            }
+                        </div>
                     </div>
-                </div>
+                </>
             ) : (
                 LoginStatus !== "failure" ? (
                     // LOADING

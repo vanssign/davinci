@@ -106,6 +106,7 @@ export function determineElementStructure(tag, elementArray, currentIndex) {
             btnColor: "light",
             btnOutline: false,
             iconName: "",
+            iconPosition:"start",
             alignment: 'center',
             alignSelf: "center",
             bgColor: "transparent",

@@ -9,7 +9,7 @@ export default function Post({ postData }) {
                 <title>{postData.elementArray[0].content} | Davinci</title>
                 <meta name="viewport" content="initial-scale=1.0, width=device-width" />
             </Head>
-            <div className="row">
+            <div className="row py-3">
             {
                 postData.elementArray.map((element, index) =>
                     <PageHTML key={element.tag+index} element={element} index={index}/>

@@ -1,6 +1,6 @@
 import { Carousel } from 'react-bootstrap'
 import { useState, useEffect } from 'react';
-import {buildClassName} from '../functions/BuildFunctions';
+import { buildClassName } from '../functions/BuildFunctions';
 //BUILD HTML
 var SocialLinks = [
     { name: 'instagram' },
@@ -17,7 +17,7 @@ var SocialLinks = [
     { name: 'twitch' }
 ]
 
-export default function PageHTML({element, index}) {
+export default function PageHTML({ element, index }) {
     const [windowWidth, setWindowWidth] = useState(0);
     const [windowHeight, setWindowHeight] = useState(0);
     useEffect(() => {
@@ -76,7 +76,7 @@ export default function PageHTML({element, index}) {
     }
     if (tag == "carousel") {
         return (
-            <div className={` bg-${element.bgColor} align-self-${element.alignSelf} col-${element.col} col-md-${element.colMd} col-lg-${element.colLg}`}>
+            <div className={` bg-${element.bgColor} align-self-${element.alignSelf} col-${element.col} col-md-${element.colMd} col-lg-${element.colLg} py-3`}>
                 <div className="px-0 col-12 col-md-10 offset-md-1 col-lg-8 offset-lg-2">
                     <Carousel
                         fade={element.animation == "fade" ? (true) : (false)}
@@ -140,8 +140,20 @@ export default function PageHTML({element, index}) {
             <div className={`py-2 text-${element.alignment} bg-${element.bgColor} align-self-${element.alignSelf} col-${element.col} col-md-${element.colMd} col-lg-${element.colLg}`}>
                 <a className="text-reset" href={element.href} target="_blank">
                     <button className={element.btnOutline ? (`btn btn-outline-${element.btnColor}`) : (`btn btn-${element.btnColor}`)}>
-                        {element.iconName ? (<i className={`bi bi-${element.iconName} lead`}></i>) : (<></>)}
-                        {" "} {content}</button>
+                        {(element.iconName && element.iconPosition == "start") ? (
+                            <>
+                                <i className={`bi bi-${element.iconName} font-weight-bolder`}></i>{" "}
+                            </>
+                        ) : (<></>)}
+                        {content}
+                        {(element.iconName && element.iconPosition == "end") ? (
+                            <>
+                            {" "}
+                                <i className={`bi bi-${element.iconName} font-weight-bolder`}></i>
+                            </>
+                        ) : (<></>)
+                        }
+                    </button>
                 </a>
             </div>
         )
@@ -180,7 +192,7 @@ export default function PageHTML({element, index}) {
     }
     if (tag == "custom") {
         const nestedItems = element.elementArray.map((e, i) => {
-            return <PageHTML key={element.elementArray.tag+"custom"+i} element={e} index={i}/>;
+            return <PageHTML key={element.elementArray.tag + "custom" + i} element={e} index={i} />;
         });
         return (
             <div className={` bg-${element.bgColor} align-self-${element.alignSelf} col-${element.col} col-md-${element.colMd} col-lg-${element.colLg}`}>

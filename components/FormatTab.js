@@ -272,6 +272,20 @@ export default function FormatTab(props) {
                         <br />
                         <textarea rows="1" cols="3" value={props.element.iconName} className="btn btn-light" styles={{ resize: 'none !important' }} onChange={(e) => props.updateElement(props.index, "iconName", "", "", e.target.value)} placeholder="icon"  />
                     </div>
+                    <div className="px-2 text-center">
+                        <small>Icon Position</small>
+                        <DropdownButton size="sm" title={<i className={`bi bi-align-${props.element.iconPosition}`}></i>} variant="secondary">
+                            <Dropdown.Item>
+                                <button type="button" className={props.element.iconPosition === "start" ? ("btn btn -light btn-light-active") : ("btn btn-light")} onClick={() => props.updateElement(props.index, "iconPosition", "", "", "start")}  >
+                                    <i className="bi  bi-align-start"></i>
+                                </button>
+
+                                <button type="button" className={props.element.iconPosition === "end" ? ("btn btn-light btn-light-active") : ("btn btn-light")} onClick={() => props.updateElement(props.index, "iconPosition", "", "", "end")}>
+                                    <i className="bi  bi-align-end"></i>
+                                </button>
+                            </Dropdown.Item>
+                        </DropdownButton>
+                    </div>
                 </>
 
                 ) : (<></>)}
@@ -346,7 +360,7 @@ export default function FormatTab(props) {
                         </div>
                         <div className="px-2 text-left">
                             <small>Settings</small>
-                            <div className="form-check py-0">
+                            <div className="form-check py-0 ">
                                 <input className="form-check-input" type="checkbox" defaultChecked={props.element.controls} id="controlsCheck" onChange
                                     ={() => props.updateElement(props.index, "controls", "", "", !props.element.controls)} />
                                 <label className="form-check-label" htmlFor="controlsCheck">

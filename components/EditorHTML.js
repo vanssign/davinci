@@ -53,7 +53,7 @@ var SocialLinks = [
 export default function EditorHTML(props) {
     const activeClass = () => {
         if (props.index == props.focusedIndex)
-            return " border borderPrimary"
+            return " borderPrimary"
         else return ""
     }
     let activeBorder = activeClass();
@@ -416,10 +416,17 @@ export default function EditorHTML(props) {
             </div>
         )
     }
+
     //carousel
     else if (tag == "carousel") {
+        const pCarousel = () => {
+            if (props.index != props.focusedIndex) {
+                return " py-3 "
+            }
+            else return " py-0 "
+        }
         return (
-            <div className={`bg-${props.element.bgColor} align-self-${props.element.alignSelf} col-${props.element.col} col-md-${props.element.colMd} col-lg-${props.element.colLg}` + activeBorder}>
+            <div className={`bg-${props.element.bgColor} align-self-${props.element.alignSelf} col-${props.element.col} col-md-${props.element.colMd} col-lg-${props.element.colLg}` + pCarousel() + activeBorder}>
                 <div className="px-0 col-12 col-md-10 offset-md-1 col-lg-8 offset-lg-2"
                     onClick={() => props.handleFocus(props.index)}>
                     <Carousel
@@ -472,7 +479,7 @@ export default function EditorHTML(props) {
         return (<div className={`py-2 text-${props.element.alignment} bg-${props.element.bgColor} align-self-${props.element.alignSelf} col-${props.element.col} col-md-${props.element.colMd} col-lg-${props.element.colLg}` + activeBorder} >
             <button type="button" className={props.element.btnOutline ? (`btn btn-outline-${props.element.btnColor}`) : (`btn btn-${props.element.btnColor}`)} style={{ position: 'relative' }}>
                 <div className="d-flex justify-content-start">
-                    {props.element.iconName ? (
+                    {(props.element.iconName && (props.element.iconPosition == "start")) ? (
                         <>
                             <i className={`bi bi-${props.element.iconName} font-weight-bolder`}></i>{" "}
                         </>
@@ -487,6 +494,12 @@ export default function EditorHTML(props) {
                             props.deleteElement(props.index);
                         }
                     }} />
+                    {(props.element.iconName && props.element.iconPosition == "end") ? (
+                        <>
+                            {" "}
+                            <i className={`bi bi-${props.element.iconName} font-weight-bolder`}></i>
+                        </>
+                    ) : (<></>)}
                 </div>
             </button>
             <button type="button" onClick={() => props.deleteElement(props.index)} className={styles.delBtn}><i className="bi bi-x-circle-fill lead"></i></button>
@@ -581,7 +594,7 @@ export default function EditorHTML(props) {
             <>
                 <div className={`text-${props.element.alignment} bg-${props.element.bgColor} align-self-${props.element.alignSelf} col-${props.element.col} col-md-${props.element.colMd} col-lg-${props.element.colLg}` + activeBorder} onClick={() => props.handleFocus(props.index)} >
                     {props.focusedIndex === props.index ? (
-                        <div className={props.element.elementArray.length == 0 ?("d-flex"):("border")}>
+                        <div className={props.element.elementArray.length == 0 ? ("d-flex") : ("border")}>
                             <EditorTabs elementArray={props.element.elementArray} focusedIndex={props.innerFocusedIndex} lastIndex={props.innerLastIndex} updateElement={updateChildElement} addElement={addChildElement}
                                 changeElementIndex={changeChildElementIndex} customDisabled={true}
                             />
