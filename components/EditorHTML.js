@@ -362,7 +362,7 @@ export default function EditorHTML(props) {
     //IMAGE
     else if (tag == "img") {
         return (
-            <div className={`text-${props.element.alignment} py-3 bg-${props.element.bgColor} align-self-${props.element.alignSelf} col-${props.element.col} col-md-${props.element.colMd} col-lg-${props.element.colLg}` + activeBorder} onClick={() => props.handleFocus(props.index)} >
+            <div className={`text-${props.element.alignment} py-1 bg-${props.element.bgColor} align-self-${props.element.alignSelf} col-${props.element.col} col-md-${props.element.colMd} col-lg-${props.element.colLg}` + activeBorder} onClick={() => props.handleFocus(props.index)} >
                 <div className={props.index == props.focusedIndex ? ("d-flex justify-content-center align-items-stretch") : ("d-none")}>
                     <i className="bi bi-link-45deg lead"></i>
                     <textarea rows="1" cols="10" value={props.element.src} className="btn btn-light btn-light-active" styles={{ resize: 'none' }} onChange={(e) => props.updateElement(props.index, "src", "", "", e.target.value)} placeholder="Image Link" ref={props.focusedIndex == props.index ? (FocusedElement) : (null)} />

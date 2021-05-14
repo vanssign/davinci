@@ -55,7 +55,7 @@ export default function PageHTML({ element, index }) {
     }
     if (tag == "img") {
         return (
-            <div className={`text-${element.alignment} py-3  bg-${element.bgColor} align-self-${element.alignSelf} col-${element.col} col-md-${element.colMd} col-lg-${element.colLg}`}>
+            <div className={`text-${element.alignment} py-1  bg-${element.bgColor} align-self-${element.alignSelf} col-${element.col} col-md-${element.colMd} col-lg-${element.colLg}`}>
                 <img className={allClasses + " rounded "} src={element.src} />
             </div>
         )

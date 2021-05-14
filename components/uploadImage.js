@@ -23,16 +23,13 @@ export default function ImageUploader(props) {
                     switch (snapshot.state) {
                         case fire.storage.TaskState.PAUSED: // or 'paused'
                             console.log('Upload is paused');
-                            setUploadStatus("paused")
                             break;
                         case fire.storage.TaskState.RUNNING: // or 'running'
-                            setUploadStatus("running")
                             break;
                     }
                 },
                 (error) => {
                     // Handle unsuccessful uploads
-                    setUploadStatus("failure")
                 },
                 () => {
                     // Handle successful uploads on complete
@@ -46,27 +43,10 @@ export default function ImageUploader(props) {
         }
     })
 
-    const buildStatusIndicator = () => {
-        if (uploadStatus === "running") {
-            return <Spinner animation="border" role="status">
-                <span className="sr-only">Loading...</span>
-            </Spinner>
-        }
-        else if(uploadStatus==="paused"){
-            return <i className="bi bi-pause-circle-fill lead"></i>
-        }
-        else if(uploadStatus==="failure"){
-            return <i className="bi bi-exclaimation-circle-fill"></i>
-        }
-        else if(uploadStatus===true){
-            return <i className="bi bi-check-circle-fill lead"></i>
-        }
-    }
-
     function handleChange(e) {
         setFile(e.target.files[0]);
     }
     return (
-        <label className="btn-secondary btn" style={{ margin: 0 }}>Upload {UploadStatus}<input type="file" style={{ zIndex: 10 }} className="d-none" onChange={handleChange} /></label>
+        <label className="btn-secondary btn" style={{ margin: 0 }}>Upload<input type="file" style={{ zIndex: 10 }} className="d-none" onChange={handleChange} /></label>
     );
 }
