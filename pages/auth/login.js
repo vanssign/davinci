@@ -45,7 +45,7 @@ export default function Login() {
       })
   }
   return (
-    <Layout loginStatus={LoginStatus}>
+    <Layout loginStatus={LoginStatus} visible={true}>
     <div className="container d-flex align-items-center justify-content-center text-center" style={{ height: '90vh', width: '100vw' }}>
       <div>
         <Head>

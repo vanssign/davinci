@@ -215,7 +215,7 @@ export default function Davinci() {
     }
 
     return (
-        <Layout loginStatus={LoginStatus}>
+        <Layout loginStatus={LoginStatus} visible={LoginStatus===true||LoginStatus==="failure"}>
             <Head>
                 <title>Davinci | Paint blog posts</title>
                 <meta name="viewport" content="initial-scale=1.0, width=device-width" />
@@ -267,7 +267,7 @@ export default function Davinci() {
             ) : (
                 LoginStatus !== "failure" ? (
                     // LOADING
-                    <div className="container d-flex align-items-center justify-content-center text-center" style={{ height: '90vh', width: '100vw' }}>
+                    <div className="container d-flex align-items-center justify-content-center text-center" style={{ height: '100vh', width: '100vw' }}>
                         <div className=""><i className="display-4 bi bi-hourglass-split"></i>
                             <h4>L O A D I N G</h4>
                             <small className="d-block d-sm-none">Tip: Use Desktop for better experience!</small>

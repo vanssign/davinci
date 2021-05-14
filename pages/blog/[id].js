@@ -1,8 +1,15 @@
 import Head from "next/head";
 import fire from "../../config/fire-config";
 import PageHTML from '../../components/PageHTML';
+import Error from 'next/error'
 
-export default function Post({ postData }) {   
+export default function Post({ postData,err }) { 
+    if(err){
+        return(
+            <Error statusCode="404" />
+        )
+    }
+    else  
     return (
         <div className="container-fluid py-2">
             <Head>
@@ -35,20 +42,21 @@ export async function getStaticPaths() {
 //PROPS
 export async function getStaticProps({ params }) {
     var postData;
+    var err;
     const blogRef = fire.firestore().collection('blog').doc(params.id);
     const doc = await blogRef.get();
     if (!doc.exists) {
-        postData = {
-            title: 'Unexpected Error Occured',
-            elementArray: [],
-        }
+        postData = [];
+        err=true;
     }
     else {
         postData = doc.data();
+        err=false;
     }
     return {
         props: {
-            postData
+            postData,
+            err
         }
     }
 }
