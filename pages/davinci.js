@@ -224,11 +224,10 @@ export default function Davinci() {
             {LoginStatus === true ? (
                 // LOGGED IN AND LOADED
                 <>
-
                     {/* Notification and publish button */}
 
                     {/* Add new Element */}
-                    <div style={{ position: 'sticky', top: 0, zIndex: 10, marginBottom: '5px'}} className="bg-light" >
+                    <div style={{ position: 'sticky', top: 0, zIndex: 10}} className="bg-light" >
                         <div className="container-fluid">
                             {/* Toggle button */}
                             <div className="d-flex justify-content-between align-items-center">

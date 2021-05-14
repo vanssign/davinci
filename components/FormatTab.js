@@ -89,6 +89,7 @@ var SocialLinks = [
 
 //Properties in Format tab
 export default function FormatTab(props) {
+    
     return (
         <div className="d-flex flex-wrap justify-content-start align-items-center">
             <div className="px-2 text-center">
@@ -117,6 +118,14 @@ export default function FormatTab(props) {
                     <i className="bi bi-chevron-compact-down"></i>
                 </button>
             </div>
+
+            {props.element.tag=="spacer"?(
+                <div className="px-2 text-center">
+                <small>Height</small>
+                <br />
+                <textarea rows="1" cols="4" value={props.element.height} className="btn btn-light" styles={{ resize: 'none !important' }} onChange={(e) => props.updateElement(props.index, "height", "", "", e.target.value)} placeholder="height"  />
+            </div>
+            ):(<></>)}
 
             {props.element.alignment ? (
                 <div className="px-2 text-center">

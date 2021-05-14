@@ -13,13 +13,27 @@ export function buildClassName(element, index) {
     if (element.alignment) {
         allClasses = allClasses.concat("text-" + element.alignment + " ");
     }
-    if (element.tag === "img" || element.tag === "mediaText") {
+    if (element.tag === "img" ) {
         if (element.responsive) allClasses = allClasses.concat("img-fluid ");
     }
     if (element.textColor) {
         allClasses = allClasses.concat(`text-${element.textColor} `)
     }
     return allClasses;
+}
+
+export function buildElementContainerClasses(e) {
+    var containerClasses = "d-flex align-items-stretch "
+    if (e.bgColor) {
+        containerClasses = containerClasses.concat(`bg-${e.bgColor} `)
+    }
+    if (e.col) {
+        containerClasses = containerClasses.concat(`col-${e.col} col-md-${e.colMd} col-lg-${e.colLg} `);
+    }
+    if(!e.col){
+        containerClasses=containerClasses.concat(`col-12 `)
+    }
+    return containerClasses;
 }
 
 //auto determine col for newly inserted element
@@ -81,22 +95,6 @@ export function determineElementStructure(tag, elementArray, currentIndex) {
             colLg: colLg,
         }
     }
-    else if (tag == "mediaText") {
-        element = {
-            tag: tag,
-            src: "",
-            responsive: true,
-            alignment: 'left',
-            alignSelf: "center",
-            bgColor: "transparent",
-            order: 0,
-            content: "",
-            textColor: "dark",
-            col: col,
-            colMd: colMd,
-            colLg: colLg,
-        }
-    }
     else if (tag == "button") {
         element = {
             tag: tag,
@@ -106,7 +104,7 @@ export function determineElementStructure(tag, elementArray, currentIndex) {
             btnColor: "light",
             btnOutline: false,
             iconName: "",
-            iconPosition:"start",
+            iconPosition: "start",
             alignment: 'center',
             alignSelf: "center",
             bgColor: "transparent",
@@ -143,6 +141,7 @@ export function determineElementStructure(tag, elementArray, currentIndex) {
             tag: tag,
             content: "",
             cite: "",
+            footerContent:"",
             classes: "",
             typography: {
                 bold: false,
@@ -163,6 +162,17 @@ export function determineElementStructure(tag, elementArray, currentIndex) {
         element = {
             tag: tag,
             bgColor: "transparent",
+        }
+    }
+    else if (tag == "spacer") {
+        element = {
+            tag: tag,
+            height: "30",
+            bgColor: "transparent",
+            col: 12,
+            colMd: 12,
+            colLg: 12,
+            autoHeight:false
         }
     }
     else if (tag == 'carousel') {
@@ -227,5 +237,3 @@ export function determineElementStructure(tag, elementArray, currentIndex) {
     }
     return element;
 }
-
-

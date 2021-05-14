@@ -103,9 +103,6 @@ export default function InsertTab(props) {
                     </button>
                 ) : (
                     <SplitButton variant="light" title={<i className="bi bi-image"></i>} onClick={() => props.addElement("img")}>
-                        <Dropdown.Item onClick={() => props.addElement("mediaText")}>
-                            <i className="bi bi-image-fill"></i><i className="bi bi-text-paragraph"></i>{" "}Media Text
-                                             </Dropdown.Item>
                         <Dropdown.Item onClick={() => props.addElement("carousel")}>
                             <i className="bi bi-collection-play-fill"></i>{" "}Carousel
                                              </Dropdown.Item>
@@ -144,13 +141,14 @@ export default function InsertTab(props) {
                 placement="top"
                 overlay={
                     <Tooltip>
-                        Horizontal Line
+                        Design Elements
                      </Tooltip>
                 }
             >
-                <button className="btn btn-light" onClick={() => props.addElement("hr")} >
-                    <i className="bi bi-dash"></i>
-                </button>
+                <DropdownButton id="dropdown-basic-design" variant="light" title={<i className="bi bi-brush"></i>}>
+                    <Dropdown.Item onClick={() => props.addElement("hr")}><i className="bi bi-dash"></i>{" "}Line</Dropdown.Item>
+                    <Dropdown.Item onClick={() => props.addElement("spacer")}><i className="bi bi-distribute-vertical"></i>{" "}Spacer</Dropdown.Item>
+                </DropdownButton>
             </OverlayTrigger>
 
             {props.customDisabled ? (<></>) : (

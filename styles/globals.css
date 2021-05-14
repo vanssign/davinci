@@ -99,3 +99,6 @@ color:black;
 .btn-transparent{
   background-color: transparent;
 }
+.zIndex5{
+  z-index: 5;
+}

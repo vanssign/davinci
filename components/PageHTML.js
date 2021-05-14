@@ -1,6 +1,6 @@
 import { Carousel } from 'react-bootstrap'
 import { useState, useEffect } from 'react';
-import { buildClassName } from '../functions/BuildFunctions';
+import { buildClassName, buildElementContainerClasses } from '../functions/BuildFunctions';
 //BUILD HTML
 var SocialLinks = [
     { name: 'instagram' },
@@ -35,49 +35,81 @@ export default function PageHTML({ element, index }) {
     let tag = element.tag;
     let content = element.content;
     let allClasses = buildClassName(element, index)
+    let containerClasses = buildElementContainerClasses(element);
+
     if (tag == "h1") {
         return (
-            <div className={` bg-${element.bgColor} align-self-${element.alignSelf} col-${element.col} col-md-${element.colMd} col-lg-${element.colLg}`}><h1 className={allClasses}>{content}</h1>
+            <div className={containerClasses}>
+                <h1 className={allClasses + ` w-100 align-self-${element.alignSelf}`}>{content}</h1>
             </div>)
     }
     if (tag == "h2") {
         return (
-            <div className={` bg-${element.bgColor} align-self-${element.alignSelf} col-${element.col} col-md-${element.colMd} col-lg-${element.colLg}`}><h2 className={allClasses}>{content}</h2>
+            <div className={containerClasses}>
+                <h2 className={allClasses + ` w-100 align-self-${element.alignSelf}`}>{content}</h2>
             </div>)
     }
     if (tag == "p") {
         return (
-            <div className={` bg-${element.bgColor} align-self-${element.alignSelf} col-${element.col} col-md-${element.colMd} col-lg-${element.colLg}`}><p className={allClasses}>{content}</p></div>)
+            <div className={containerClasses}>
+                <p className={allClasses + ` w-100 align-self-${element.alignSelf}`}>{content}</p>
+            </div>)
     }
     if (tag == "h3") {
         return (
-            <div className={` bg-${element.bgColor} align-self-${element.alignSelf} col-${element.col} col-md-${element.colMd} col-lg-${element.colLg}`}><h3 className={allClasses}>{content}</h3></div>)
+            <div className={containerClasses}>
+                <h3 className={allClasses + ` w-100 align-self-${element.alignSelf}`}>{content}</h3>
+            </div>)
     }
     if (tag == "img") {
         return (
-            <div className={`text-${element.alignment} py-1  bg-${element.bgColor} align-self-${element.alignSelf} col-${element.col} col-md-${element.colMd} col-lg-${element.colLg}`}>
-                <img className={allClasses + " rounded "} src={element.src} />
+            <div className={containerClasses}>
+                <img className={allClasses + `rounded w-100 align-self-${element.alignSelf}`} src={element.src} />
             </div>
         )
     }
-    if (tag == "mediaText") {
+    if (tag == "h4") {
         return (
-            <div className={` bg-${element.bgColor} align-self-${element.alignSelf} col-${element.col} col-md-${element.colMd} col-lg-${element.colLg}`}>
-                <div className={`text-${element.alignment} row align-items-center py-3`}>
-                    <div className={`col-12 col-md-6 order-${element.order} text-center`}>
-                        <img className={allClasses + " rounded "} src={element.src} />
-                    </div>
-                    <div className="col-12 col-md-6">
-                        <p className={allClasses}>{content}</p>
-                    </div>
-                </div>
+            <div className={containerClasses}>
+                <h4 className={allClasses + ` w-100 align-self-${element.alignSelf}`}>{content}</h4>
             </div>
         )
     }
+    if (tag == "h5") {
+        return (
+            <div className={containerClasses}>
+                <h5 className={allClasses + ` w-100 align-self-${element.alignSelf}`}>{content}</h5>
+            </div>)
+    }
+    if (tag == "h6") {
+        return (
+            <div className={containerClasses}>
+                <h6 className={allClasses + ` w-100 align-self-${element.alignSelf}`}>{content}</h6>
+            </div>
+        )
+    }
+    if (tag == "code") {
+        return (<div className={containerClasses}>
+            <code className={allClasses + ` w-100 align-self-${element.alignSelf}`} style={{ whiteSpace: 'pre-wrap' }}>{content}</code>
+        </div>)
+    }
+    if (tag == "blockquote") {
+        return (<div className={containerClasses}>
+            <div className={`w-100 align-self-${element.alignSelf}`}>
+                <blockquote className={allClasses + " blockquote"}>
+                    <p className="mb-0">{content}</p>
+                    <footer className="blockquote-footer">
+                        <cite title={element.cite}>{element.cite}</cite>
+                    </footer>
+                </blockquote>
+            </div>
+        </div>)
+    }
+
     if (tag == "carousel") {
         return (
-            <div className={` bg-${element.bgColor} align-self-${element.alignSelf} col-${element.col} col-md-${element.colMd} col-lg-${element.colLg} py-3`}>
-                <div className="px-0 col-12 col-md-10 offset-md-1 col-lg-8 offset-lg-2">
+            <div className={containerClasses + " py-2 "}>
+                <div className={"px-0 col-12 col-md-10 offset-md-1 col-lg-8 offset-lg-2 " + `w-100 align-self-${element.alignSelf}`}>
                     <Carousel
                         fade={element.animation == "fade" ? (true) : (false)}
                         interval={parseInt(element.interval)}
@@ -101,16 +133,7 @@ export default function PageHTML({ element, index }) {
             </div>
         )
     }
-    if (tag == "h4") {
-        return (
-            <div className={` bg-${element.bgColor} align-self-${element.alignSelf} col-${element.col} col-md-${element.colMd} col-lg-${element.colLg}`}><h4 className={allClasses}>{content}</h4></div>)
-    }
-    if (tag == "h5") {
-        return (<div className={` bg-${element.bgColor} align-self-${element.alignSelf} col-${element.col} col-md-${element.colMd} col-lg-${element.colLg}`}><h5 className={allClasses}>{content}</h5></div>)
-    }
-    if (tag == "h6") {
-        return (<div className={` bg-${element.bgColor} align-self-${element.alignSelf} col-${element.col} col-md-${element.colMd} col-lg-${element.colLg}`}><h6 className={allClasses}>{content}</h6></div>)
-    }
+
     if (tag == "ul") {
         return (
             <div className={` bg-${element.bgColor} align-self-${element.alignSelf} col-${element.col} col-md-${element.colMd} col-lg-${element.colLg}`}>
@@ -137,57 +160,62 @@ export default function PageHTML({ element, index }) {
     }
     if (tag == "button") {
         return (
-            <div className={`py-2 text-${element.alignment} bg-${element.bgColor} align-self-${element.alignSelf} col-${element.col} col-md-${element.colMd} col-lg-${element.colLg}`}>
-                <a className="text-reset" href={element.href} target="_blank">
-                    <button className={element.btnOutline ? (`btn btn-outline-${element.btnColor}`) : (`btn btn-${element.btnColor}`)}>
-                        {(element.iconName && element.iconPosition == "start") ? (
-                            <>
-                                <i className={`bi bi-${element.iconName} font-weight-bolder`}></i>{" "}
-                            </>
-                        ) : (<></>)}
-                        {content}
-                        {(element.iconName && element.iconPosition == "end") ? (
-                            <>
-                            {" "}
-                                <i className={`bi bi-${element.iconName} font-weight-bolder`}></i>
-                            </>
-                        ) : (<></>)
-                        }
-                    </button>
-                </a>
+            <div className={`py-2 ` + containerClasses}>
+                <div className={`w-100 align-self-${element.alignSelf} text-${element.alignment}`}>
+                    <a className="text-reset" href={element.href} target="_blank">
+                        <button className={element.btnOutline ? (`btn btn-outline-${element.btnColor}`) : (`btn btn-${element.btnColor}`)}>
+                            {(element.iconName && element.iconPosition == "start") ? (
+                                <>
+                                    <i className={`bi bi-${element.iconName} font-weight-bolder`}></i>{" "}
+                                </>
+                            ) : (<></>)}
+                            {content}
+                            {(element.iconName && element.iconPosition == "end") ? (
+                                <>
+                                    {" "}
+                                    <i className={`bi bi-${element.iconName} font-weight-bolder`}></i>
+                                </>
+                            ) : (<></>)
+                            }
+                        </button>
+                    </a>
+                </div>
             </div>
         )
     }
     //SOCIAL BUTTONS
     if (tag == "socialbtns") {
         return (
-            <div className={`py-2 text-${element.alignment}  bg-${element.bgColor} align-self-${element.alignSelf} col-${element.col} col-md-${element.colMd} col-lg-${element.colLg}`}>
-                <div className="btn-group" role="group" aria-label="btn-group">
-                    {SocialLinks.filter((s, i) => element[s.name] !== "")
-                        .map((sb, i) =>
+            <div className={"py-2 " + containerClasses}>
+                <div className={`w-100 align-self-${element.alignSelf} ` + allClasses}>
+                    <div className="btn-group" role="group" aria-label="btn-group">
+                        {SocialLinks.filter((s, i) => element[s.name] !== "")
+                            .map((sb, i) =>
 
-                            <button key={tag + index + "sociallinks" + i} type="button" className="btn btn-secondary">
-                                <a className="text-reset" href={element[sb.name]} target="_blank">
-                                    <i className={`bi bi-${sb.name} lead`}></i>
-                                </a>
-                            </button>
-                        )
-                    }
+                                <button key={tag + index + "sociallinks" + i} type="button" className="btn btn-secondary">
+                                    <a className="text-reset" href={element[sb.name]} target="_blank">
+                                        <i className={`bi bi-${sb.name} lead`}></i>
+                                    </a>
+                                </button>
+                            )
+                        }
+                    </div>
                 </div>
             </div>
         )
     }
-    if (tag == "code") {
-        return (<div className={` bg-${element.bgColor} align-self-${element.alignSelf} col-${element.col} col-md-${element.colMd} col-lg-${element.colLg}`}><code className={allClasses} style={{ whiteSpace: 'pre-wrap' }}>{content}</code></div>)
-    }
-    if (tag == "blockquote") {
-        return (<div className={` bg-${element.bgColor} align-self-${element.alignSelf} col-${element.col} col-md-${element.colMd} col-lg-${element.colLg}`}><blockquote className={allClasses} cite={element.cite}>{content}</blockquote></div>)
-    }
+
     if (tag == "hr") {
         return (
-            <div className={`col-12 bg-${element.bgColor}`} >
-                <hr />
+            <div className={containerClasses}>
+                <hr className="w-100"/>
             </div>
+        )
+    }
+    else if (tag == "spacer") {
+        return (
+            <span style={{ display: 'inlineBlock', height: `${element.height}px`}} className={containerClasses}>
+            </span>
         )
     }
     if (tag == "custom") {
@@ -195,9 +223,11 @@ export default function PageHTML({ element, index }) {
             return <PageHTML key={element.elementArray.tag + "custom" + i} element={e} index={i} />;
         });
         return (
-            <div className={` bg-${element.bgColor} align-self-${element.alignSelf} col-${element.col} col-md-${element.colMd} col-lg-${element.colLg}`}>
-                <div className="row">
-                    {nestedItems}
+            <div className={`text-${element.alignment} ` + containerClasses} >
+                <div className={`w-100 align-self-${element.alignSelf}`}>
+                    <div className="row">
+                        {nestedItems}
+                    </div>
                 </div>
             </div>
         )

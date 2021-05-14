@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react'
 import fire from '../config/fire-config';
-import {Spinner} from 'react-bootstrap'
 
 export default function ImageUploader(props) {
     const [file, setFile] = useState(null);
@@ -47,6 +46,6 @@ export default function ImageUploader(props) {
         setFile(e.target.files[0]);
     }
     return (
-        <label className="btn-secondary btn" style={{ margin: 0 }}>Upload<input type="file" style={{ zIndex: 10 }} className="d-none" onChange={handleChange} /></label>
+        <label className="btn-secondary btn" style={{ margin: 0 }}>Upload<input type="file" style={{ zIndex: 10 }} className="d-none" onChange={handleChange} disabled={uploadStatus}/></label>
     );
 }
