@@ -79,14 +79,19 @@ export default function EditorHTML(props) {
         if (FocusedElement.current) {
             FocusedElement.current.focus();
         }
+    }, [props.focusedIndex])
+
+    useEffect(() => {
+        if (FocusedElement.current) {
+            FocusedElement.current.focus();
+            FocusedElement.current.scrollIntoView();
+        }
         if (windowWidth == 0) {
             setWindowHeight(window.innerHeight);
             setWindowWidth(window.innerWidth);
         }
-        window.addEventListener("resize", handleResize);
-        // }
-    }, [props.focusedIndex])
-
+        window.addEventListener("resize", handleResize)
+    }, [props.lastIndex])
     //TEXT
     if (tag == "h1") {
         return (
@@ -287,7 +292,7 @@ export default function EditorHTML(props) {
                                 onFocus={() => props.handleFocus(props.index)} />
                         </p>
                         <footer className="blockquote-footer">
-                            <TextareaAutosize style={{ overflow: 'hidden',width:'20vw' }} value={props.element.cite} className={styles.textareaInherit} onChange={(e) => props.updateElement(props.index, "cite", "", "", e.target.value)} placeholder="Cite Title here..."
+                            <TextareaAutosize style={{ overflow: 'hidden', width: '20vw' }} value={props.element.cite} className={styles.textareaInherit} onChange={(e) => props.updateElement(props.index, "cite", "", "", e.target.value)} placeholder="Cite Title here..."
                                 onKeyDown={function (e) {
                                     if (e.key === "Control" && e.key === "Shift" && e.key === "Delete") {
                                         e.preventDefault();
@@ -374,7 +379,7 @@ export default function EditorHTML(props) {
     else if (tag == "img") {
         return (
             <div className={"py-2" + containerClasses + activeBorder} onClick={() => props.handleFocus(props.index)} >
-                <div className={`w-100 align-self-${props.element.alignSelf}`+allClasses}>
+                <div className={`w-100 align-self-${props.element.alignSelf}` + allClasses}>
                     <div className={props.index == props.focusedIndex ? ("d-flex justify-content-center align-items-stretch") : ("d-none")}>
                         <i className="bi bi-link-45deg lead"></i>
                         <textarea rows="1" cols="10" value={props.element.src} className="btn btn-light btn-light-active" styles={{ resize: 'none' }} onChange={(e) => props.updateElement(props.index, "src", "", "", e.target.value)} placeholder="Image Link" ref={props.focusedIndex == props.index ? (FocusedElement) : (null)} />
@@ -390,7 +395,7 @@ export default function EditorHTML(props) {
     //carousel
     else if (tag == "carousel") {
         return (
-            <div className={containerClasses + " py-2 " + activeBorder} onClick={() => props.handleFocus(props.index)}>
+            <div className={containerClasses + " py-2 " + activeBorder} onClick={() => props.handleFocus(props.index)} ref={props.focusedIndex == props.index ? (FocusedElement) : (null)}>
                 <div className={"px-0 col-12 col-md-10 offset-md-1 col-lg-8 offset-lg-2 " + `w-100 align-self-${props.element.alignSelf}`}
                     onClick={() => props.handleFocus(props.index)}>
                     <Carousel
@@ -474,7 +479,7 @@ export default function EditorHTML(props) {
     //SOCIAL BUTTONS
     else if (tag == "socialbtns") {
         return (
-            <div className={`py-2 ` + containerClasses + activeBorder} aria-label="btn-group" onClick={() => props.handleFocus(props.index)}>
+            <div className={`py-2 ` + containerClasses + activeBorder} aria-label="btn-group" onClick={() => props.handleFocus(props.index)} ref={props.focusedIndex == props.index ? (FocusedElement) : (null)}>
                 <div className={`w-100 align-self-${props.element.alignSelf} ` + allClasses}>
                     <div role="group" className={"btn-group "} onClick={() => props.handleFocus(props.index)}>
                         {SocialLinks.filter((s, i) => props.element[s.name] !== "")
@@ -519,7 +524,7 @@ export default function EditorHTML(props) {
     //horizontal rule
     else if (tag == "hr") {
         return (
-            <div className={containerClasses + activeBorder} onClick={() => props.handleFocus(props.index)}>
+            <div className={containerClasses + activeBorder} onClick={() => props.handleFocus(props.index)} ref={props.focusedIndex == props.index ? (FocusedElement) : (null)} >
                 <div className="row w-100">
                     <div className="col-11 pr-0">
                         <hr />
@@ -533,7 +538,7 @@ export default function EditorHTML(props) {
     }
     else if (tag == "spacer") {
         return (
-            <span style={{ display: 'inlineBlock', height: `${props.element.height}px`, cursor: 'pointer' }} className={"text-center border text-muted justify-content-around " + containerClasses + activeBorder} onClick={() => props.handleFocus(props.index)}>
+            <span style={{ display: 'inlineBlock', height: `${props.element.height}px`, cursor: 'pointer' }} className={"text-center border text-muted justify-content-around " + containerClasses + activeBorder} ref={props.focusedIndex == props.index ? (FocusedElement) : (null)} onClick={() => props.handleFocus(props.index)}>
                 <span className="align-self-center">Whitespace</span>
                 <button type="button" className="btn btn-danger py-0 px-1" onClick={() => props.deleteElement(props.index)}>
                     <i className="bi bi-trash lead"></i>

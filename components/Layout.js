@@ -29,7 +29,8 @@ export default function Layout({ children, loginStatus, visible }) {
                         </NavDropdown> */}
                         </Nav>
                         <Navbar.Text className="py-0">
-                            {loginStatus === true ? (<button className="btn btn-danger btn-sm" onClick={() => handleLogout()}>
+                            {loginStatus === true ? (
+                                <button className="btn btn-danger btn-sm" onClick={() => handleLogout()}>
 
                                 <i className="bi bi-person-x-fill"></i>{" "}Logout
 
