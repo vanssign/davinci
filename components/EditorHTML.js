@@ -286,7 +286,7 @@ export default function EditorHTML(props) {
                                 }}
                                 onFocus={() => props.handleFocus(props.index)} />
                         </p>
-                        <footer class="blockquote-footer">
+                        <footer className="blockquote-footer">
                             <TextareaAutosize style={{ overflow: 'hidden',width:'20vw' }} value={props.element.cite} className={styles.textareaInherit} onChange={(e) => props.updateElement(props.index, "cite", "", "", e.target.value)} placeholder="Cite Title here..."
                                 onKeyDown={function (e) {
                                     if (e.key === "Control" && e.key === "Shift" && e.key === "Delete") {
