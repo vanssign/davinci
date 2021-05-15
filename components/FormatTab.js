@@ -86,16 +86,44 @@ var SocialLinks = [
     { name: 'twitch' }
 ]
 
+var AspectRatios = [
+    {
+        ratio: "1:1",
+        value: "1by1"
+    },
+    {
+        ratio: "4:3",
+        value: "4by3"
+    },
+    {
+        ratio: "16:9",
+        value: "16by9"
+    },
+    {
+        ratio: "21:9",
+        value: "21by9"
+    },
+]
 
+function aspectValueToRatio(value) {
+    let ratio;
+    for (let i in AspectRatios) {
+        if (AspectRatios[i].value == value) {
+            ratio = AspectRatios[i].ratio;
+            break;
+        }
+    }
+    return ratio;
+}
 //Properties in Format tab
 export default function FormatTab(props) {
-    
+
     return (
         <div className="d-flex flex-wrap justify-content-start align-items-center">
             <div className="px-2 text-center">
                 <small>Type</small>
-                {((props.element.tag == "h1" || props.element.tag === "h2" || props.element.tag === "h3" || props.element.tag === "p" || props.element.tag === "h4" || props.element.tag === "h5" || props.element.tag === "h6" || props.element.tag === "code") ) ?
-                    (<DropdownButton title={props.element.tag} variant="secondary" size="sm">
+                {((props.element.tag == "h1" || props.element.tag === "h2" || props.element.tag === "h3" || props.element.tag === "p" || props.element.tag === "h4" || props.element.tag === "h5" || props.element.tag === "h6" || props.element.tag === "code")) ?
+                    (<DropdownButton title={props.element.tag} variant=" " size="sm">
                         {TextTags.map((t, i) =>
                             <Dropdown.Item key={props.index + "propertieschange" + i} onClick={() => props.updateElement(props.index, "tag", "", "", t.tag)} active={props.element.tag == t.tag ? (true) : (false)} >
                                 <i className={`bi ${t.iconName}`}></i>
@@ -104,33 +132,33 @@ export default function FormatTab(props) {
                     </DropdownButton>) : (
                         <>
                             <br />
-                            <button role="button" className="btn btn-sm btn-secondary">{props.element.tag}</button>
+                            <button role="button" className="btn btn-sm btn-transparent">{props.element.tag}</button>
                         </>
                     )}
             </div>
             <div className="px-2 text-center">
                 <small>Reorder</small>
                 <br />
-                <button type="button" className="btn btn-secondary py-0 px-1" onClick={() => props.changeElementIndex(props.index, -1)} disabled={props.index === 0}>
+                <button type="button" className="btn btn-transparent styleBold text-primary-x py-0 px-1" onClick={() => props.changeElementIndex(props.index, -1)} disabled={props.index === 0}>
                     <i className="bi bi-chevron-compact-up"></i>
                 </button>
-                <button type="button" className="btn btn-secondary py-0 px-1" onClick={() => props.changeElementIndex(props.index, 1)} disabled={props.index == props.lastIndex}>
+                <button type="button" className="btn btn-transparent text-primary-x py-0 px-1" onClick={() => props.changeElementIndex(props.index, 1)} disabled={props.index == props.lastIndex}>
                     <i className="bi bi-chevron-compact-down"></i>
                 </button>
             </div>
 
-            {props.element.tag=="spacer"?(
+            {props.element.tag == "spacer" ? (
                 <div className="px-2 text-center">
-                <small>Height</small>
-                <br />
-                <textarea rows="1" cols="4" value={props.element.height} className="btn btn-light" styles={{ resize: 'none !important' }} onChange={(e) => props.updateElement(props.index, "height", "", "", e.target.value)} placeholder="height"  />
-            </div>
-            ):(<></>)}
+                    <small>Height</small>
+                    <br />
+                    <textarea rows="1" cols="4" value={props.element.height} className="btn btn-light" styles={{ resize: 'none !important' }} onChange={(e) => props.updateElement(props.index, "height", "", "", e.target.value)} placeholder="height" />
+                </div>
+            ) : (<></>)}
 
             {props.element.alignment ? (
                 <div className="px-2 text-center">
                     <small>Align</small>
-                    <DropdownButton title={<i className={`bi bi-text-${props.element.alignment}`}></i>} variant="secondary" size="sm">
+                    <DropdownButton title={<i className={`bi bi-text-${props.element.alignment}`}></i>} variant=" " size="sm">
                         <Dropdown.Item>
                             <button type="button" className={props.element.alignment === "left" ? ("btn btn -light btn-light-active") : ("btn btn-light")} onClick={() => props.updateElement(props.index, "alignment", "", "", "left")}  >
                                 <i className="bi  bi-text-left"></i>
@@ -155,7 +183,7 @@ export default function FormatTab(props) {
                         <small>Align</small>
                         <DropdownButton size="sm" title={props.element.alignSelf == " " ? (<i className="bi  bi-align-top"></i>) : (
                             props.element.alignSelf == "center" ? (<i className="bi  bi-align-center"></i>) : (<i className="bi  bi-align-bottom"></i>)
-                        )} variant="secondary">
+                        )} variant=" ">
                             <Dropdown.Item>
                                 <button type="button" className={props.element.alignSelf === " " ? ("btn btn -light btn-light-active") : ("btn btn-light")} onClick={() => props.updateElement(props.index, "alignSelf", "", "", " ")}  >
                                     <i className="bi  bi-align-top"></i>
@@ -248,6 +276,11 @@ export default function FormatTab(props) {
                             <button style={{ borderRadius: '100%', paddingTop: '12px' }} type="button" className={props.element.bgColor == "transparent" ? (`borderActive btn bg-checkered `) : (`border btn bg-checkered`)}
                                 onClick={() => props.updateElement(props.index, "bgColor", "", "", "transparent")}>
                             </button>
+                            {/* Custom Color */}
+                            <button style={{ borderRadius: '100%', paddingTop: '12px' }} type="button" className={props.element.bgColor == "custom" ? (`borderActive btn bg-rainbow `) : (`border btn bg-rainbow`)}
+                                onClick={() => props.updateElement(props.index, "bgColor", "", "", "custom")}>
+                                    <i className="bi bi-pallete"></i>
+                            </button>
                         </Dropdown.Item>
                     </DropdownButton>
                 </div>) : (<></>)}
@@ -265,7 +298,7 @@ export default function FormatTab(props) {
                     <div className="px-2 text-center">
                         <small><i className="bi bi-link-45deg"></i>{" "}Link</small>
                         <br />
-                        <textarea rows="1" cols="5" value={props.element.href} className="btn btn-light" styles={{ resize: 'none !important' }} onChange={(e) => props.updateElement(props.index, "href", "", "", e.target.value)} placeholder="Link"  />
+                        <textarea rows="1" cols="5" value={props.element.href} className="btn btn-light" styles={{ resize: 'none !important' }} onChange={(e) => props.updateElement(props.index, "href", "", "", e.target.value)} placeholder="Link" />
                     </div>
                     <div className="px-2 text-center">
                         <small>Icon{" "}</small>
@@ -279,11 +312,11 @@ export default function FormatTab(props) {
                             <i className="bi bi-info-circle-fill"></i>
                         </OverlayTrigger>
                         <br />
-                        <textarea rows="1" cols="3" value={props.element.iconName} className="btn btn-light" styles={{ resize: 'none !important' }} onChange={(e) => props.updateElement(props.index, "iconName", "", "", e.target.value)} placeholder="icon"  />
+                        <textarea rows="1" cols="3" value={props.element.iconName} className="btn btn-light" styles={{ resize: 'none !important' }} onChange={(e) => props.updateElement(props.index, "iconName", "", "", e.target.value)} placeholder="icon" />
                     </div>
                     <div className="px-2 text-center">
                         <small>Icon Position</small>
-                        <DropdownButton size="sm" title={<i className={`bi bi-align-${props.element.iconPosition}`}></i>} variant="secondary">
+                        <DropdownButton size="sm" title={<i className={`bi bi-align-${props.element.iconPosition}`}></i>} variant=" ">
                             <Dropdown.Item>
                                 <button type="button" className={props.element.iconPosition === "start" ? ("btn btn -light btn-light-active") : ("btn btn-light")} onClick={() => props.updateElement(props.index, "iconPosition", "", "", "start")}  >
                                     <i className="bi  bi-align-start"></i>
@@ -305,7 +338,7 @@ export default function FormatTab(props) {
                     <br />
                     <OverlayTrigger
                         trigger="click" placement="right"
-                        delay={{ hide: 20000 }}
+                        rootClose={true}
                         overlay={
                             <Popover id="popover-basic">
                                 <Popover.Title as="h3">Social Links</Popover.Title>
@@ -314,7 +347,7 @@ export default function FormatTab(props) {
                                         {SocialLinks.map((s, i) =>
                                             <div key={props.index + "propertieschange" + i}>
                                                 <i className={`bi bi-${s.name} lead mr-2`}></i>
-                                                <textarea rows="1" cols="10" value={props.element[s.name]} className="btn btn-light my-1" styles={{ resize: 'none !important' }} onChange={(e) => props.updateElement(props.index, s.name, "", "", e.target.value)} placeholder={s.name}  />
+                                                <textarea rows="1" cols="10" value={props.element[s.name]} className="btn btn-light my-1" styles={{ resize: 'none !important' }} onChange={(e) => props.updateElement(props.index, s.name, "", "", e.target.value)} placeholder={s.name} />
                                             </div>)}
                                     </>
                                 </Popover.Content>
@@ -327,63 +360,74 @@ export default function FormatTab(props) {
                 </div>
                 ) : (<></>)}
 
-            {props.element.tag === "mediaText" ? (
-                <div className="px-2 text-center">
-                    <small>Order</small>
-                    <br />
-                    <button type="button" className={props.element.order === 0 ? ("btn btn-light btn-light-active p-0") : ("btn btn-light p-0")} onClick={() => props.updateElement(props.index, "order", "", "", 0)} >
-                        <i className="bi bi-image-fill"></i><i className="bi bi-text-paragraph"></i>
-                    </button>
-                    <button type="button" className={props.element.order === 1 ? ("btn btn-light btn-light-active p-0") : ("btn btn-light p-0")} onClick={() => props.updateElement(props.index, "order", "", "", 1)} >
-                        <i className="bi bi-text-paragraph"></i><i className="bi bi-image-fill"></i>
-                    </button>
-                </div>) : (<></>)}
-
-            {props.element.tag === "img" || props.element.tag === "mediaText" ?
-                (
-                    <div className="form-check">
-                        <input className="form-check-input" type="checkbox" defaultChecked={props.element.responsive} id="imgResponsiveCheck" onChange
-                            ={() => props.updateElement(props.index, "responsive", "", "", !props.element.responsive)} />
-                        <label className="form-check-label" htmlFor="imgResponsiveCheck">
-                            Responsive</label>
+            {props.element.tag === "embed" ? (
+                <>
+                    <div className="px-2 text-center">
+                        <small>Aspect Ratio</small>
+                        <DropdownButton title={
+                            aspectValueToRatio(props.element.aspectRatio)
+                        } variant=" " size="sm" >
+                            {AspectRatios.map((asp, i) =>
+                                <Dropdown.Item key={i + "aspect"} active={props.element.aspectRatio == asp.value ? (true) : (false)} onClick={() => props.updateElement(props.index, "aspectRatio", "", "",
+                                    asp.value)}>
+                                    {`${asp.ratio}`}
+                                    {/* <i className={`bi bi-${col.iconName}`}></i> */}
+                                </Dropdown.Item>)}
+                        </DropdownButton>
                     </div>
-                ) : (<></>)}
+                </>
+            ) : (<></>)
+            }
 
-            {props.element.tag == "carousel" ?
-                (
-                    <>
-                        <div className="px-2 text-center">
-                            <small>Animation</small>
-                            <DropdownButton title={props.element.animation} variant="light" size="sm">
-                                <Dropdown.Item onClick={() => props.updateElement(props.index, "animation", "", "", "fade")} >
-                                    fade
+            {
+                props.element.tag === "img" ?
+                    (
+                        <div className="form-check">
+                            <input className="form-check-input" type="checkbox" defaultChecked={props.element.responsive} id="imgResponsiveCheck" onChange
+                                ={() => props.updateElement(props.index, "responsive", "", "", !props.element.responsive)} />
+                            <label className="form-check-label" htmlFor="imgResponsiveCheck">
+                                Responsive</label>
+                        </div>
+                    ) : (<></>)
+            }
+
+            {
+                props.element.tag == "carousel" ?
+                    (
+                        <>
+                            <div className="px-2 text-center">
+                                <small>Animation</small>
+                                <DropdownButton title={props.element.animation} variant="light" size="sm">
+                                    <Dropdown.Item onClick={() => props.updateElement(props.index, "animation", "", "", "fade")} >
+                                        fade
                                 </Dropdown.Item>
-                                <Dropdown.Item onClick={() => props.updateElement(props.index, "animation", "", "", "slide")} >
-                                    slide
+                                    <Dropdown.Item onClick={() => props.updateElement(props.index, "animation", "", "", "slide")} >
+                                        slide
                                 </Dropdown.Item>
-                            </DropdownButton>
-                        </div>
-                        <div className="px-2 text-center">
-                            <small>Interval(ms)</small><br />
-                            <textarea rows="1" cols="4" value={props.element.interval} className="btn btn-light btn-sm" styles={{ resize: 'none !important' }} onChange={(e) => props.updateElement(props.index, "interval", "", "", e.target.value)} placeholder="Interval"  />
-                        </div>
-                        <div className="px-2 text-left">
-                            <small>Settings</small>
-                            <div className="form-check py-0 ">
-                                <input className="form-check-input" type="checkbox" defaultChecked={props.element.controls} id="controlsCheck" onChange
-                                    ={() => props.updateElement(props.index, "controls", "", "", !props.element.controls)} />
-                                <label className="form-check-label" htmlFor="controlsCheck">
-                                    Controls</label>
+                                </DropdownButton>
                             </div>
-                            <div className="form-check py-0">
-                                <input className="form-check-input" type="checkbox" defaultChecked={props.element.indicators} id="indicatorsCheck" onChange
-                                    ={() => props.updateElement(props.index, "indicators", "", "", !props.element.indicators)} />
-                                <label className="form-check-label" htmlFor="indicatorsCheck">
-                                    Indicators</label>
+                            <div className="px-2 text-center">
+                                <small>Interval(ms)</small><br />
+                                <textarea rows="1" cols="4" value={props.element.interval} className="btn btn-light btn-sm" styles={{ resize: 'none !important' }} onChange={(e) => props.updateElement(props.index, "interval", "", "", e.target.value)} placeholder="Interval" />
                             </div>
-                        </div>
-                    </>
-                ) : (<></>)}
-        </div>
+                            <div className="px-2 text-left">
+                                <small>Settings</small>
+                                <div className="form-check py-0 ">
+                                    <input className="form-check-input" type="checkbox" defaultChecked={props.element.controls} id="controlsCheck" onChange
+                                        ={() => props.updateElement(props.index, "controls", "", "", !props.element.controls)} />
+                                    <label className="form-check-label" htmlFor="controlsCheck">
+                                        Controls</label>
+                                </div>
+                                <div className="form-check py-0">
+                                    <input className="form-check-input" type="checkbox" defaultChecked={props.element.indicators} id="indicatorsCheck" onChange
+                                        ={() => props.updateElement(props.index, "indicators", "", "", !props.element.indicators)} />
+                                    <label className="form-check-label" htmlFor="indicatorsCheck">
+                                        Indicators</label>
+                                </div>
+                            </div>
+                        </>
+                    ) : (<></>)
+            }
+        </div >
     )
 }

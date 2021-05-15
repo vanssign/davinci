@@ -55,11 +55,11 @@ export default function InsertTab(props) {
                     </Tooltip>
                 }
             >
-                <DropdownButton id="dropdown-basic-button" variant="light" title={<i className="bi bi-type"></i>}>
+                <DropdownButton id="dropdown-basic-button" variant="" title={<i className="bi bi-type"></i>}>
                     <Dropdown.Item onClick={() => props.addElement("h1")}><i className="bi bi-type-h1"></i>{" "}Heading</Dropdown.Item>
                     <Dropdown.Item onClick={() => props.addElement("h2")}><i className="bi bi-type-h2"></i>{" "}Heading</Dropdown.Item>
                     <Dropdown.Item onClick={() => props.addElement("h3")}><i className="bi bi-type-h3"></i>{" "}Heading</Dropdown.Item>
-                    <Dropdown.Item><button type="button" className="btn btn-sm btn-light" onClick={() => props.addElement("h4")}>H4</button><button type="button" className="btn btn-sm btn-light" onClick={() => props.addElement("h5")}>H5</button><button type="button" className="btn btn-sm btn-light" onClick={() => props.addElement("h6")}>H6</button></Dropdown.Item>
+                    <Dropdown.Item><button type="button" className="btn btn-sm btn-transparent" onClick={() => props.addElement("h4")}>H4</button><button type="button" className="btn btn-sm btn-transparent" onClick={() => props.addElement("h5")}>H5</button><button type="button" className="btn btn-sm btn-transparent" onClick={() => props.addElement("h6")}>H6</button></Dropdown.Item>
                     <Dropdown.Item onClick={() => props.addElement("p")}><i className="bi bi-paragraph"></i>{" "}Paragraph</Dropdown.Item>
                     <Dropdown.Divider />
                     <Dropdown.Item onClick={() => props.addElement("code")}><i className="bi bi-code"></i>{" "}Code</Dropdown.Item>
@@ -76,7 +76,7 @@ export default function InsertTab(props) {
                     </Tooltip>
                 }
             >
-                <SplitButton id="dropdown-split-button" disabled variant="light" title={
+                <SplitButton id="dropdown-split-button" disabled variant="" title={
                     <i className="bi bi-list-ul"></i>} onClick={() => props.addElement("ul")}>
                     <Dropdown.Item>
                         <button disable type="button" className="btn" onClick={() => { props.addElement("ol") }}><i className="bi bi-list-ol"></i>{" "}Numbered List</button>
@@ -98,11 +98,11 @@ export default function InsertTab(props) {
                 }
             >
                 {props.customDisabled ? (
-                    <button type="button" className="btn btn-light" onClick={() => props.addElement("img")}>
+                    <button type="button" className="btn btn-transparent" onClick={() => props.addElement("img")}>
                         <i className="bi bi-image"></i>
                     </button>
                 ) : (
-                    <SplitButton variant="light" title={<i className="bi bi-image"></i>} onClick={() => props.addElement("img")}>
+                    <SplitButton variant="" title={<i className="bi bi-image"></i>} onClick={() => props.addElement("img")}>
                         <Dropdown.Item onClick={() => props.addElement("carousel")}>
                             <i className="bi bi-collection-play-fill"></i>{" "}Carousel
                                              </Dropdown.Item>
@@ -122,7 +122,7 @@ export default function InsertTab(props) {
                                                 </Tooltip >
                 }
             >
-                <SplitButton id="dropdown-split-button" variant="light" title={
+                <SplitButton id="dropdown-split-button" variant="" title={
                     <><i className="bi bi-stop-btn-fill"></i></>} onClick={() => props.addElement("button")}>
                     <Dropdown.Item onClick={() => props.addElement("socialbtns")}>
                         Social Group<br />
@@ -145,10 +145,23 @@ export default function InsertTab(props) {
                      </Tooltip>
                 }
             >
-                <DropdownButton id="dropdown-basic-design" variant="light" title={<i className="bi bi-brush"></i>}>
+                <DropdownButton id="dropdown-basic-design" variant="" title={<i className="bi bi-brush"></i>}>
                     <Dropdown.Item onClick={() => props.addElement("hr")}><i className="bi bi-dash"></i>{" "}Line</Dropdown.Item>
                     <Dropdown.Item onClick={() => props.addElement("spacer")}><i className="bi bi-distribute-vertical"></i>{" "}Spacer</Dropdown.Item>
+                    <Dropdown.Item onClick={() => props.addElement("gutter")}><i className="bi bi-distribute-horizontal"></i>{" "}Gutter Column</Dropdown.Item>
                 </DropdownButton>
+            </OverlayTrigger>
+            <OverlayTrigger
+                placement="top"
+                overlay={
+                    <Tooltip>
+                        Embed videos, urls and images
+                     </Tooltip>
+                }
+            >
+              <button className="btn btn-transparent" onClick={()=>props.addElement("embed")}>
+                  <i className="bi bi-code-square"></i>
+              </button>
             </OverlayTrigger>
 
             {props.customDisabled ? (<></>) : (
@@ -161,7 +174,7 @@ export default function InsertTab(props) {
                             </Tooltip>
                         }
                     >
-                        <button disabled className="btn btn-light" onClick={() => props.addElement("navbar")}>
+                        <button disabled className="btn btn-transparent" onClick={() => props.addElement("navbar")}>
                             <i className="bi bi-menu-app-fill"></i>
                         </button>
                     </OverlayTrigger>
@@ -174,7 +187,7 @@ export default function InsertTab(props) {
                         </Tooltip>
                         }
                     >
-                        <button className="btn btn-light" onClick={() => props.addElement("custom")}>
+                        <button className="btn btn-transparent" onClick={() => props.addElement("custom")}>
                             <i className="bi bi-hammer"></i>
                         </button>
                     </OverlayTrigger>

@@ -59,7 +59,7 @@ export default function GridTab(props) {
                     <br />
                     <small>Mobile</small>
                 </div>
-                <DropdownButton size="sm" variant="light" title={props.col}>
+                <DropdownButton  variant="" size="sm" title={props.col}>
                     {ColValues.map((col, i) =>
                         <Dropdown.Item key={i + "colchange"} active={props.col==col.value?(true):(false)} onClick={() => props.updateElement(props.index, "col", "", "", col.value)}>
                             {`${col.value}`}
@@ -73,7 +73,7 @@ export default function GridTab(props) {
                     <br />
                     <small>Tablet</small>
                 </div>
-                <DropdownButton size="sm" variant="light" title={props.colMd}>
+                <DropdownButton  variant="" size="sm" title={props.colMd}>
                     {ColValues.map((col, i) =>
                         <Dropdown.Item key={i + "colchange"} active={props.colMd==col.value?(true):(false)} onClick={() => props.updateElement(props.index, "colMd", "", "", col.value)}>
                             {`${col.value}`}
@@ -87,7 +87,7 @@ export default function GridTab(props) {
                     <br />
                     <small>Laptop</small>
                 </div>
-                <DropdownButton size="sm" variant="light" title={props.colLg}>
+                <DropdownButton  variant="" size="sm" title={props.colLg}>
                     {ColValues.map((col, i) =>
                         <Dropdown.Item key={i + "colchange"} active={props.colLg==col.value?(true):(false)} onClick={() => props.updateElement(props.index, "colLg", "", "", col.value)}>
                             {`${col.value}`}

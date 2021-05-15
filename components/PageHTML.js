@@ -205,6 +205,18 @@ export default function PageHTML({ element, index }) {
         )
     }
 
+    else if (tag = "embed") {
+        return (
+            <div className={"py-2 " + containerClasses + activeBorder} onClick={() => handleFocus(index)} >
+                <div className={`w-100 align-self-${element.alignSelf} ` + allClasses}>
+                    <div class={`embed-responsive embed-responsive-${element.aspectRatio}`} >
+                        <iframe class="embed-responsive-item border rounded" src={element.src} allowfullscreen />
+                    </div>
+                </div>
+            </div >
+        )
+    }
+
     if (tag == "hr") {
         return (
             <div className={containerClasses}>
@@ -214,7 +226,13 @@ export default function PageHTML({ element, index }) {
     }
     else if (tag == "spacer") {
         return (
-            <span style={{ display: 'inlineBlock', height: `${element.height}px`}} className={containerClasses}>
+            <span style={{ display: 'inline-block', height: `${element.height}px`}} className={containerClasses}>
+            </span>
+        )
+    }
+    else if (tag == "gutter") {
+        return (
+            <span style={{ display: 'inline-block'}} className={containerClasses}>
             </span>
         )
     }

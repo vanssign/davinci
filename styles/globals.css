@@ -80,8 +80,9 @@ color:black;
 }
 
 .borderActive{
-  border-width: 2px !important;
+  border-width: 3px !important;
   border-color: black !important;
+  box-shadow: black 0.5px !important;
 }
 .opacityHalf{
   opacity:0.5 !important;
@@ -92,13 +93,32 @@ color:black;
 .bg-transparent{
   background-color: transparent;
 }
+.bg-primary-x{
+  background-color: #21759b !important;
+}
+.btn-primary-x{
+  background-color: #21759b !important;
+  border-color: #21759b !important;
+  color:white !important;
+}
+.btn-primary-x:hover{
+  background-color: #1a5e7c !important;
+  border-color: #1a5e7c !important
+}
 .bg-checkered{
  background: repeating-conic-gradient(#808080 0% 25%, transparent 0% 50%) 
  50% / 8px 8px !important;
+}
+.bg-rainbow{
+  background: linear-gradient(to right, red,orange,yellow,green,blue,violet) !important;
 }
 .btn-transparent{
   background-color: transparent;
 }
 .zIndex5{
   z-index: 5;
+}
+.resizeNone{
+  resize: none !important;
+  overflow:hidden !important;
 }

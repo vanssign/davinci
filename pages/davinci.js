@@ -12,6 +12,7 @@ import EditorHTML from '../components/EditorHTML';
 import EditorTabs from '../components/EditorTabs';
 
 import fire from '../config/fire-config';
+import PageAttributes from '../components/PageAttributes';
 
 export default function Davinci() {
     //states
@@ -215,7 +216,7 @@ export default function Davinci() {
     }
 
     return (
-        <Layout loginStatus={LoginStatus} visible={LoginStatus===true||LoginStatus==="failure"}>
+        <Layout loginStatus={LoginStatus} visible={LoginStatus === true || LoginStatus === "failure"}>
             <Head>
                 <title>Davinci | Paint blog posts</title>
                 <meta name="viewport" content="initial-scale=1.0, width=device-width" />
@@ -227,8 +228,8 @@ export default function Davinci() {
                     {/* Notification and publish button */}
 
                     {/* Add new Element */}
-                    <div style={{ position: 'sticky', top: 0, zIndex: 10}} className="bg-light" >
-                        <div className="container-fluid">
+                    <div style={{ position: 'sticky', top: 0, zIndex: 10 }} className="bg-light" >
+                        <div className="container-fluid border border-top-0">
                             {/* Toggle button */}
                             <div className="d-flex justify-content-between align-items-center">
                                 <div>
@@ -237,13 +238,25 @@ export default function Davinci() {
                                         (<i className="bi bi-arrows-expand"></i>)}</button>
                                 </div>
                                 <div className="text-center">
-                                    {Notification +" "}
+                                    {Notification + " "}
                                     {LiveBlogId ? (
                                         <Link href={`/blog/${LiveBlogId}`}><a>/blog/{LiveBlogId}</a></Link>
                                     ) : (<></>)}
                                 </div>
-                                <button type="button" className="btn my-1 btn-info" onClick={(e) => handlePublish(e)}>
-                                    Publish</button>
+                                {/* PAGE ATTRIBUTES */}
+                                <OverlayTrigger
+                                    trigger="click" placement="bottom"
+                                    rootClose={true}
+                                    overlay={
+                                        <Popover id="popover-basic">
+                                            <Popover.Content>
+                                                <PageAttributes />
+                                            </Popover.Content>
+                                        </Popover>
+                                    }
+                                >
+                                    <button type="button" disabled className="btn px-1 py-0"> 
+                                    <i className="bi bi-gear-fill lead"></i></button></OverlayTrigger>
 
                             </div>
 

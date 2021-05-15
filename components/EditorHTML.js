@@ -56,6 +56,11 @@ export default function EditorHTML(props) {
             return " borderPrimary my-1 zIndex5 "
         else return ""
     }
+    const visibleClass = () => {
+        if (props.index !== props.focusedIndex)
+            return " d-none "
+        else return ""
+    }
     let activeBorder = activeClass();
     const FocusedElement = useRef();
     const [windowWidth, setWindowWidth] = useState(0);
@@ -82,11 +87,11 @@ export default function EditorHTML(props) {
     }, [props.focusedIndex])
 
     useEffect(() => {
-        if(!(props.index<props.lastIndex)){
-        if (FocusedElement.current) {
-            FocusedElement.current.scrollIntoView();
+        if (!(props.index < props.lastIndex)) {
+            if (FocusedElement.current) {
+                FocusedElement.current.scrollIntoView();
+            }
         }
-    }
         if (windowWidth == 0) {
             setWindowHeight(window.innerHeight);
             setWindowWidth(window.innerWidth);
@@ -379,11 +384,11 @@ export default function EditorHTML(props) {
     //IMAGE
     else if (tag == "img") {
         return (
-            <div className={"py-2" + containerClasses + activeBorder} onClick={() => props.handleFocus(props.index)} >
-                <div className={`w-100 align-self-${props.element.alignSelf}` + allClasses}>
-                    <div className={props.index == props.focusedIndex ? ("d-flex justify-content-center align-items-stretch") : ("d-none")}>
+            <div className={"py-2 " + containerClasses + activeBorder} onClick={() => props.handleFocus(props.index)} ref={props.focusedIndex == props.index ? (FocusedElement) : (null)}>
+                <div className={`w-100 align-self-${props.element.alignSelf}` + allClasses} style={{ position: 'relative' }}>
+                    <div className={props.index == props.focusedIndex ? ("d-flex justify-content-center align-items-stretch") : ("d-none")} style={{ position: 'absolute', top: '45%', width: '100%' }}>
                         <i className="bi bi-link-45deg lead"></i>
-                        <textarea rows="1" cols="10" value={props.element.src} className="btn btn-light btn-light-active" styles={{ resize: 'none' }} onChange={(e) => props.updateElement(props.index, "src", "", "", e.target.value)} placeholder="Image Link" />
+                        <textarea rows="1" cols="10" value={props.element.src} className="btn borderActive bg-white resizeNone" onChange={(e) => props.updateElement(props.index, "src", "", "", e.target.value)} placeholder="Image Link" />
                         <ImageUploader index={props.index} parentCallback={updateUrl} />
                         <button type="button" onClick={() => props.deleteElement(props.index)} className="btn btn-danger py-0 px-1"><i className="bi bi-trash lead"></i></button>
                     </div>
@@ -409,7 +414,7 @@ export default function EditorHTML(props) {
                             <Carousel.Item key={tag + props.index + "slide" + i}>
                                 <div className={props.index == props.focusedIndex ? ("d-flex justify-content-center align-items-stretch") : ("d-none")} >
                                     <i className="bi bi-link-45deg lead"></i>
-                                    <textarea rows="1" cols="10" value={slide.src} className="btn btn-light btn-light-active" styles={{ resize: 'none' }} onChange={(e) => props.updateElement(props.index, "slides", i, "src", e.target.value)} placeholder="Image Link" />
+                                    <textarea rows="1" cols="10" value={slide.src} className="btn borderActive bg-white resizeNone" styles={{ resize: 'none' }} onChange={(e) => props.updateElement(props.index, "slides", i, "src", e.target.value)} placeholder="Image Link" />
                                     <DropdownButton title={<i className="bi bi-fonts"></i>} variant={slide.textColor}>
                                         <Dropdown.Item>
                                             {BootstrapColors.map((color, j) =>
@@ -473,7 +478,8 @@ export default function EditorHTML(props) {
                         ) : (<></>)}
                     </div>
                 </button>
-                <button type="button" onClick={() => props.deleteElement(props.index)} className={styles.delBtn}><i className="bi bi-x-circle-fill lead"></i></button>
+                <button type="button" className={"btn btn-danger py-0 px-1" + visibleClass()} onClick={() => props.deleteElement(props.index)}>
+                    <i className="bi bi-trash lead"></i></button>
             </div>
         </div >)
     }
@@ -488,7 +494,8 @@ export default function EditorHTML(props) {
                                 <button key={tag + sb.name + props.index} type="button" className="btn btn-secondary"><i className={`bi bi-${sb.name} lead`}></i></button>)
                         }
                     </div>
-                    <button type="button" onClick={() => props.deleteElement(props.index)} className={styles.delBtn}><i className="bi bi-x-circle-fill lead"></i></button>
+                    <button type="button" className={"btn btn-danger py-0 px-1" + visibleClass()} onClick={() => props.deleteElement(props.index)}>
+                        <i className="bi bi-trash lead"></i></button>
                 </div>
             </div>
         )
@@ -522,6 +529,27 @@ export default function EditorHTML(props) {
         )
     }
 
+    //embeds and iframes
+    else if (tag == "embed") {
+        return (
+            <div className={"py-2 " + containerClasses + activeBorder} onClick={() => props.handleFocus(props.index)} >
+                <div className={`w-100 align-self-${props.element.alignSelf} ` + allClasses}>
+                    <div class={`embed-responsive embed-responsive-${props.element.aspectRatio}`} style={{
+                        position: 'relative'
+                    }}>
+                        <iframe class="embed-responsive-item border rounded" src={props.element.src} allowfullscreen ref={props.focusedIndex == props.index ? (FocusedElement) : (null)} />
+                        <div className={props.index !== props.focusedIndex ? ("overlay") : ("d-none")} style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }} onClick={() => props.handleFocus(props.index)}></div>
+                        <div className={props.index == props.focusedIndex ? ("d-flex justify-content-center align-items-stretch") : ("d-none")} style={{ position: 'absolute', top: '45%', left: 0, width: '100%' }}>
+                            <i className="bi bi-link-45deg lead"></i>
+                            <textarea rows="1" cols="10" value={props.element.src} className="btn borderActive bg-white resizeNone" onChange={(e) => props.updateElement(props.index, "src", "", "", e.target.value)} placeholder="Source Link" />
+                            <button type="button" onClick={() => props.deleteElement(props.index)} className="btn btn-danger py-0 px-1"><i className="bi bi-trash lead"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div >
+        )
+    }
+
     //horizontal rule
     else if (tag == "hr") {
         return (
@@ -531,7 +559,8 @@ export default function EditorHTML(props) {
                         <hr />
                     </div>
                     <div className="col-1 p-0 text-center">
-                        <button type="button" onClick={() => props.deleteElement(props.index)} className={styles.delBtn}><i className="bi bi-x-circle-fill"></i></button>
+                        <button type="button" className={"btn btn-danger py-0 px-1" + visibleClass()} onClick={() => props.deleteElement(props.index)}>
+                            <i className="bi bi-trash lead"></i></button>
                     </div>
                 </div>
             </div>
@@ -539,11 +568,20 @@ export default function EditorHTML(props) {
     }
     else if (tag == "spacer") {
         return (
-            <span style={{ display: 'inlineBlock', height: `${props.element.height}px`, cursor: 'pointer' }} className={"text-center border text-muted justify-content-around " + containerClasses + activeBorder} ref={props.focusedIndex == props.index ? (FocusedElement) : (null)} onClick={() => props.handleFocus(props.index)}>
-                <span className="align-self-center">Whitespace</span>
-                <button type="button" className="btn btn-danger py-0 px-1" onClick={() => props.deleteElement(props.index)}>
+            <span style={{ height: `${props.element.height}px`, cursor: 'pointer' }} className={"text-center text-muted justify-content-around " + containerClasses + activeBorder} ref={props.focusedIndex == props.index ? (FocusedElement) : (null)} onClick={() => props.handleFocus(props.index)}>
+                <span className="align-self-center">--Spacer--</span>
+                <button type="button" className={"btn btn-danger py-0 px-1 "+visibleClass()} onClick={() => props.deleteElement(props.index)}>
                     <i className="bi bi-trash lead"></i>
                 </button>
+            </span>
+        )
+    }
+    else if (tag == "gutter") {
+        return (
+            <span style={{ cursor: 'pointer' }} className={"text-center text-muted justify-content-around " + containerClasses + activeBorder} ref={props.focusedIndex == props.index ? (FocusedElement) : (null)} onClick={() => props.handleFocus(props.index)}>
+                <span className="align-self-center">-Gutter-</span>
+                <button type="button" className={"btn btn-danger py-0 px-1 " + visibleClass()} onClick={() => props.deleteElement(props.index)}>
+                    <i className="bi bi-trash lead"></i></button>
             </span>
         )
     }

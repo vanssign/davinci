@@ -5,7 +5,7 @@ import InsertTab from '../components/InsertTab';
 export default function EditorTabs(props) {
     return (
         <Tabs defaultActiveKey="insert" id="uncontrolled-tab-example" variant={props.customDisabled?("pills"):("tabs")}>
-            <Tab eventKey="insert" title="Insert" className="bg-light">
+            <Tab eventKey="insert" title="Insert" style={{ backgroundColor: '#ffffff' }}>
                 {props.elementArray[props.focusedIndex]||props.focusedIndex<1 ? (
                     <InsertTab addElement={props.addElement} customDisabled={props.customDisabled} />
                 ) : (<div className="text-center py-3">
@@ -35,7 +35,7 @@ export default function EditorTabs(props) {
                         >
                             <i className="bi bi-question-circle-fill"></i>
                         </OverlayTrigger>
-                    </>} className="bg-light">
+                    </>} >
                     <GridTab index={props.focusedIndex} col={props.elementArray[props.focusedIndex].col} colMd={props.elementArray[props.focusedIndex].colMd} colLg={props.elementArray[props.focusedIndex].colLg} updateElement={props.updateElement} />
                 </Tab>
             ) : (<></>)) : (<></>)}

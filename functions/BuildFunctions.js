@@ -27,7 +27,7 @@ export function buildElementContainerClasses(e) {
     if (e.bgColor) {
         containerClasses = containerClasses.concat(`bg-${e.bgColor} `)
     }
-    if (e.col) {
+    if (Number.isInteger(e.col)) {
         containerClasses = containerClasses.concat(`col-${e.col} col-md-${e.colMd} col-lg-${e.colLg} `);
     }
     if(!e.col){
@@ -93,6 +93,19 @@ export function determineElementStructure(tag, elementArray, currentIndex) {
             col: col,
             colMd: colMd,
             colLg: colLg,
+        }
+    }
+    else if(tag=="embed"){
+        element={
+            tag:tag,
+            src:"",
+            alignment: 'center',
+            alignSelf: "center",
+            bgColor: "transparent",
+            col: col,
+            colMd: colMd,
+            colLg: colLg,
+            aspectRatio:"16by9",
         }
     }
     else if (tag == "button") {
@@ -169,10 +182,15 @@ export function determineElementStructure(tag, elementArray, currentIndex) {
             tag: tag,
             height: "30",
             bgColor: "transparent",
-            col: 12,
-            colMd: 12,
-            colLg: 12,
-            autoHeight:false
+        }
+    }
+    else if(tag=="gutter"){
+        element={
+            tag:tag,
+            bgColor: "transparent",
+            col:1,
+            colMd:1,
+            colLg:1,
         }
     }
     else if (tag == 'carousel') {
