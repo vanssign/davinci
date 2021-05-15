@@ -205,9 +205,9 @@ export default function PageHTML({ element, index }) {
         )
     }
 
-    else if (tag = "embed") {
+    else if (tag == "embed") {
         return (
-            <div className={"py-2 " + containerClasses + activeBorder} onClick={() => handleFocus(index)} >
+            <div className={"py-2 " + containerClasses} onClick={() => handleFocus(index)} >
                 <div className={`w-100 align-self-${element.alignSelf} ` + allClasses}>
                     <div class={`embed-responsive embed-responsive-${element.aspectRatio}`} >
                         <iframe class="embed-responsive-item border rounded" src={element.src} allowfullscreen />
