@@ -205,7 +205,7 @@ export default function Davinci() {
         setElementArray(newElementArray)
     }
     // LOGS
-    console.log(ElementArray);
+    // console.log(ElementArray);
     // console.log(InnerFocusedIndex);
     // console.log(InnerLastIndex);
     function handleFocus(index) {
@@ -244,20 +244,25 @@ export default function Davinci() {
                                     ) : (<></>)}
                                 </div>
                                 {/* PAGE ATTRIBUTES */}
-                                <OverlayTrigger
-                                    trigger="click" placement="bottom"
-                                    rootClose={true}
-                                    overlay={
-                                        <Popover id="popover-basic">
-                                            <Popover.Content>
-                                                <PageAttributes />
-                                            </Popover.Content>
-                                        </Popover>
-                                    }
-                                >
-                                    <button type="button" disabled className="btn px-1 py-0"> 
-                                    <i className="bi bi-gear-fill lead"></i></button></OverlayTrigger>
-
+                                <div>
+                                    <OverlayTrigger
+                                        trigger="click" placement="bottom"
+                                        rootClose={true}
+                                        overlay={
+                                            <Popover id="popover-basic">
+                                                <Popover.Content>
+                                                    <PageAttributes />
+                                                </Popover.Content>
+                                            </Popover>
+                                        }
+                                    >
+                                        <button type="button" disabled className="btn px-1 py-0">
+                                            <i className="bi bi-gear-fill lead"></i></button></OverlayTrigger>
+                                    <buttton className="btn btn-primary-x m-1" onClick={() => handlePublish()}
+                                    >
+                                        Publish
+                                    </buttton>
+                                </div>
                             </div>
 
                             <div className={PreviewStatus ? ("d-none") : ("rounded border")} style={{ backgroundColor: 'white' }}>

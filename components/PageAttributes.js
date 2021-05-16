@@ -22,7 +22,7 @@ export default function PageAttributes() {
                     <input type="text" className="form-control" id="inputFeautredImage" aria-describedby="feautredImageHelp" placeholder="Image Link here..." />
                     <img className="img-fluid form-text" src="https://www.oberlo.com/media/1603954915-copy-of-blog-header-image-880x450-5-min.jpg?fit=max&fm=jpg&w=1824"/>
                 </div>
-                <button type="submit" className="btn btn-primary-x btn-block">Publish</button>
+                <button type="submit" disabled className="btn btn-primary-x btn-block">Publish</button>
             </form>
         </div>
     )
