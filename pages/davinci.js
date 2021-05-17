@@ -16,6 +16,16 @@ import PageAttributes from '../components/PageAttributes';
 
 export default function Davinci() {
     //states
+    const [PageInfo, setPageInfo] = useState(
+        {
+            title: "",
+            excerpt: "",
+            tags: "",
+            feautredImage: "",
+        }
+    )
+
+
     const [ElementArray, setElementArray] = useState([{
         tag: "h1",
         content: "",
@@ -73,12 +83,12 @@ export default function Davinci() {
 
     //Publish
     const handlePublish = (event) => {
-        event.preventDefault();
-        if (ElementArray[0].content) {
+        if (PageInfo.title) {
             fire.firestore()
                 .collection('blog')
                 .add({
-                    elementArray: ElementArray
+                    elementArray: ElementArray,
+                    pageInfo:PageInfo
                 }).then((docRef) => {
                     setNotification("Blog live at");
                     setLiveBlogId(docRef.id)
@@ -88,7 +98,7 @@ export default function Davinci() {
                 });
         }
         else {
-            setNotification("Title not added!")
+            setNotification("Title not added. Open settings and add Page Attributes!")
             setTimeout(() => {
                 setNotification("")
             }, 7000)
@@ -208,11 +218,17 @@ export default function Davinci() {
     // console.log(ElementArray);
     // console.log(InnerFocusedIndex);
     // console.log(InnerLastIndex);
+    // console.log(PageInfo);
     function handleFocus(index) {
         setFocusedIndex(index);
     }
     function handleInnerFocus(index) {
         setInnerFocusedIndex(index);
+    }
+    function updatePageInfo(key,value){
+        let newPageInfo={...PageInfo}
+        newPageInfo[key]=value;
+        setPageInfo(newPageInfo);
     }
 
     return (
@@ -251,12 +267,12 @@ export default function Davinci() {
                                         overlay={
                                             <Popover id="popover-basic">
                                                 <Popover.Content>
-                                                    <PageAttributes />
+                                                    <PageAttributes pageInfo={PageInfo} updatePageInfo={updatePageInfo} />
                                                 </Popover.Content>
                                             </Popover>
                                         }
                                     >
-                                        <button type="button" disabled className="btn px-1 py-0">
+                                        <button type="button" className="btn px-1 py-0">
                                             <i className="bi bi-gear-fill lead"></i></button></OverlayTrigger>
                                     <button className="btn btn-primary-x m-1" onClick={() => handlePublish()}
                                     >

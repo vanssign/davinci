@@ -3,28 +3,34 @@ import fire from "../../config/fire-config";
 import PageHTML from '../../components/PageHTML';
 import Error from 'next/error'
 
-export default function Post({ postData,err }) { 
-    if(err){
-        return(
+export default function Post({ postData, err }) {
+    if (err) {
+        return (
             <Error statusCode="404" />
         )
     }
-    else  
-    return (
-        <div className="container-fluid py-2">
-            <Head>
-                <title>{postData.elementArray[0].content} | Davinci</title>
-                <meta name="viewport" content="initial-scale=1.0, width=device-width" />
-            </Head>
-            <div className="row py-3">
-            {
-                postData.elementArray.map((element, index) =>
-                    <PageHTML key={element.tag+index} element={element} index={index}/>
-                )
-            }
+    else
+        return (
+            <div className="container-fluid py-2">
+                <Head>
+                    <title>{postData.elementArray[0].content || postData.pagInfo.title} | Davinci</title>
+                    <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+                    {postData.pageInfo.excerpt ? (
+                        <meta name="description" content={postData.pageInfo.excerpt} />
+                    ) : (<></>)}
+                    {postData.pageInfo.tags ? (<meta name="keywords" content={postData.pageInfo.tags} />) : (<></>)}
+
+
+                </Head>
+                <div className="row py-3">
+                    {
+                        postData.elementArray.map((element, index) =>
+                            <PageHTML key={element.tag + index} element={element} index={index} />
+                        )
+                    }
+                </div>
             </div>
-        </div>
-    )
+        )
 }
 //PATHS
 export async function getStaticPaths() {
@@ -47,11 +53,11 @@ export async function getStaticProps({ params }) {
     const doc = await blogRef.get();
     if (!doc.exists) {
         postData = [];
-        err=true;
+        err = true;
     }
     else {
         postData = doc.data();
-        err=false;
+        err = false;
     }
     return {
         props: {
