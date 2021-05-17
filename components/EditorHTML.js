@@ -313,74 +313,6 @@ export default function EditorHTML(props) {
         )
     }
 
-    //LISTS
-
-    //unordered list
-    else if (tag == "ul") {
-        return (
-            <div className={containerClasses + activeBorder} onClick={() => props.handleFocus(props.index)}>
-                <ul className={allClasses + ` w-100 align-self-${props.element.alignSelf}`}>
-                    {props.elementArray[props.index].content.map((c, i) =>
-                        <li key={tag + props.index + "c.value" + i}><TextareaAutosize style={{ overflow: 'hidden' }} value={c.value} ref={props.focusedIndex == props.index ? (FocusedElement) : (null)} className={styles.textareaInherit} onChange={(e) => props.updateElement(props.index, "content", i, "value", e.target.value)} placeholder="List Item" onKeyDown={function (e) {
-                            if (e.key === 'Enter') {
-                                e.preventDefault();
-                                if (c.value === "" && i !== 0) {
-                                    props.updateElement(props.index, "content", "decrease", "value", "");
-                                    props.addElement("p");
-                                }
-                                else
-                                    props.updateElement(props.index, "content", "increase", "value", "")
-                            }
-                            if ((e.key === 'Backspace' || e.key === 'Delete') && c.value === "") {
-                                e.preventDefault();
-                                if (i === 0) {
-                                    props.deleteElement(props.index);
-                                }
-                                else {
-                                    props.updateElement(props.index, "content", "decrease", "value", "")
-                                }
-                            }
-                        }} onFocus={() => props.handleFocus(props.index)} /></li>
-                    )
-                    }
-                </ul>
-            </div>
-        )
-    }
-
-    //ordered list
-    else if (tag == "ol") {
-        return (
-            <div className={containerClasses + activeBorder} onClick={() => props.handleFocus(props.index)}>
-                <ol className={allClasses + ` w-100 align-self-${props.element.alignSelf}`}>
-                    {props.elementArray[props.index].content.map((c, i) =>
-                        <li key={tag + props.index + "c.value" + i}><TextareaAutosize style={{ overflow: 'hidden' }} value={c.value} ref={props.focusedIndex == props.index ? (FocusedElement) : (null)} className={styles.textareaInherit} onChange={(e) => props.updateElement(props.index, "content", i, "value", e.target.value)} placeholder="List Item" onKeyDown={function (e) {
-                            if (e.key === 'Enter') {
-                                e.preventDefault();
-                                if (c.value === "" && i !== 0) {
-                                    props.updateElement(props.index, "content", "decrease", "", "");
-                                    props.addElement("p");
-                                }
-                                else
-                                    props.updateElement(props.index, "content", "increase", "", "")
-                            }
-                            if ((e.key === 'Backspace' || e.key === 'Delete') && c.value === "") {
-                                e.preventDefault();
-                                if (i === 0) {
-                                    props.deleteElement(props.index);
-                                }
-                                else {
-                                    props.updateElement(props.index, "content", "decrease", "", "")
-                                }
-                            }
-                        }} onFocus={() => props.handleFocus(props.index)} /></li>
-                    )
-                    }
-                </ol>
-            </div>
-        )
-    }
-
     //IMAGE
     else if (tag == "img") {
         return (
@@ -570,7 +502,7 @@ export default function EditorHTML(props) {
         return (
             <span style={{ height: `${props.element.height}px`, cursor: 'pointer' }} className={"text-center text-muted justify-content-around " + containerClasses + activeBorder} ref={props.focusedIndex == props.index ? (FocusedElement) : (null)} onClick={() => props.handleFocus(props.index)}>
                 <span className="align-self-center">--Spacer--</span>
-                <button type="button" className={"btn btn-danger py-0 px-1 "+visibleClass()} onClick={() => props.deleteElement(props.index)}>
+                <button type="button" className={"btn btn-danger py-0 px-1 " + visibleClass()} onClick={() => props.deleteElement(props.index)}>
                     <i className="bi bi-trash lead"></i>
                 </button>
             </span>
@@ -585,7 +517,36 @@ export default function EditorHTML(props) {
             </span>
         )
     }
-
+    
+    //LISTS
+    else if (tag == "li") {
+        return (
+            <li className={activeBorder}>
+                4<TextareaAutosize style={{ overflow: 'hidden' }} ref={props.focusedIndex == props.index ? (FocusedElement) : (null)} value={content} className={styles.textareaInherit} onChange={(e) => props.updateElement(props.index, "content", "", "", e.target.value)} placeholder="List Item. Type here ..." onKeyDown={function (e) {
+                    if (e.key === 'Enter') {
+                        e.preventDefault();
+                        props.addElement("li");
+                    }
+                    if ((e.key === 'Backspace' || e.key === 'Delete') && content === "") {
+                        e.preventDefault();
+                        props.deleteElement(props.index);
+                    }
+                    if (e.key === "Control" && e.key === "Shift" && e.key === "Delete") {
+                        e.preventDefault();
+                        props.deleteElement(props.index);
+                    }
+                }} onFocus={() => props.handleFocus(props.index)} />
+            </li>
+        )
+    }
+    else if (tag == "ul") {
+        return (
+            <div className={`text-${props.element.alignment} ` + containerClasses + activeBorder} onClick={() => props.handleFocus(props.index)} ref={props.focusedIndex == props.index ? (FocusedElement) : (null)}>
+                <div className={`w-100 align-self-${props.element.alignSelf}`}>
+                </div>
+            </div>
+        )
+    }
     else if (tag == "custom") {
         function addChildElement(tag) {
             props.updateElement(props.index, "elementArray", props.innerFocusedIndex, "increase", tag)
@@ -634,7 +595,7 @@ export default function EditorHTML(props) {
                                 </div>
                             ) : (<></>))
                         }
-                        <div>
+                        <div className="row">
                             {nestedItems}
                         </div>
                     </div>
@@ -642,10 +603,10 @@ export default function EditorHTML(props) {
             </>
         )
     }
+
     else {
         return (
             <></>
         )
     }
-
 }

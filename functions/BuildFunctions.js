@@ -13,7 +13,7 @@ export function buildClassName(element, index) {
     if (element.alignment) {
         allClasses = allClasses.concat("text-" + element.alignment + " ");
     }
-    if (element.tag === "img" ) {
+    if (element.tag === "img") {
         if (element.responsive) allClasses = allClasses.concat("img-fluid ");
     }
     if (element.textColor) {
@@ -30,8 +30,8 @@ export function buildElementContainerClasses(e) {
     if (Number.isInteger(e.col)) {
         containerClasses = containerClasses.concat(`col-${e.col} col-md-${e.colMd} col-lg-${e.colLg} `);
     }
-    if(!e.col){
-        containerClasses=containerClasses.concat(`col-12 `)
+    if (!e.col) {
+        containerClasses = containerClasses.concat(`col-12 `)
     }
     return containerClasses;
 }
@@ -65,8 +65,10 @@ export function determineElementStructure(tag, elementArray, currentIndex) {
     if (tag == "ul" || tag == "ol") {
         element = {
             tag: tag,
-            content: [{ value: "" },],
-            classes: "",
+            elementArray: [{
+                tag: "li",
+                content: ""
+            }],
             typography: {
                 bold: false,
                 italic: false,
@@ -82,6 +84,12 @@ export function determineElementStructure(tag, elementArray, currentIndex) {
             colLg: colLg,
         }
     }
+    else if (tag == "li") {
+        element = {
+            tag: tag,
+            content: ""
+        }
+    }
     else if (tag == "img") {
         element = {
             tag: tag,
@@ -95,17 +103,17 @@ export function determineElementStructure(tag, elementArray, currentIndex) {
             colLg: colLg,
         }
     }
-    else if(tag=="embed"){
-        element={
-            tag:tag,
-            src:"",
+    else if (tag == "embed") {
+        element = {
+            tag: tag,
+            src: "",
             alignment: 'center',
             alignSelf: "center",
             bgColor: "transparent",
             col: col,
             colMd: colMd,
             colLg: colLg,
-            aspectRatio:"16by9",
+            aspectRatio: "16by9",
         }
     }
     else if (tag == "button") {
@@ -154,7 +162,7 @@ export function determineElementStructure(tag, elementArray, currentIndex) {
             tag: tag,
             content: "",
             cite: "",
-            footerContent:"",
+            footerContent: "",
             classes: "",
             typography: {
                 bold: false,
@@ -184,13 +192,13 @@ export function determineElementStructure(tag, elementArray, currentIndex) {
             bgColor: "transparent",
         }
     }
-    else if(tag=="gutter"){
-        element={
-            tag:tag,
+    else if (tag == "gutter") {
+        element = {
+            tag: tag,
             bgColor: "transparent",
-            col:1,
-            colMd:1,
-            colLg:1,
+            col: 1,
+            colMd: 1,
+            colLg: 1,
         }
     }
     else if (tag == 'carousel') {

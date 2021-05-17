@@ -258,10 +258,10 @@ export default function Davinci() {
                                     >
                                         <button type="button" disabled className="btn px-1 py-0">
                                             <i className="bi bi-gear-fill lead"></i></button></OverlayTrigger>
-                                    <buttton className="btn btn-primary-x m-1" onClick={() => handlePublish()}
+                                    <button className="btn btn-primary-x m-1" onClick={() => handlePublish()}
                                     >
                                         Publish
-                                    </buttton>
+                                    </button>
                                 </div>
                             </div>
 

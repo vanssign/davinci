@@ -76,7 +76,7 @@ export default function InsertTab(props) {
                     </Tooltip>
                 }
             >
-                <SplitButton id="dropdown-split-button" disabled variant="" title={
+                <SplitButton disabled id="dropdown-split-button" variant="" title={
                     <i className="bi bi-list-ul"></i>} onClick={() => props.addElement("ul")}>
                     <Dropdown.Item>
                         <button disable type="button" className="btn" onClick={() => { props.addElement("ol") }}><i className="bi bi-list-ol"></i>{" "}Numbered List</button>
@@ -86,7 +86,6 @@ export default function InsertTab(props) {
                     </Dropdown.Item>
                 </SplitButton>
             </OverlayTrigger>
-
 
             {/* add Image and Media*/}
             <OverlayTrigger
