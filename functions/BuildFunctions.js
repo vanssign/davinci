@@ -66,8 +66,6 @@ export function determineElementStructure(tag, elementArray, currentIndex) {
         element = {
             tag: tag,
             elementArray: [{
-                tag: "li",
-                content: ""
             }],
             typography: {
                 bold: false,
@@ -129,6 +127,7 @@ export function determineElementStructure(tag, elementArray, currentIndex) {
             alignment: 'center',
             alignSelf: "center",
             bgColor: "transparent",
+            size:"rg",
             col: col,
             colMd: colMd,
             colLg: colLg,
@@ -152,6 +151,7 @@ export function determineElementStructure(tag, elementArray, currentIndex) {
             alignment: "center",
             alignSelf: "center",
             bgColor: "transparent",
+            size:"rg",
             col: col,
             colMd: colMd,
             colLg: colLg,

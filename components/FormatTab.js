@@ -1,5 +1,5 @@
 import { DropdownButton, Dropdown, SplitButton, Tabs, Tab, Tooltip, OverlayTrigger, Popover, Carousel } from 'react-bootstrap';
-
+import ColorPicker from './ColorPicker';
 var TextTags = [
     {
         tag: "h1",
@@ -123,7 +123,7 @@ export default function FormatTab(props) {
             <div className="px-2 text-center">
                 <small>Type</small>
                 {((props.element.tag == "h1" || props.element.tag === "h2" || props.element.tag === "h3" || props.element.tag === "p" || props.element.tag === "h4" || props.element.tag === "h5" || props.element.tag === "h6" || props.element.tag === "code")) ?
-                    (<DropdownButton title={props.element.tag} variant=" " size="sm">
+                    (<DropdownButton title={props.element.tag} variant="light" size="sm">
                         {TextTags.map((t, i) =>
                             <Dropdown.Item key={props.index + "propertieschange" + i} onClick={() => props.updateElement(props.index, "tag", "", "", t.tag)} active={props.element.tag == t.tag ? (true) : (false)} >
                                 <i className={`bi ${t.iconName}`}></i>
@@ -132,7 +132,7 @@ export default function FormatTab(props) {
                     </DropdownButton>) : (
                         <>
                             <br />
-                            <button role="button" className="btn btn-sm btn-transparent">{props.element.tag}</button>
+                            <button role="button" className="btn btn-sm btn-light-active">{props.element.tag}</button>
                         </>
                     )}
             </div>
@@ -158,18 +158,18 @@ export default function FormatTab(props) {
             {props.element.alignment ? (
                 <div className="px-2 text-center">
                     <small>Align</small>
-                    <DropdownButton title={<i className={`bi bi-text-${props.element.alignment}`}></i>} variant=" " size="sm">
+                    <DropdownButton title={<i className={`bi bi-text-${props.element.alignment}`}></i>} variant="light" size="sm">
                         <Dropdown.Item>
-                            <button type="button" className={props.element.alignment === "left" ? ("btn btn -light btn-light-active") : ("btn btn-light")} onClick={() => props.updateElement(props.index, "alignment", "", "", "left")}  >
-                                <i className="bi  bi-text-left"></i>
+                            <button type="button" className={props.element.alignment === "left" ? ("btn btn-light btn-light-active px-2 py-0") : ("btn btn-light px-2 py-0")} onClick={() => props.updateElement(props.index, "alignment", "", "", "left")}  >
+                                <i className="bi  bi-text-left lead"></i>
                             </button>
 
-                            <button type="button" className={props.element.alignment === "center" ? ("btn btn-light btn-light-active") : ("btn btn-light")} onClick={() => props.updateElement(props.index, "alignment", "", "", "center")}>
-                                <i className="bi  bi-text-center"></i>
+                            <button type="button" className={props.element.alignment === "center" ? ("btn btn-light btn-light-active px-2 py-0") : ("btn btn-light px-2 py-0")} onClick={() => props.updateElement(props.index, "alignment", "", "", "center")}>
+                                <i className="bi  bi-text-center lead"></i>
                             </button>
 
-                            <button type="button" className={props.element.alignment === "right" ? ("btn btn -light btn-light-active") : ("btn btn-light")} onClick={() => props.updateElement(props.index, "alignment", "", "", "right")}>
-                                <i className="bi  bi-text-right"></i>
+                            <button type="button" className={props.element.alignment === "right" ? ("btn btn -light btn-light-active px-2 py-0") : ("btn btn-light px-2 py-0")} onClick={() => props.updateElement(props.index, "alignment", "", "", "right")}>
+                                <i className="bi  bi-text-right lead"></i>
                             </button>
 
                         </Dropdown.Item>
@@ -183,18 +183,18 @@ export default function FormatTab(props) {
                         <small>Align</small>
                         <DropdownButton size="sm" title={props.element.alignSelf == " " ? (<i className="bi  bi-align-top"></i>) : (
                             props.element.alignSelf == "center" ? (<i className="bi  bi-align-center"></i>) : (<i className="bi  bi-align-bottom"></i>)
-                        )} variant=" ">
+                        )} variant="light">
                             <Dropdown.Item>
-                                <button type="button" className={props.element.alignSelf === " " ? ("btn btn -light btn-light-active") : ("btn btn-light")} onClick={() => props.updateElement(props.index, "alignSelf", "", "", " ")}  >
-                                    <i className="bi  bi-align-top"></i>
+                                <button type="button" className={props.element.alignSelf === " " ? ("btn btn -light btn-light-active px-2 py-0") : ("btn btn-light px-2 py-0")} onClick={() => props.updateElement(props.index, "alignSelf", "", "", " ")}  >
+                                    <i className="bi  bi-align-top lead"></i>
                                 </button>
 
-                                <button type="button" className={props.element.alignSelf === "center" ? ("btn btn-light btn-light-active") : ("btn btn-light")} onClick={() => props.updateElement(props.index, "alignSelf", "", "", "center")}>
-                                    <i className="bi  bi-align-center"></i>
+                                <button type="button" className={props.element.alignSelf === "center" ? ("btn btn-light btn-light-active px-2 py-0") : ("btn btn-light px-2 py-0")} onClick={() => props.updateElement(props.index, "alignSelf", "", "", "center")}>
+                                    <i className="bi  bi-align-center lead"></i>
                                 </button>
 
-                                <button type="button" className={props.element.alignSelf === "end" ? ("btn btn -light btn-light-active") : ("btn btn-light")} onClick={() => props.updateElement(props.index, "alignSelf", "", "", "end")}>
-                                    <i className="bi  bi-align-bottom"></i>
+                                <button type="button" className={props.element.alignSelf === "end" ? ("btn btn -light btn-light-active px-2 py-0") : ("btn btn-light px-2 py-0")} onClick={() => props.updateElement(props.index, "alignSelf", "", "", "end")}>
+                                    <i className="bi  bi-align-bottom lead"></i>
                                 </button>
 
                             </Dropdown.Item>
@@ -221,7 +221,7 @@ export default function FormatTab(props) {
             {props.element.btnColor ? (
                 <div className="px-2 text-center">
                     <small>Color</small>
-                    <DropdownButton title=" " variant={props.element.btnColor} size="sm">
+                    <DropdownButton title="Aa" variant={props.element.btnColor} size="sm">
                         {BootstrapColors.map((color, i) =>
                             <Dropdown.Item key={props.index + "propertieschange" + i + "color"} active={props.element.btnColor == color.name ? (true) : (false)} onClick={() => props.updateElement(props.index, "btnColor", "", "", color.name)}>
                                 <button type="button" className={props.element.btnOutline ? (`btn btn-outline-${color.name}`) : (`btn btn-${color.name}`)}
@@ -277,14 +277,29 @@ export default function FormatTab(props) {
                                 onClick={() => props.updateElement(props.index, "bgColor", "", "", "transparent")}>
                             </button>
                             {/* Custom Color */}
-                            <button style={{ borderRadius: '100%', paddingTop: '12px' }} type="button" className={props.element.bgColor == "custom" ? (`borderActive btn bg-rainbow `) : (`border btn bg-rainbow`)}
-                                onClick={() => props.updateElement(props.index, "bgColor", "", "", "custom")}>
-                                    <i className="bi bi-pallete"></i>
-                            </button>
+                            
+                                <button style={{ borderRadius: '100%', paddingTop: '12px' }} type="button" className={props.element.bgColor == "custom" ? (`borderActive btn bg-rainbow `) : (`border btn bg-rainbow`)}
+                                    onClick={() => props.updateElement(props.index, "bgColor", "", "", "custom")}>
+                                </button>
                         </Dropdown.Item>
                     </DropdownButton>
                 </div>) : (<></>)}
-
+                {props.element.size?(
+                    <div className="px-2 text-center">
+                        <small>Size</small>
+                        <DropdownButton title={props.element.size} variant="light" size="sm">
+                            <Dropdown.Item onClick={() => props.updateElement(props.index, "size", "", "","sm")}>
+                                Small
+                            </Dropdown.Item>
+                            <Dropdown.Item onClick={() => props.updateElement(props.index, "size", "", "","rg")}>
+                                Regular
+                            </Dropdown.Item>
+                            <Dropdown.Item onClick={() => props.updateElement(props.index, "size", "", "","lg")}>
+                                Large
+                            </Dropdown.Item>
+                        </DropdownButton>
+                    </div>
+                ):(<></>)}
             {props.element.tag === "button" ?
                 (<>
                     <div className="px-2">
@@ -298,7 +313,7 @@ export default function FormatTab(props) {
                     <div className="px-2 text-center">
                         <small><i className="bi bi-link-45deg"></i>{" "}Link</small>
                         <br />
-                        <textarea rows="1" cols="5" value={props.element.href} className="btn btn-light" styles={{ resize: 'none !important' }} onChange={(e) => props.updateElement(props.index, "href", "", "", e.target.value)} placeholder="Link" />
+                        <textarea rows="1" cols="5" value={props.element.href} className="btn btn-light btn-sm" styles={{ resize: 'none !important' }} onChange={(e) => props.updateElement(props.index, "href", "", "", e.target.value)} placeholder="Link" />
                     </div>
                     <div className="px-2 text-center">
                         <small>Icon{" "}</small>
@@ -312,18 +327,18 @@ export default function FormatTab(props) {
                             <i className="bi bi-info-circle-fill"></i>
                         </OverlayTrigger>
                         <br />
-                        <textarea rows="1" cols="3" value={props.element.iconName} className="btn btn-light" styles={{ resize: 'none !important' }} onChange={(e) => props.updateElement(props.index, "iconName", "", "", e.target.value)} placeholder="icon" />
+                        <textarea rows="1" cols="3" value={props.element.iconName} className="btn btn-light btn-sm" styles={{ resize: 'none !important' }} onChange={(e) => props.updateElement(props.index, "iconName", "", "", e.target.value)} placeholder="icon" />
                     </div>
                     <div className="px-2 text-center">
                         <small>Icon Position</small>
-                        <DropdownButton size="sm" title={<i className={`bi bi-align-${props.element.iconPosition}`}></i>} variant=" ">
+                        <DropdownButton size="sm" title={<i className={`bi bi-align-${props.element.iconPosition}`}></i>} variant="light">
                             <Dropdown.Item>
-                                <button type="button" className={props.element.iconPosition === "start" ? ("btn btn -light btn-light-active") : ("btn btn-light")} onClick={() => props.updateElement(props.index, "iconPosition", "", "", "start")}  >
-                                    <i className="bi  bi-align-start"></i>
+                                <button type="button" className={props.element.iconPosition === "start" ? ("btn btn -light btn-light-active px-2 py-0") : ("btn btn-light px-2 py-0")} onClick={() => props.updateElement(props.index, "iconPosition", "", "", "start")}  >
+                                    <i className="bi  bi-align-start lead"></i>
                                 </button>
 
-                                <button type="button" className={props.element.iconPosition === "end" ? ("btn btn-light btn-light-active") : ("btn btn-light")} onClick={() => props.updateElement(props.index, "iconPosition", "", "", "end")}>
-                                    <i className="bi  bi-align-end"></i>
+                                <button type="button" className={props.element.iconPosition === "end" ? ("btn btn-light btn-light-active px-2 py-0") : ("btn btn-light px-2 py-0")} onClick={() => props.updateElement(props.index, "iconPosition", "", "", "end")}>
+                                    <i className="bi  bi-align-end lead"></i>
                                 </button>
                             </Dropdown.Item>
                         </DropdownButton>
@@ -347,7 +362,7 @@ export default function FormatTab(props) {
                                         {SocialLinks.map((s, i) =>
                                             <div key={props.index + "propertieschange" + i}>
                                                 <i className={`bi bi-${s.name} lead mr-2`}></i>
-                                                <textarea rows="1" cols="10" value={props.element[s.name]} className="btn btn-light my-1" styles={{ resize: 'none !important' }} onChange={(e) => props.updateElement(props.index, s.name, "", "", e.target.value)} placeholder={s.name} />
+                                                <textarea rows="1" cols="10" value={props.element[s.name]} className="btn btn-light my-1 btn-sm" styles={{ resize: 'none !important' }} onChange={(e) => props.updateElement(props.index, s.name, "", "", e.target.value)} placeholder={s.name} />
                                             </div>)}
                                     </>
                                 </Popover.Content>
@@ -366,7 +381,7 @@ export default function FormatTab(props) {
                         <small>Aspect Ratio</small>
                         <DropdownButton title={
                             aspectValueToRatio(props.element.aspectRatio)
-                        } variant=" " size="sm" >
+                        } variant="light" size="sm" >
                             {AspectRatios.map((asp, i) =>
                                 <Dropdown.Item key={i + "aspect"} active={props.element.aspectRatio == asp.value ? (true) : (false)} onClick={() => props.updateElement(props.index, "aspectRatio", "", "",
                                     asp.value)}>

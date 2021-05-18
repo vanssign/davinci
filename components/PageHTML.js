@@ -163,7 +163,7 @@ export default function PageHTML({ element, index }) {
             <div className={`py-2 ` + containerClasses}>
                 <div className={`w-100 align-self-${element.alignSelf} text-${element.alignment}`}>
                     <a className="text-reset" href={element.href} target="_blank">
-                        <button className={element.btnOutline ? (`btn btn-outline-${element.btnColor}`) : (`btn btn-${element.btnColor}`)}>
+                        <button className={element.btnOutline ? (`btn btn-outline-${element.btnColor} btn-${props.element.size}`) : (`btn btn-${element.btnColor} btn-${props.element.size}`)}>
                             {(element.iconName && element.iconPosition == "start") ? (
                                 <>
                                     <i className={`bi bi-${element.iconName} font-weight-bolder`}></i>{" "}

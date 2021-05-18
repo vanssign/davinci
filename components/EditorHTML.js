@@ -385,7 +385,7 @@ export default function EditorHTML(props) {
     else if (tag == "button") {
         return (<div className={`py-2 ` + containerClasses + activeBorder} onClick={() => props.handleFocus(props.index)}>
             <div className={`w-100 align-self-${props.element.alignSelf} text-${props.element.alignment}`}>
-                <button type="button" className={props.element.btnOutline ? (`btn btn-outline-${props.element.btnColor}`) : (`btn btn-${props.element.btnColor}`)} style={{ position: 'relative' }}>
+                <button type="button" className={props.element.btnOutline ? (`btn btn-${props.element.size} btn-outline-${props.element.btnColor}`) : (`btn btn-${props.element.btnColor} btn-${props.element.size}`)} style={{ position: 'relative' }}>
                     <div className="d-flex justify-content-start">
                         {(props.element.iconName && (props.element.iconPosition == "start")) ? (
                             <>
@@ -420,10 +420,10 @@ export default function EditorHTML(props) {
         return (
             <div className={`py-2 ` + containerClasses + activeBorder} aria-label="btn-group" onClick={() => props.handleFocus(props.index)} ref={props.focusedIndex == props.index ? (FocusedElement) : (null)}>
                 <div className={`w-100 align-self-${props.element.alignSelf} ` + allClasses}>
-                    <div role="group" className={"btn-group "} onClick={() => props.handleFocus(props.index)}>
+                    <div role="group" className={`btn-group btn-group-${props.element.size}`} onClick={() => props.handleFocus(props.index)}>
                         {SocialLinks.filter((s, i) => props.element[s.name] !== "")
                             .map((sb, i) =>
-                                <button key={tag + sb.name + props.index} type="button" className="btn btn-secondary"><i className={`bi bi-${sb.name} lead`}></i></button>)
+                                <button key={tag + sb.name + props.index} type="button" className="btn btn-secondary"><i className={`bi bi-${sb.name}`}></i></button>)
                         }
                     </div>
                     <button type="button" className={"btn btn-danger py-0 px-1" + visibleClass()} onClick={() => props.deleteElement(props.index)}>
@@ -595,7 +595,7 @@ export default function EditorHTML(props) {
                                 </div>
                             ) : (<></>))
                         }
-                        <div className="row">
+                        <div className="row px-1">
                             {nestedItems}
                         </div>
                     </div>

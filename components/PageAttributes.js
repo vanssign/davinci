@@ -22,7 +22,6 @@ export default function PageAttributes(props) {
                     <input type="text" value={props.pageInfo["feautredImage"]} onChange={(e)=>props.updatePageInfo("feautredImage",e.target.value)} className="form-control" id="inputFeautredImage" aria-describedby="feautredImageHelp" placeholder="Image Link here..." />
                     <img className="img-fluid form-text" src={props.pageInfo["feautredImage"]}/>
                 </div>
-                <button type="submit" disabled className="btn btn-primary-x btn-block">Publish</button>
             </form>
         </div>
     )

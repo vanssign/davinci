@@ -8,11 +8,9 @@ export default function ColorPicker() {
     setColor(color.hex);
   };
     return (
-    <div className="container">
       <ChromePicker
         color={ Color }
         onChangeComplete={ handleChangeComplete }
         width={300}/>
-        </div>
     );
 }

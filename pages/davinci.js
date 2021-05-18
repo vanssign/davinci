@@ -248,7 +248,7 @@ export default function Davinci() {
                         <div className="container-fluid border border-top-0">
                             {/* Toggle button */}
                             <div className="d-flex justify-content-between align-items-center">
-                                <div>
+                                <div className="align-self-end">
                                     <button type="button" className="btn btn-dark px-2 py-0" onClick={() => setPreviewStatus(!PreviewStatus)}>{PreviewStatus ?
                                         (<span><i className="bi bi-arrows-collapse"></i></span>) :
                                         (<i className="bi bi-arrows-expand"></i>)}</button>
