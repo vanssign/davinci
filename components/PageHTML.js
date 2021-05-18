@@ -163,7 +163,7 @@ export default function PageHTML({ element, index }) {
             <div className={`py-2 ` + containerClasses}>
                 <div className={`w-100 align-self-${element.alignSelf} text-${element.alignment}`}>
                     <a className="text-reset" href={element.href} target="_blank">
-                        <button className={element.btnOutline ? (`btn btn-outline-${element.btnColor} btn-${props.element.size}`) : (`btn btn-${element.btnColor} btn-${props.element.size}`)}>
+                        <button className={element.btnOutline ? (`btn btn-outline-${element.btnColor} btn-${props.element.size}`) : (`btn btn-${element.btnColor} btn-${element.size}`)}>
                             {(element.iconName && element.iconPosition == "start") ? (
                                 <>
                                     <i className={`bi bi-${element.iconName} font-weight-bolder`}></i>{" "}
@@ -188,7 +188,7 @@ export default function PageHTML({ element, index }) {
         return (
             <div className={"py-2 " + containerClasses}>
                 <div className={`w-100 align-self-${element.alignSelf} ` + allClasses}>
-                    <div className={`btn-group btn-group-${props.element.size}`} role="group" aria-label="btn-group">
+                    <div className={`btn-group btn-group-${element.size}`} role="group" aria-label="btn-group">
                         {SocialLinks.filter((s, i) => element[s.name] !== "")
                             .map((sb, i) =>
 
