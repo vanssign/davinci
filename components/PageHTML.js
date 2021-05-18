@@ -188,7 +188,7 @@ export default function PageHTML({ element, index }) {
         return (
             <div className={"py-2 " + containerClasses}>
                 <div className={`w-100 align-self-${element.alignSelf} ` + allClasses}>
-                    <div className="btn-group" role="group" aria-label="btn-group">
+                    <div className={`btn-group btn-group-${props.element.size}`} role="group" aria-label="btn-group">
                         {SocialLinks.filter((s, i) => element[s.name] !== "")
                             .map((sb, i) =>
 
