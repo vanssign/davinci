@@ -4,43 +4,42 @@ import styles from '../styles/Home.module.css'
 export default function Home() {
   return (
     <>
-    <Head>
-      <title>DaVinci | Paint your blog ideas</title>
-      <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+      <Head>
+        <title>DaVinci | Paint your blog ideas</title>
+        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
-      <header className="site-header sticky-top py-1" style={{ backgroundColor: 'white' }}>
-        <nav className="container d-flex flex-column flex-md-row justify-content-between">
-          <a className="py-2" aria-label="Product">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" className="d-block mx-auto" role="img" viewBox="0 0 24 24"><title>Product</title><circle cx="12" cy="12" r="10" /><path d="M14.31 8l5.74 9.94M9.69 8h11.48M7.38 12l5.74-9.94M9.69 16L3.95 6.06M14.31 16H2.83m13.79-4l-5.74 9.94" /></svg>
+      <nav className="sticky-top py-1" style={{ backgroundColor: 'white' }}>
+        <div className="container d-flex flex-column flex-md-row justify-content-between">
+          <a >
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="d-block mx-auto"><circle cx="12" cy="12" r="10"></circle><line x1="14.31" y1="8" x2="20.05" y2="17.94"></line><line x1="9.69" y1="8" x2="21.17" y2="8"></line><line x1="7.38" y1="12" x2="13.12" y2="2.06"></line><line x1="9.69" y1="16" x2="3.95" y2="6.06"></line><line x1="14.31" y1="16" x2="2.83" y2="16"></line><line x1="16.62" y1="12" x2="10.88" y2="21.94"></line></svg>
           </a>
-
-          <Link href="/blog"><a className="py-2  d-md-inline-block" >
+          <Link href="/blog"><a className="d-md-inline-block" >
             <i className="bi bi-journal-richtext"></i>{" "}Blogs</a></Link>
-          <Link href="/davinci"><a className="py-2  d-md-inline-block" >
+          <Link href="/davinci"><a className="d-md-inline-block" >
             <i className="bi bi-input-cursor-text"></i>{" "}Editor</a></Link>
-          <Link href="/auth/login"><a className="py-2  d-md-inline-block" >
+          <Link href="/auth/login"><a className="d-md-inline-block" >
             <i className="bi bi-person-badge-fill"></i>{" "}Login</a></Link>
-          <Link href="/auth/register"><a className="py-2  d-md-inline-block" >
+          <Link href="/auth/register"><a className="d-md-inline-block" >
             <i className="bi bi-person-plus"></i>{" "}Register</a></Link>
-          <a className="py-2  d-md-inline-block" target="_blank" href="https://github.com/vanssign/davinci" >
+          <a className="d-md-inline-block" target="_blank" href="https://github.com/vanssign/davinci" >
             <i className="bi bi-github"></i>{" "}Github Repo</a>
-        </nav>
-      </header>
-
-      <main>
-        <div className="position-relative overflow-hidden p-3 p-md-5 m-md-3 text-center bg-light">
-          <div className="col-md-5 p-lg-5 mx-auto my-5">
-            <h1 className="display-4 fw-normal">Davinci</h1>
-            <p className="lead fw-normal">A Visual Block Editor to paint your ideas</p>
-            <Link href="/davinci"><a className="btn btn-outline-secondary">Open Editor</a></Link>
-          </div>
-          <div className="product-device shadow-sm  d-md-block"></div>
-          <div className="product-device product-device-2 shadow-sm  d-md-block"></div>
         </div>
-        <div className="text-center" style={{ padding: '1rem 16rem' }}>
+      </nav>
+
+      <main className="px-3 mt-2">
+        <div className="jumbotron">
+          <h1 className="display-4">DaVinci</h1>
+          <p className="lead">A Visual Block Editor to paint your ideas</p>
+          <hr className="my-4" />
+          <p>Based on Next.js and Bootstrap</p>
+          <p className="lead">
+            <Link href="/davinci"><a className="btn btn-outline-secondary"  role="button">Open Editor</a></Link>
+          </p>
+        </div>
+        <div className="text-center" style={{ padding: '1rem 12rem' }}>
           <div className="font-weight-bolder">Preview</div>
           <div className="embed-responsive embed-responsive-16by9 border rounded">
-            <iframe className="embed-responsive-item" src="https://www.youtube.com/embed/-_sQmw27mX8?autoplay=1" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen ></iframe>
+            <iframe src="https://www.youtube.com/embed/-_sQmw27mX8" title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen autoPlay></iframe>
           </div>
         </div>
       </main>
