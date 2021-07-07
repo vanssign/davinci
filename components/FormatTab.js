@@ -1,4 +1,4 @@
-import { DropdownButton, Dropdown, SplitButton, Tabs, Tab, Tooltip, OverlayTrigger, Popover, Carousel } from 'react-bootstrap';
+import { DropdownButton, Dropdown, SplitButton, Tabs, Tab, Tooltip, OverlayTrigger, Popover, Carousel,Modal } from 'react-bootstrap';
 import ColorPicker from './ColorPicker';
 var TextTags = [
     {
@@ -115,6 +115,35 @@ function aspectValueToRatio(value) {
     }
     return ratio;
 }
+function Example() {
+    const [show, setShow] = useState(false);
+  
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
+  
+    return (
+      <>
+        <Button variant="primary" onClick={handleShow}>
+          Launch demo modal
+        </Button>
+  
+        <Modal show={show} onHide={handleClose} animation={false}>
+          <Modal.Header closeButton>
+            <Modal.Title>Modal heading</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>Woohoo, you're reading this text in a modal!</Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={handleClose}>
+              Close
+            </Button>
+            <Button variant="primary" onClick={handleClose}>
+              Save Changes
+            </Button>
+          </Modal.Footer>
+        </Modal>
+      </>
+    );
+  }
 //Properties in Format tab
 export default function FormatTab(props) {
 
@@ -279,7 +308,7 @@ export default function FormatTab(props) {
                             {/* Custom Color */}
                             
                                 <button style={{ borderRadius: '100%', paddingTop: '12px' }} type="button" className={props.element.bgColor == "custom" ? (`borderActive btn bg-rainbow `) : (`border btn bg-rainbow`)}
-                                    onClick={() => props.updateElement(props.index, "bgColor", "", "", "custom")}>
+                                >
                                 </button>
                         </Dropdown.Item>
                     </DropdownButton>
