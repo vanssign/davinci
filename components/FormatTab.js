@@ -257,7 +257,7 @@ export default function FormatTab(props) {
 
                     <DropdownButton title={props.element.whiteSpace} variant="light" size="sm">
                         {WhiteSpace.map((w,i)=>
-                        <Dropdown.Item key={w.name+i} active={props.element.whiteSpace == w.name ? (true) : (false)} onClick={() => props.updateElement(props.index, "whiteSpave", "", "", w.name)}>
+                        <Dropdown.Item key={w.name+i} active={props.element.whiteSpace == w.name ? (true) : (false)} onClick={() => props.updateElement(props.index, "whiteSpace", "", "", w.name)}>
                             {w.name}
                         </Dropdown.Item>
                         )}
