@@ -72,6 +72,13 @@ color:black;
 .styleUnderlineStrikethrough{
   text-decoration: underline line-through !important;
 }
+.whiteSpace-normal{
+  white-space: normal;
+}
+
+.whiteSpace-pre-wrap{
+  white-space: pre-wrap;
+}
 .carouselContainer{
   padding:8px 16vw ;
 }

@@ -52,7 +52,8 @@ export default function PageHTML({ element, index }) {
     if (tag == "p") {
         return (
             <div className={containerClasses}>
-                <p className={allClasses + ` w-100 align-self-${element.alignSelf}`}>{content}</p>
+                <p className={allClasses + ` w-100 align-self-${element.alignSelf}`}>
+                    <span>{content}</span></p>
             </div>)
     }
     if (tag == "h3") {

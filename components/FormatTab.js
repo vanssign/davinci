@@ -1,4 +1,4 @@
-import { DropdownButton, Dropdown, SplitButton, Tabs, Tab, Tooltip, OverlayTrigger, Popover, Carousel,Modal } from 'react-bootstrap';
+import { DropdownButton, Dropdown, SplitButton, Tabs, Tab, Tooltip, OverlayTrigger, Popover, Carousel, Modal } from 'react-bootstrap';
 import ColorPicker from './ColorPicker';
 var TextTags = [
     {
@@ -86,6 +86,11 @@ var SocialLinks = [
     { name: 'twitch' }
 ]
 
+var WhiteSpace = [
+    { name: 'normal' },
+    { name: 'pre-wrap' }
+]
+
 var AspectRatios = [
     {
         ratio: "1:1",
@@ -117,33 +122,33 @@ function aspectValueToRatio(value) {
 }
 function Example() {
     const [show, setShow] = useState(false);
-  
+
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
-  
+
     return (
-      <>
-        <Button variant="primary" onClick={handleShow}>
-          Launch demo modal
-        </Button>
-  
-        <Modal show={show} onHide={handleClose} animation={false}>
-          <Modal.Header closeButton>
-            <Modal.Title>Modal heading</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>Woohoo, you're reading this text in a modal!</Modal.Body>
-          <Modal.Footer>
-            <Button variant="secondary" onClick={handleClose}>
-              Close
+        <>
+            <Button variant="primary" onClick={handleShow}>
+                Launch demo modal
             </Button>
-            <Button variant="primary" onClick={handleClose}>
-              Save Changes
-            </Button>
-          </Modal.Footer>
-        </Modal>
-      </>
+
+            <Modal show={show} onHide={handleClose} animation={false}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Modal heading</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>Woohoo, you're reading this text in a modal!</Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={handleClose}>
+                        Close
+                    </Button>
+                    <Button variant="primary" onClick={handleClose}>
+                        Save Changes
+                    </Button>
+                </Modal.Footer>
+            </Modal>
+        </>
     );
-  }
+}
 //Properties in Format tab
 export default function FormatTab(props) {
 
@@ -246,6 +251,20 @@ export default function FormatTab(props) {
                 </div>
             ) : (<></>)}
 
+            {props.element.whiteSpace ? (
+                <div className="px-2 text-center">
+                    <small>WhiteSpace</small>
+
+                    <DropdownButton title={props.element.whiteSpace} variant="light" size="sm">
+                        {WhiteSpace.map((w,i)=>
+                        <Dropdown.Item key={w.name+i} active={props.element.whiteSpace == w.name ? (true) : (false)} onClick={() => props.updateElement(props.index, "whiteSpave", "", "", w.name)}>
+                            {w.name}
+                        </Dropdown.Item>
+                        )}
+                    </DropdownButton>
+                </div>
+            ) : (<></>)}
+
 
             {props.element.btnColor ? (
                 <div className="px-2 text-center">
@@ -261,12 +280,12 @@ export default function FormatTab(props) {
                         <Dropdown.Item active={props.element.btnColor == "link" ? (true) : (false)} onClick={() => props.updateElement(props.index, "btnColor", "", "", "link")}>
                             <button type="button" className="btn btn-link">
                                 link
-                                    </button>
+                            </button>
                         </Dropdown.Item>
                         <Dropdown.Item active={props.element.btnColor == "transparent" ? (true) : (false)} onClick={() => props.updateElement(props.index, "btnColor", "", "", "transparent")}>
                             <button type="button" className="btn ">
                                 transparent
-                                    </button>
+                            </button>
                         </Dropdown.Item>
                     </DropdownButton>
                 </div>
@@ -306,29 +325,29 @@ export default function FormatTab(props) {
                                 onClick={() => props.updateElement(props.index, "bgColor", "", "", "transparent")}>
                             </button>
                             {/* Custom Color */}
-                            
-                                <button style={{ borderRadius: '100%', paddingTop: '12px' }} type="button" className={props.element.bgColor == "custom" ? (`borderActive btn bg-rainbow `) : (`border btn bg-rainbow`)}
-                                >
-                                </button>
+
+                            <button style={{ borderRadius: '100%', paddingTop: '12px' }} type="button" className={props.element.bgColor == "custom" ? (`borderActive btn bg-rainbow `) : (`border btn bg-rainbow`)}
+                            >
+                            </button>
                         </Dropdown.Item>
                     </DropdownButton>
                 </div>) : (<></>)}
-                {props.element.size?(
-                    <div className="px-2 text-center">
-                        <small>Size</small>
-                        <DropdownButton title={props.element.size} variant="light" size="sm">
-                            <Dropdown.Item onClick={() => props.updateElement(props.index, "size", "", "","sm")}>
-                                Small
-                            </Dropdown.Item>
-                            <Dropdown.Item onClick={() => props.updateElement(props.index, "size", "", "","rg")}>
-                                Regular
-                            </Dropdown.Item>
-                            <Dropdown.Item onClick={() => props.updateElement(props.index, "size", "", "","lg")}>
-                                Large
-                            </Dropdown.Item>
-                        </DropdownButton>
-                    </div>
-                ):(<></>)}
+            {props.element.size ? (
+                <div className="px-2 text-center">
+                    <small>Size</small>
+                    <DropdownButton title={props.element.size} variant="light" size="sm">
+                        <Dropdown.Item onClick={() => props.updateElement(props.index, "size", "", "", "sm")}>
+                            Small
+                        </Dropdown.Item>
+                        <Dropdown.Item onClick={() => props.updateElement(props.index, "size", "", "", "rg")}>
+                            Regular
+                        </Dropdown.Item>
+                        <Dropdown.Item onClick={() => props.updateElement(props.index, "size", "", "", "lg")}>
+                            Large
+                        </Dropdown.Item>
+                    </DropdownButton>
+                </div>
+            ) : (<></>)}
             {props.element.tag === "button" ?
                 (<>
                     <div className="px-2">
@@ -351,7 +370,7 @@ export default function FormatTab(props) {
                             delay={{ show: 150, hide: 1500 }}
                             overlay={<Tooltip id="button-icon-tooltip" >
                                 Visit <a href="https://icons.getbootstrap.com/" target="_blank" rel="noreferrer">Bootstrap Icons</a> and add the name of the icon ex:alarm
-                                    </Tooltip>}
+                            </Tooltip>}
                         >
                             <i className="bi bi-info-circle-fill"></i>
                         </OverlayTrigger>
@@ -444,10 +463,10 @@ export default function FormatTab(props) {
                                 <DropdownButton title={props.element.animation} variant="light" size="sm">
                                     <Dropdown.Item onClick={() => props.updateElement(props.index, "animation", "", "", "fade")} >
                                         fade
-                                </Dropdown.Item>
+                                    </Dropdown.Item>
                                     <Dropdown.Item onClick={() => props.updateElement(props.index, "animation", "", "", "slide")} >
                                         slide
-                                </Dropdown.Item>
+                                    </Dropdown.Item>
                                 </DropdownButton>
                             </div>
                             <div className="px-2 text-center">

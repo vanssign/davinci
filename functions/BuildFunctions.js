@@ -19,6 +19,9 @@ export function buildClassName(element, index) {
     if (element.textColor) {
         allClasses = allClasses.concat(`text-${element.textColor} `)
     }
+    if(element.whiteSpace){
+        allClasses=allClasses.concat(`whiteSpace-${element.whiteSpace}`)
+    }
     return allClasses;
 }
 
@@ -127,7 +130,7 @@ export function determineElementStructure(tag, elementArray, currentIndex) {
             alignment: 'center',
             alignSelf: "center",
             bgColor: "transparent",
-            size:"rg",
+            size: "rg",
             col: col,
             colMd: colMd,
             colLg: colLg,
@@ -151,7 +154,7 @@ export function determineElementStructure(tag, elementArray, currentIndex) {
             alignment: "center",
             alignSelf: "center",
             bgColor: "transparent",
-            size:"rg",
+            size: "rg",
             col: col,
             colMd: colMd,
             colLg: colLg,
@@ -239,6 +242,27 @@ export function determineElementStructure(tag, elementArray, currentIndex) {
             col: col,
             colMd: colMd,
             colLg: colLg,
+        }
+    }
+    else if (tag == "p") {
+        element = {
+            tag: tag,
+            content: "",
+            classes: "",
+            typography: {
+                bold: false,
+                italic: false,
+                underline: false,
+                strikethrough: false,
+            },
+            textColor: "dark",
+            alignment: "left",
+            alignSelf: "center",
+            bgColor: "transparent",
+            col: col,
+            colMd: colMd,
+            colLg: colLg,
+            whiteSpace:"normal"
         }
     }
     else {
