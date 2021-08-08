@@ -145,7 +145,7 @@ export default function EditorHTML(props) {
         return (
             <div className={containerClasses + activeBorder} onClick={() => props.handleFocus(props.index)}>
                 <p className={allClasses + `w-100 align-self-${props.element.alignSelf}`}><TextareaAutosize style={{ overflow: 'hidden' }} ref={props.focusedIndex == props.index ? (FocusedElement) : (null)} value={content} className={styles.textareaInherit} onChange={(e) => props.updateElement(props.index, "content", "", "", e.target.value)} placeholder="Paragraph. Type here ..." onKeyDown={function (e) {
-                    if (e.key === 'Enter'&&props.element.whiteSpace==='normal') {
+                    if (e.key === 'Enter') {
                         e.preventDefault();
                         props.addElement("p");
                     }

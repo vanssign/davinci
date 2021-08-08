@@ -72,13 +72,7 @@ color:black;
 .styleUnderlineStrikethrough{
   text-decoration: underline line-through !important;
 }
-.whiteSpace-normal{
-  white-space: normal;
-}
 
-.whiteSpace-pre-wrap{
-  white-space: pre-wrap;
-}
 .carouselContainer{
   padding:8px 16vw ;
 }
@@ -144,5 +138,16 @@ color:black;
         }
       }
 
+      .content .header {
+        width: 100%;
+        height: 50px;
+        position: sticky;
+        top: 0;
+      }
+      .content {
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(70deg, orange, crimson);
+      }
 
       

@@ -19,9 +19,6 @@ export function buildClassName(element, index) {
     if (element.textColor) {
         allClasses = allClasses.concat(`text-${element.textColor} `)
     }
-    if(element.whiteSpace){
-        allClasses=allClasses.concat(`whiteSpace-${element.whiteSpace}`)
-    }
     return allClasses;
 }
 

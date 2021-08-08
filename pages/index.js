@@ -1,53 +1,422 @@
 import Head from 'next/head'
-import Link from 'next/link'
-import styles from '../styles/Home.module.css'
-export default function Home() {
+import Link from 'next/link';
+
+import { useState, useEffect } from 'react';
+import Editor from '../components/Editor';
+
+export default function TestPage() {
+  const temp=JSON.parse(`[
+    {
+        "tag": "h1",
+        "content": "Welcome to Davinci Editor",
+        "classes": "",
+        "typography": {
+            "bold": false,
+            "italic": false,
+            "underline": false,
+            "strikethrough": false
+        },
+        "textColor": "dark",
+        "alignment": "left",
+        "alignSelf": "center",
+        "bgColor": "transparent",
+        "col": 12,
+        "colMd": 12,
+        "colLg": 12
+    },
+    {
+        "tag": "p",
+        "content": "A WYSIWYG Editor",
+        "classes": "",
+        "typography": {
+            "bold": false,
+            "italic": false,
+            "underline": false,
+            "strikethrough": false
+        },
+        "textColor": "success",
+        "alignment": "center",
+        "alignSelf": "center",
+        "bgColor": "transparent",
+        "col": 12,
+        "colMd": 6,
+        "colLg": 3,
+        "whiteSpace": "normal"
+    },
+    {
+        "tag": "p",
+        "content": "Interactive Interface",
+        "classes": "",
+        "typography": {
+            "bold": false,
+            "italic": true,
+            "underline": false,
+            "strikethrough": false
+        },
+        "textColor": "dark",
+        "alignment": "center",
+        "alignSelf": "center",
+        "bgColor": "light",
+        "col": 12,
+        "colMd": 6,
+        "colLg": 3,
+        "whiteSpace": "normal"
+    },
+    {
+        "tag": "p",
+        "content": "Easy Formatting",
+        "classes": "",
+        "typography": {
+            "bold": false,
+            "italic": false,
+            "underline": true,
+            "strikethrough": false
+        },
+        "textColor": "white",
+        "alignment": "center",
+        "alignSelf": "center",
+        "bgColor": "info",
+        "col": 12,
+        "colMd": 6,
+        "colLg": 3,
+        "whiteSpace": "normal"
+    },
+    {
+        "tag": "p",
+        "content": "Responsive Design",
+        "classes": "",
+        "typography": {
+            "bold": true,
+            "italic": false,
+            "underline": false,
+            "strikethrough": false
+        },
+        "textColor": "dark",
+        "alignment": "center",
+        "alignSelf": "center",
+        "bgColor": "transparent",
+        "col": 12,
+        "colMd": 6,
+        "colLg": 3,
+        "whiteSpace": "normal"
+    },
+    {
+        "tag": "p",
+        "content": "Add Images , upload them and change their responsive nature",
+        "classes": "",
+        "typography": {
+            "bold": false,
+            "italic": false,
+            "underline": false,
+            "strikethrough": false
+        },
+        "textColor": "dark",
+        "alignment": "center",
+        "alignSelf": "center",
+        "bgColor": "transparent",
+        "col": 12,
+        "colMd": 6,
+        "colLg": 6,
+        "whiteSpace": "normal"
+    },
+    {
+        "tag": "img",
+        "src": "https://images.unsplash.com/photo-1586672806791-3a67d24186c0?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8Y292ZXIlMjBhcnR8ZW58MHx8MHx8&ixlib=rb-1.2.1&w=1000&q=80",
+        "responsive": true,
+        "alignment": "center",
+        "alignSelf": "center",
+        "bgColor": "transparent",
+        "col": 12,
+        "colMd": 6,
+        "colLg": 6
+    },
+    {
+        "tag": "custom",
+        "elementArray": [
+            {
+                "tag": "h3",
+                "content": "Create your own custom elements",
+                "classes": "",
+                "typography": {
+                    "bold": false,
+                    "italic": false,
+                    "underline": false,
+                    "strikethrough": false
+                },
+                "textColor": "dark",
+                "alignment": "left",
+                "alignSelf": "center",
+                "bgColor": "transparent",
+                "col": 12,
+                "colMd": 12,
+                "colLg": 12
+            },
+            {
+                "tag": "p",
+                "content": "It is built using simple Recursion",
+                "classes": "",
+                "typography": {
+                    "bold": false,
+                    "italic": false,
+                    "underline": false,
+                    "strikethrough": false
+                },
+                "textColor": "dark",
+                "alignment": "left",
+                "alignSelf": "center",
+                "bgColor": "transparent",
+                "col": 12,
+                "colMd": 12,
+                "colLg": 12,
+                "whiteSpace": "normal"
+            },
+            {
+                "tag": "button",
+                "href": "",
+                "content": "Add Buttons",
+                "classes": "",
+                "btnColor": "primary",
+                "btnOutline": false,
+                "iconName": "",
+                "iconPosition": "start",
+                "alignment": "center",
+                "alignSelf": "center",
+                "bgColor": "transparent",
+                "size": "rg",
+                "col": 12,
+                "colMd": 12,
+                "colLg": 6
+            },
+            {
+                "tag": "button",
+                "href": "",
+                "content": "Format them",
+                "classes": "",
+                "btnColor": "secondary",
+                "btnOutline": false,
+                "iconName": "pen",
+                "iconPosition": "start",
+                "alignment": "center",
+                "alignSelf": "center",
+                "bgColor": "transparent",
+                "size": "rg",
+                "col": 12,
+                "colMd": 12,
+                "colLg": 6
+            }
+        ],
+        "alignment": "left",
+        "alignSelf": "center",
+        "bgColor": "transparent",
+        "col": 12,
+        "colMd": 6,
+        "colLg": 6
+    },
+    {
+        "tag": "p",
+        "content": "Reorder elements, Change their type without changing content and use Design elements to build the way you want it to be seen",
+        "classes": "",
+        "typography": {
+            "bold": false,
+            "italic": false,
+            "underline": false,
+            "strikethrough": false
+        },
+        "textColor": "dark",
+        "alignment": "left",
+        "alignSelf": "center",
+        "bgColor": "transparent",
+        "col": 12,
+        "colMd": 6,
+        "colLg": 6,
+        "whiteSpace": "normal"
+    },
+    {
+        "tag": "hr",
+        "bgColor": "transparent"
+    },
+    {
+        "tag": "blockquote",
+        "content": "It is really easy to add blockquotes and vertical space in Davinci",
+        "cite": "Vansh Singh",
+        "footerContent": "",
+        "classes": "",
+        "typography": {
+            "bold": false,
+            "italic": false,
+            "underline": false,
+            "strikethrough": false
+        },
+        "textColor": "dark",
+        "alignment": "left",
+        "alignSelf": "center",
+        "bgColor": "transparent",
+        "col": 12,
+        "colMd": 12,
+        "colLg": 12
+    },
+    {
+        "tag": "spacer",
+        "height": "50",
+        "bgColor": "light"
+    },
+    {
+        "tag": "h5",
+        "content": "Embed Images, videos , Urls and easily change the aspect ratio of embed",
+        "classes": "",
+        "typography": {
+            "bold": false,
+            "italic": false,
+            "underline": false,
+            "strikethrough": false
+        },
+        "textColor": "dark",
+        "alignment": "left",
+        "alignSelf": "center",
+        "bgColor": "transparent",
+        "col": 12,
+        "colMd": 12,
+        "colLg": 12
+    },
+    {
+        "tag": "embed",
+        "src": "https://www.youtube.com/embed/_bzATDSKuVs",
+        "alignment": "center",
+        "alignSelf": "center",
+        "bgColor": "transparent",
+        "col": 12,
+        "colMd": 12,
+        "colLg": 12,
+        "aspectRatio": "16by9"
+    },
+    {
+        "tag": "carousel",
+        "slides": [
+            {
+                "src": "https://timelinecovers.pro/facebook-cover/download/stunning-little-flowers-facebook-cover.jpg",
+                "label": "Add Slide labels",
+                "caption": "",
+                "textColor": "light"
+            },
+            {
+                "src": "https://thumbs.dreamstime.com/b/baby-s-hand-dark-covers-colored-water-light-shadow-123921865.jpg",
+                "label": "Add Carousel",
+                "caption": "Change its transition, interval, hide controls indicators",
+                "textColor": "light"
+            }
+        ],
+        "animation": "slide",
+        "interval": "500",
+        "controls": true,
+        "indicators": true,
+        "alignSelf": "center",
+        "bgColor": "transparent",
+        "col": 12,
+        "colMd": 12,
+        "colLg": 12
+    },
+    {
+        "tag": "h5",
+        "content": "Add all your social links at a time",
+        "classes": "",
+        "typography": {
+            "bold": false,
+            "italic": false,
+            "underline": false,
+            "strikethrough": false
+        },
+        "textColor": "info",
+        "alignment": "center",
+        "alignSelf": "center",
+        "bgColor": "transparent",
+        "col": 12,
+        "colMd": 12,
+        "colLg": 12,
+        "whiteSpace": "normal"
+    },
+    {
+        "tag": "socialbtns",
+        "instagram": "",
+        "facebook": "",
+        "twitter": "",
+        "whatsapp": "https://wa.me/918279762669",
+        "github": "https://github.com/vanssign",
+        "linkedin": "https://www.linkedin.com/in/vansh-singh/",
+        "youtube": "",
+        "google": "",
+        "telegram": "",
+        "slack": "",
+        "discord": "",
+        "twitch": "",
+        "alignment": "center",
+        "alignSelf": "center",
+        "bgColor": "transparent",
+        "size": "rg",
+        "col": 12,
+        "colMd": 12,
+        "colLg": 12
+    },
+    {
+        "tag": "h3",
+        "content": "Whats the end goal of this Project?",
+        "classes": "",
+        "typography": {
+            "bold": false,
+            "italic": false,
+            "underline": false,
+            "strikethrough": false
+        },
+        "textColor": "dark",
+        "alignment": "left",
+        "alignSelf": "center",
+        "bgColor": "transparent",
+        "col": 12,
+        "colMd": 12,
+        "colLg": 12
+    },
+    {
+        "tag": "p",
+        "content": "Build a Node Package for developers to add blog posting feature to their nextjs sites in a go by just integrating firebase",
+        "classes": "",
+        "typography": {
+            "bold": false,
+            "italic": false,
+            "underline": false,
+            "strikethrough": false
+        },
+        "textColor": "dark",
+        "alignment": "left",
+        "alignSelf": "center",
+        "bgColor": "transparent",
+        "col": 12,
+        "colMd": 12,
+        "colLg": 12,
+        "whiteSpace": "normal"
+    }
+]`)
+  const [ElementArray, setElementArray] = useState(temp)
+  const [PageInfo, setPageInfo] = useState(
+    {
+      title: "Register or Login",
+      excerpt: "",
+      tags: "",
+      feautredImage: "",
+    }
+  )
+  const [LoginStatus, setLoginStatus] = useState("preview");
+
+  const [Notification, setNotification] = useState("");
+  const [LiveBlogId, setLiveBlogId] = useState("");
+  console.log(ElementArray);
   return (
     <>
       <Head>
         <title>DaVinci | Paint your blog ideas</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
-      <nav className="sticky-top py-1" style={{ backgroundColor: 'white' }}>
-        <div className="container d-flex justify-content-between">
-          <Link href="/blog"><a className="d-md-inline-block text-center">
-            <i className="bi bi-journal-richtext"></i>
-            <br className="d-md-none"/>
-            {" "}Blogs</a></Link>
-          <Link href="/davinci"><a className="d-md-inline-block text-center">
-            <i className="bi bi-input-cursor-text"></i>
-            <br className="d-md-none"/>
-            {" "}Editor</a></Link>
-          <Link href="/auth/login"><a className="d-md-inline-block text-center" >
-            <i className="bi bi-person-badge-fill"></i>
-            <br className="d-md-none"/>
-            {" "}Login</a></Link>
-          <Link href="/auth/register"><a className="d-md-inline-block text-center" >
-            <i className="bi bi-person-plus"></i>
-            <br className="d-md-none"/>{" "}Register</a></Link>
-          <a className="d-md-inline-block  text-center" target="_blank" href="https://github.com/vanssign/davinci" >
-            <i className="bi bi-github"></i>
-            <br className="d-md-none"/>{" "}Github Repo</a>
-        </div>
-      </nav>
-
-      <main className="px-3 mt-2">
-        <div className="jumbotron">
-          <h1 className="display-4">DaVinci</h1>
-          <p className="lead">A Visual Block Editor to paint your ideas</p>
-          <hr className="my-4" />
-          <p>Based on Next.js and Bootstrap</p>
-          <p className="lead">
-            <Link href="/davinci"><a className="btn btn-outline-secondary"  role="button">Open Editor</a></Link>
-          </p>
-        </div>
-        <div className="text-center mb-4" style={{padding:'2px 8%'}}>
-          <div className="font-weight-bolder">Preview</div>
-          <div className="embed-responsive embed-responsive-16by9 border rounded">
-            <iframe src="https://www.youtube.com/embed/-_sQmw27mX8" title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen autoPlay/>
-          </div>
-        </div>
-      </main>
-    </>
+        <div>
+      <Editor elementArray={ElementArray} LoginStatus={LoginStatus} PreviewStatus={false} updateelementArray={setElementArray} pageInfo={PageInfo} updatepageInfo={setPageInfo} Notification={Notification} LiveBlogId={LiveBlogId} />
+    </div>
+</>
   )
 }
