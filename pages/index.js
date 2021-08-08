@@ -397,16 +397,16 @@ export default function TestPage() {
   const [ElementArray, setElementArray] = useState(temp)
   const [PageInfo, setPageInfo] = useState(
     {
-      title: "Register or Login",
-      excerpt: "",
-      tags: "",
-      feautredImage: "",
+      title: "Davinci preview",
+      excerpt: "Davinci is a visual block editor inspired by Gutenberg Editor (by wordpress)",
+      tags: "next.js, firebase, react hooks, WYSIWYG",
+      feautredImage: "https://images.theconversation.com/files/272504/original/file-20190503-103045-ahb7af.jpg?ixlib=rb-1.1.0&q=45&auto=format&w=1000&fit=clip",
     }
   )
   const [LoginStatus, setLoginStatus] = useState("preview");
 
-  const [Notification, setNotification] = useState("");
-  const [LiveBlogId, setLiveBlogId] = useState("");
+  const [Notification, setNotification] = useState("This is just preview of Editor. Login or head to Editor to actually post. Check out all blogs painted through davinci at ");
+  const [LiveBlogId, setLiveBlogId] = useState(" ");
   console.log(ElementArray);
   return (
     <>

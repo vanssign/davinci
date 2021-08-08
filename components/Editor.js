@@ -197,11 +197,19 @@ console.log(ElementArray);
                                         <button type="button" className="btn px-1 py-0">
                                             <i className="bi bi-gear-fill lead"></i></button></OverlayTrigger>
                                             {LoginStatus=='preview'?(
+                                                <>
                                                 <Link href={`/auth/login`}>
-                                                    <a className="btn btn-primary-x m-1">
+                                                    <a className="btn btn-info m-1">
                                                         Login
                                                     </a>
                                                 </Link>
+                                                <Link href={`/davinci`}>
+                                                    <a className="btn btn-primary-x m-1">
+                                                        Editor
+                                                    </a>
+                                                </Link>
+                                                </>
+                                                
                                             ):(
                                                 <button className="btn btn-primary-x m-1" onClick={() => handlePublish()}
                                                 >
