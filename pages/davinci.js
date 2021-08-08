@@ -1,19 +1,10 @@
 import Head from 'next/head'
 import Link from 'next/link';
 
-import { useState, useEffect } from 'react';
-
-import { DropdownButton, Dropdown, SplitButton, Tabs, Tab, Tooltip, OverlayTrigger, Popover, Carousel } from 'react-bootstrap';
-
-import { determineElementStructure } from '../functions/BuildFunctions';
+import { useState } from 'react';
 
 import Layout from '../components/Layout';
-import EditorHTML from '../components/EditorHTML';
-import EditorTabs from '../components/EditorTabs';
-
 import fire from '../config/fire-config';
-import PageAttributes from '../components/PageAttributes';
-
 import Editor from '../components/Editor';
 
 export default function Davinci() {

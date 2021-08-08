@@ -8,8 +8,7 @@ import EditorTabs from './EditorTabs';
 import { DropdownButton, Dropdown, SplitButton, Tabs, Tab, Tooltip, OverlayTrigger, Popover, Carousel } from 'react-bootstrap';
 
 import PageAttributes from '../components/PageAttributes';
-export default function Davinci({LoginStatus,elementArray,updateelementArray,LiveBlogId,Notification,pageInfo,updatepageInfo,handlePublish}) {
-    //states
+export default function Davinci({ LoginStatus, elementArray, updateelementArray, LiveBlogId, Notification, pageInfo, updatepageInfo, handlePublish }) {
 
     const [ElementArray, setElementArray] = useState(elementArray)
     const [PageInfo, setPageInfo] = useState(
@@ -20,13 +19,13 @@ export default function Davinci({LoginStatus,elementArray,updateelementArray,Liv
     const [LastIndex, setLastIndex] = useState(0);
     const [InnerLastIndex, setInnerLastIndex] = useState(-1);
     const [PreviewStatus, setPreviewStatus] = useState(false);
+
     useEffect(() => {
         if (LoginStatus === true) {
-            setLastIndex(ElementArray.length - 1);
             updateelementArray(ElementArray);
-            updatepageInfo(PageInfo)
+            setLastIndex(ElementArray.length - 1);
             if (ElementArray[FocusedIndex]) {
-                if (ElementArray[FocusedIndex].tag !== "custom") {
+                if (ElementArray[FocusedIndex].tag != "custom") {
                     setInnerFocusedIndex(-1);
                     setInnerLastIndex(-1)
                 }
@@ -35,7 +34,12 @@ export default function Davinci({LoginStatus,elementArray,updateelementArray,Liv
                 }
             }
         }
-    })
+    }, [ElementArray, LoginStatus])
+
+
+    useEffect(() => {
+        updatepageInfo(PageInfo)
+    }, [PageInfo])
 
 
     //FUNCTIONS ON ELEMENTS
@@ -77,6 +81,7 @@ export default function Davinci({LoginStatus,elementArray,updateelementArray,Liv
         }
         setElementArray(newElementArray);
     }
+    
     //update element
     function updateElement(index, key, index2, key2, value) {
         let newElementArray = [...ElementArray];
@@ -147,93 +152,93 @@ export default function Davinci({LoginStatus,elementArray,updateelementArray,Liv
         }
         setElementArray(newElementArray)
     }
-    
+
     function handleFocus(index) {
         setFocusedIndex(index);
     }
     function handleInnerFocus(index) {
         setInnerFocusedIndex(index);
     }
-    function updatePageInfo(key,value){
-        let newPageInfo={...PageInfo}
-        newPageInfo[key]=value;
+    function updatePageInfo(key, value) {
+        let newPageInfo = { ...PageInfo }
+        newPageInfo[key] = value;
         setPageInfo(newPageInfo);
     }
-console.log(ElementArray);
+    console.log(ElementArray);
     return (
-                <>
+        <>
 
-{/* Notification and publish button */}
+            {/* Notification and publish button */}
+            {/* Add new Element */}
+            <div style={{ position: 'sticky', top: 0, zIndex: 10 }} className="bg-light" >
+                <div className="container-fluid border border-top-0">
+                    {/* Toggle button */}
+                    <div className="d-flex justify-content-between align-items-center">
+                        <div className="align-self-end">
+                            <button type="button" className="btn btn-dark px-2 py-0" onClick={() => setPreviewStatus(!PreviewStatus)}>{PreviewStatus ?
+                                (<span><i className="bi bi-arrows-collapse"></i></span>) :
+                                (<i className="bi bi-arrows-expand"></i>)}</button>
+                        </div>
+                        <div className="text-center">
+                            {Notification + " "}
+                            {LiveBlogId ? (
+                                <Link href={`/blog/${LiveBlogId}`}><a>/blog/{LiveBlogId}</a></Link>
+                            ) : (<></>)}
+                        </div>
+                        {/* PAGE ATTRIBUTES */}
+                        <div>
+                            <OverlayTrigger
+                                trigger="click" placement="bottom"
+                                rootClose={true}
+                                overlay={
+                                    <Popover id="popover-basic">
+                                        <Popover.Content>
+                                            <PageAttributes pageInfo={PageInfo} updatePageInfo={updatePageInfo} />
+                                        </Popover.Content>
+                                    </Popover>
+                                }
+                            >
+                                <button type="button" className="btn px-1 py-0">
+                                    <i className="bi bi-gear-fill lead"></i></button></OverlayTrigger>
+                            {LoginStatus == 'preview' ? (
+                                //For preview landing page
+                                <>
+                                    <Link href={`/auth/login`}>
+                                        <a className="btn btn-info m-1">
+                                            Login
+                                        </a>
+                                    </Link>
+                                    <Link href={`/davinci`}>
+                                        <a className="btn btn-primary-x m-1">
+                                            Editor
+                                        </a>
+                                    </Link>
+                                </>
 
-                    {/* Add new Element */}
-                    <div style={{ position: 'sticky', top: 0, zIndex: 10 }} className="bg-light" >
-                        <div className="container-fluid border border-top-0">
-                            {/* Toggle button */}
-                            <div className="d-flex justify-content-between align-items-center">
-                                <div className="align-self-end">
-                                    <button type="button" className="btn btn-dark px-2 py-0" onClick={() => setPreviewStatus(!PreviewStatus)}>{PreviewStatus ?
-                                        (<span><i className="bi bi-arrows-collapse"></i></span>) :
-                                        (<i className="bi bi-arrows-expand"></i>)}</button>
-                                </div>
-                                <div className="text-center">
-                                    {Notification + " "}
-                                    {LiveBlogId ? (
-                                        <Link href={`/blog/${LiveBlogId}`}><a>/blog/{LiveBlogId}</a></Link>
-                                    ) : (<></>)}
-                                </div>
-                                {/* PAGE ATTRIBUTES */}
-                                <div>
-                                    <OverlayTrigger
-                                        trigger="click" placement="bottom"
-                                        rootClose={true}
-                                        overlay={
-                                            <Popover id="popover-basic">
-                                                <Popover.Content>
-                                                    <PageAttributes pageInfo={PageInfo} updatePageInfo={updatePageInfo} />
-                                                </Popover.Content>
-                                            </Popover>
-                                        }
-                                    >
-                                        <button type="button" className="btn px-1 py-0">
-                                            <i className="bi bi-gear-fill lead"></i></button></OverlayTrigger>
-                                            {LoginStatus=='preview'?(
-                                                <>
-                                                <Link href={`/auth/login`}>
-                                                    <a className="btn btn-info m-1">
-                                                        Login
-                                                    </a>
-                                                </Link>
-                                                <Link href={`/davinci`}>
-                                                    <a className="btn btn-primary-x m-1">
-                                                        Editor
-                                                    </a>
-                                                </Link>
-                                                </>
-                                                
-                                            ):(
-                                                <button className="btn btn-primary-x m-1" onClick={() => handlePublish()}
-                                                >
-                                                    Publish
-                                                </button>
-                                            )}
-                                    
-                                </div>
-                            </div>
+                            ) : (
+                                <button className="btn btn-primary-x m-1" onClick={() => handlePublish()}
+                                >
+                                    Publish
+                                </button>
+                            )}
 
-                            <div className={PreviewStatus ? ("d-none") : ("rounded border")} style={{ backgroundColor: 'white' }}>
-                                <EditorTabs elementArray={ElementArray} focusedIndex={FocusedIndex} lastIndex={LastIndex} updateElement={updateElement} changeElementIndex={changeElementIndex} addElement={addElement} customDisabled={false} />
-                            </div>
                         </div>
                     </div>
-                    {/* Elements */}
-                    <div className="container-fluid">
-                        <div className="row px-1">
-                            {ElementArray.map((element, index) =>
-                                <EditorHTML key={element.tag + index} element={element} index={index} focusedIndex={FocusedIndex} handleFocus={handleFocus} innerFocusedIndex={InnerFocusedIndex} handleInnerFocus={handleInnerFocus} updateElement={updateElement} deleteElement={deleteElement} addElement={addElement} innerLastIndex={InnerLastIndex} />
-                            )
-                            }
-                        </div>
+
+                    <div className={PreviewStatus ? ("d-none") : ("rounded border")} style={{ backgroundColor: 'white' }}>
+                        <EditorTabs elementArray={ElementArray} focusedIndex={FocusedIndex} lastIndex={LastIndex} updateElement={updateElement} changeElementIndex={changeElementIndex} addElement={addElement} customDisabled={false} />
                     </div>
-                </>
+                </div>
+            </div>
+            {/* Elements */}
+            <div className="container-fluid">
+                <div className="row px-1">
+                    {ElementArray.map((element, index) =>
+                        <EditorHTML key={element.tag + index} element={element} index={index} focusedIndex={FocusedIndex} handleFocus={handleFocus} innerFocusedIndex={InnerFocusedIndex} handleInnerFocus={handleInnerFocus} updateElement={updateElement} deleteElement={deleteElement} addElement={addElement} innerLastIndex={InnerLastIndex} />
+                    )
+                    }
+                </div>
+            </div>
+        </>
     )
 }

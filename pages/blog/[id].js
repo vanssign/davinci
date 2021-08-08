@@ -13,7 +13,7 @@ export default function Post({ postData, err }) {
         return (
             <div className="container-fluid py-2">
                 <Head>
-                    <title>{postData.elementArray[0].content || postData.pagInfo.title} | Davinci</title>
+                    <title>{postData.pageInfo.title?(postData.pageInfo.title):(postData.elementArray[0].content )} | Davinci</title>
                     <meta name="viewport" content="initial-scale=1.0, width=device-width" />
                     {postData.pageInfo.excerpt ? (
                         <meta name="description" content={postData.pageInfo.excerpt} />

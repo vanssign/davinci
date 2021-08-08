@@ -51,25 +51,34 @@ var SocialLinks = [
 
 //Build Element
 export default function EditorHTML(props) {
+
+    //blue active outline for focused element
     const activeClass = () => {
         if (props.index == props.focusedIndex)
             return " borderPrimary my-1 zIndex5 "
         else return ""
     }
+    let activeBorder = activeClass();
+    
+    //visible utility class to hide and show items
     const visibleClass = () => {
         if (props.index !== props.focusedIndex)
             return " d-none "
         else return ""
     }
-    let activeBorder = activeClass();
+
     const FocusedElement = useRef();
     const [windowWidth, setWindowWidth] = useState(0);
     const [windowHeight, setWindowHeight] = useState(0);
+
     let tag = props.element.tag;
     let content = props.element.content;
+    
+    //building all classes as per attributes
     let allClasses = buildClassName(props.element, props.index)
     let containerClasses = buildElementContainerClasses(props.element);
 
+    //src update callback for img and carousels
     const updateUrl = (value, index) => {
         props.updateElement(index, "src", "", "", value)
     }
@@ -80,24 +89,27 @@ export default function EditorHTML(props) {
     };
 
     useEffect(() => {
-        // if (LoginStatus == true) {
         if (FocusedElement.current) {
             FocusedElement.current.focus();
         }
     }, [props.focusedIndex])
 
     useEffect(() => {
-        if (!(props.index < props.lastIndex)) {
-            if (FocusedElement.current) {
-                FocusedElement.current.scrollIntoView();
-            }
-        }
+        //new added scroll into view
+        // if (!(props.index < props.lastIndex)) {
+        //     if (FocusedElement.current) {
+        //         FocusedElement.current.scrollIntoView();
+        //     }
+        // }
+
+        //window width and height for carousel -- update needed
         if (windowWidth == 0) {
             setWindowHeight(window.innerHeight);
             setWindowWidth(window.innerWidth);
         }
         window.addEventListener("resize", handleResize)
-    }, [props.lastIndex])
+    })
+
     //TEXT
     if (tag == "h1") {
         return (
@@ -338,7 +350,7 @@ export default function EditorHTML(props) {
                     onClick={() => props.handleFocus(props.index)}>
                     <Carousel
                         fade={props.element.animation == "fade" ? (true) : (false)}
-                        interval={props.element.interval}
+                        interval={parseInt(props.element.interval)}
                         indicators={props.element.indicators}
                         controls={props.element.controls}
                     >
@@ -423,7 +435,9 @@ export default function EditorHTML(props) {
                     <div role="group" className={`btn-group btn-group-${props.element.size}`} onClick={() => props.handleFocus(props.index)}>
                         {SocialLinks.filter((s, i) => props.element[s.name] !== "")
                             .map((sb, i) =>
-                                <button key={tag + sb.name + props.index} type="button" className="btn btn-secondary"><i className={`bi bi-${sb.name}`}></i></button>)
+                                <button key={tag + sb.name + props.index} type="button" className="btn btn-secondary"><a className="text-reset" href={props.element[sb.name]} target="_blank">
+                                <i className={`bi bi-${sb.name} lead`}></i>
+                            </a></button>)
                         }
                     </div>
                     <button type="button" className={"btn btn-danger py-0 px-1" + visibleClass()} onClick={() => props.deleteElement(props.index)}>
@@ -466,10 +480,10 @@ export default function EditorHTML(props) {
         return (
             <div className={"py-2 " + containerClasses + activeBorder} onClick={() => props.handleFocus(props.index)} >
                 <div className={`w-100 align-self-${props.element.alignSelf} ` + allClasses}>
-                    <div class={`embed-responsive embed-responsive-${props.element.aspectRatio}`} style={{
+                    <div className={`embed-responsive embed-responsive-${props.element.aspectRatio}`} style={{
                         position: 'relative'
                     }}>
-                        <iframe class="embed-responsive-item border rounded" src={props.element.src} allowfullscreen ref={props.focusedIndex == props.index ? (FocusedElement) : (null)} />
+                        <iframe className="embed-responsive-item border rounded" src={props.element.src} allowFullScreen ref={props.focusedIndex == props.index ? (FocusedElement) : (null)} />
                         <div className={props.index !== props.focusedIndex ? ("overlay") : ("d-none")} style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }} onClick={() => props.handleFocus(props.index)}></div>
                         <div className={props.index == props.focusedIndex ? ("d-flex justify-content-center align-items-stretch") : ("d-none")} style={{ position: 'absolute', top: '45%', left: 0, width: '100%' }}>
                             <i className="bi bi-link-45deg lead"></i>
@@ -498,6 +512,9 @@ export default function EditorHTML(props) {
             </div>
         )
     }
+
+    //DESIGN ELEMENTS
+    //spacer 
     else if (tag == "spacer") {
         return (
             <span style={{ height: `${props.element.height}px`, cursor: 'pointer' }} className={"text-center text-muted justify-content-around " + containerClasses + activeBorder} ref={props.focusedIndex == props.index ? (FocusedElement) : (null)} onClick={() => props.handleFocus(props.index)}>
@@ -508,6 +525,7 @@ export default function EditorHTML(props) {
             </span>
         )
     }
+    //fill the 12 grid columns
     else if (tag == "gutter") {
         return (
             <span style={{ cursor: 'pointer' }} className={"text-center text-muted justify-content-around " + containerClasses + activeBorder} ref={props.focusedIndex == props.index ? (FocusedElement) : (null)} onClick={() => props.handleFocus(props.index)}>
@@ -547,6 +565,7 @@ export default function EditorHTML(props) {
             </div>
         )
     }
+    //CUSTOM BUILD ELEMENTS
     else if (tag == "custom") {
         function addChildElement(tag) {
             props.updateElement(props.index, "elementArray", props.innerFocusedIndex, "increase", tag)
@@ -569,7 +588,7 @@ export default function EditorHTML(props) {
                 props.updateElement(props.index, "elementArray", index, "down", "")
             }
         }
-
+        //nested elements of custom element
         const nestedItems = props.element.elementArray.map((e, i) => {
             return <EditorHTML key={props.element.tag + "children" + i} element={e} index={i} focusedIndex={props.innerFocusedIndex} handleFocus={props.handleInnerFocus} updateElement={updateChildElement} deleteElement={deleteChildElement} addElement={addChildElement} />
         });
@@ -578,6 +597,7 @@ export default function EditorHTML(props) {
                 <div className={`text-${props.element.alignment} ` + containerClasses + activeBorder} onClick={() => props.handleFocus(props.index)} ref={props.focusedIndex == props.index ? (FocusedElement) : (null)}>
                     <div className={`w-100 align-self-${props.element.alignSelf}`}>
                         {props.focusedIndex === props.index ? (
+                            //show editor tabs when focused
                             <div className={props.element.elementArray.length == 0 ? ("d-flex") : ("border")}>
                                 <EditorTabs elementArray={props.element.elementArray} focusedIndex={props.innerFocusedIndex} lastIndex={props.innerLastIndex} updateElement={updateChildElement} addElement={addChildElement}
                                     changeElementIndex={changeChildElementIndex} customDisabled={true}

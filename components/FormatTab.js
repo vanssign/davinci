@@ -120,6 +120,7 @@ function aspectValueToRatio(value) {
     }
     return ratio;
 }
+
 function Example() {
     const [show, setShow] = useState(false);
 
@@ -154,6 +155,7 @@ export default function FormatTab(props) {
 
     return (
         <div className="d-flex flex-wrap justify-content-start align-items-center">
+            {/* tag type */}
             <div className="px-2 text-center">
                 <small>Type</small>
                 {((props.element.tag == "h1" || props.element.tag === "h2" || props.element.tag === "h3" || props.element.tag === "p" || props.element.tag === "h4" || props.element.tag === "h5" || props.element.tag === "h6" || props.element.tag === "code")) ?
@@ -170,6 +172,7 @@ export default function FormatTab(props) {
                         </>
                     )}
             </div>
+            {/* reorder elements */}
             <div className="px-2 text-center">
                 <small>Reorder</small>
                 <br />
@@ -180,7 +183,7 @@ export default function FormatTab(props) {
                     <i className="bi bi-chevron-compact-down"></i>
                 </button>
             </div>
-
+            {/* spacer elements properties */}
             {props.element.tag == "spacer" ? (
                 <div className="px-2 text-center">
                     <small>Height</small>
@@ -188,7 +191,7 @@ export default function FormatTab(props) {
                     <textarea rows="1" cols="4" value={props.element.height} className="btn btn-light" styles={{ resize: 'none !important' }} onChange={(e) => props.updateElement(props.index, "height", "", "", e.target.value)} placeholder="height" />
                 </div>
             ) : (<></>)}
-
+            {/* horizontal alignment */}
             {props.element.alignment ? (
                 <div className="px-2 text-center">
                     <small>Align</small>
@@ -210,7 +213,7 @@ export default function FormatTab(props) {
                     </DropdownButton>
                 </div>
             ) : (<></>)}
-
+            {/* vertical alignment */}
             {props.element.alignSelf ?
                 (
                     <div className="px-2 text-center">
@@ -235,8 +238,7 @@ export default function FormatTab(props) {
                         </DropdownButton>
                     </div>
                 ) : (<></>)}
-
-
+            {/* bold italic underline strikethrough */}
             {props.element.typography ? (
                 <div className="px-2 text-center">
                     <small>Typography</small>
@@ -251,7 +253,7 @@ export default function FormatTab(props) {
                 </div>
             ) : (<></>)}
 
-            {props.element.whiteSpace ? (
+            {/* {props.element.whiteSpace ? (
                 <div className="px-2 text-center">
                     <small>WhiteSpace</small>
 
@@ -263,7 +265,7 @@ export default function FormatTab(props) {
                         )}
                     </DropdownButton>
                 </div>
-            ) : (<></>)}
+            ) : (<></>)} */}
 
 
             {props.element.btnColor ? (
@@ -290,10 +292,10 @@ export default function FormatTab(props) {
                     </DropdownButton>
                 </div>
             ) : (<></>)}
+
             {props.element.textColor ? (
                 <div className="px-2 text-center">
                     <small>Font Color</small>
-
                     <DropdownButton title={<i className="bi bi-fonts"></i>} variant={props.element.textColor} size="sm">
                         <Dropdown.Item>
                             {BootstrapColors.map((color, i) =>
@@ -308,6 +310,7 @@ export default function FormatTab(props) {
                     </DropdownButton>
                 </div>
             ) : (<></>)}
+
             {props.element.bgColor ? (
                 <div className="px-2 text-center">
                     <small>Background Color</small>
@@ -326,12 +329,13 @@ export default function FormatTab(props) {
                             </button>
                             {/* Custom Color */}
 
-                            <button style={{ borderRadius: '100%', paddingTop: '12px' }} type="button" className={props.element.bgColor == "custom" ? (`borderActive btn bg-rainbow `) : (`border btn bg-rainbow`)}
+                            {/* <button style={{ borderRadius: '100%', paddingTop: '12px' }} type="button" className={props.element.bgColor == "custom" ? (`borderActive btn bg-rainbow `) : (`border btn bg-rainbow`)}
                             >
-                            </button>
+                            </button> */}
                         </Dropdown.Item>
                     </DropdownButton>
                 </div>) : (<></>)}
+
             {props.element.size ? (
                 <div className="px-2 text-center">
                     <small>Size</small>
@@ -348,6 +352,7 @@ export default function FormatTab(props) {
                     </DropdownButton>
                 </div>
             ) : (<></>)}
+
             {props.element.tag === "button" ?
                 (<>
                     <div className="px-2">
@@ -418,8 +423,6 @@ export default function FormatTab(props) {
                         }
                     >
                         <button type="button" className="btn btn-light btn-sm">Links <i className="bi bi-chevron-right"></i></button></OverlayTrigger>
-
-
                 </div>
                 ) : (<></>)}
 
