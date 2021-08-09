@@ -3,13 +3,13 @@ import firebase from 'firebase';
 //firebase configs const
 
 const firebaseConfig = {
-    apiKey: "AIzaSyDJbxny_56x-BVvHMAOUtGDd7Byf_hPpr8",
-    authDomain: "davinci-4d7ea.firebaseapp.com",
-    projectId: "davinci-4d7ea",
-    storageBucket: "davinci-4d7ea.appspot.com",
-    messagingSenderId: "945947471424",
-    appId: "1:945947471424:web:96f8fd4cc134c52edc39a5",
-    measurementId: "G-C3J653PEH7"
+    apiKey: process.env.NEXT_PUBLIC_API_KEY,
+    authDomain: process.env.NEXT_PUBLIC_AUTH_DOMAIN,
+    projectId: process.env.NEXT_PUBLIC_PROJECT_ID,
+    storageBucket: process.env.NEXT_PUBLIC_STORAGE_BUCKET,
+    messagingSenderId: process.env.NEXT_PUBLIC_MESSAGE_SENDER_ID,
+    appId: process.env.NEXT_PUBLIC_APP_ID,
+    measurementId: process.env.NEXT_PUBLIC_MEASUREMENT_ID
 };
 
 try {
