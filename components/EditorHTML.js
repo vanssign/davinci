@@ -54,8 +54,10 @@ export default function EditorHTML(props) {
 
     //blue active outline for focused element
     const activeClass = () => {
-        if (props.index == props.focusedIndex)
+        if(props.parentActive){
+            if (props.index == props.focusedIndex)
             return " borderPrimary my-1 zIndex5 "
+        }
         else return ""
     }
     let activeBorder = activeClass();
@@ -590,7 +592,7 @@ export default function EditorHTML(props) {
         }
         //nested elements of custom element
         const nestedItems = props.element.elementArray.map((e, i) => {
-            return <EditorHTML key={props.element.tag + "children" + i} element={e} index={i} focusedIndex={props.innerFocusedIndex} handleFocus={props.handleInnerFocus} updateElement={updateChildElement} deleteElement={deleteChildElement} addElement={addChildElement} />
+            return <EditorHTML key={props.element.tag + "children" + i} element={e} index={i} focusedIndex={props.innerFocusedIndex} handleFocus={props.handleInnerFocus} updateElement={updateChildElement} deleteElement={deleteChildElement} addElement={addChildElement} parentActive={props.index==props.focusedIndex} />
         });
         return (
             <>
