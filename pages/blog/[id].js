@@ -20,7 +20,6 @@ export default function Post({ postData, err }) {
                     ) : (<></>)}
                     {postData.pageInfo.tags ? (<meta name="keywords" content={postData.pageInfo.tags} />) : (<></>)}
 
-
                 </Head>
                 <div className="row py-3">
                     {

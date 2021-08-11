@@ -12,3 +12,6 @@ export function KeyDown(e,tag) {
         props.deleteElement(props.index);
     }
 }
+
+//On enter : new line
+//On enter twice: new paragraph

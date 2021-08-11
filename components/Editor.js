@@ -41,7 +41,6 @@ export default function Davinci({ LoginStatus, elementArray, updateelementArray,
         updatepageInfo(PageInfo)
     }, [PageInfo])
 
-
     //FUNCTIONS ON ELEMENTS
 
     //Add new
@@ -231,7 +230,7 @@ export default function Davinci({ LoginStatus, elementArray, updateelementArray,
                 </div>
             </div>
             {/* Elements */}
-            <div className="container-fluid">
+            <div className="container-fluid pb-3">
                 <div className="row px-1">
                     {ElementArray.map((element, index) =>
                         <EditorHTML key={element.tag + index} element={element} index={index} focusedIndex={FocusedIndex} handleFocus={handleFocus} innerFocusedIndex={InnerFocusedIndex} handleInnerFocus={handleInnerFocus} updateElement={updateElement} deleteElement={deleteElement} addElement={addElement} innerLastIndex={InnerLastIndex} parentActive={true}/>

@@ -10,6 +10,7 @@
     text-decoration: inherit !important;
     font-weight: inherit !important;
     overflow-y: hidden;
+    white-space: inherit;
 }
 .textareaInherit{
     width:100%;

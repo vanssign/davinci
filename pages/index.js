@@ -40,8 +40,7 @@ export default function TestPage() {
         "bgColor": "transparent",
         "col": 12,
         "colMd": 6,
-        "colLg": 3,
-        "whiteSpace": "normal"
+        "colLg": 3
     },
     {
         "tag": "p",
@@ -59,8 +58,7 @@ export default function TestPage() {
         "bgColor": "light",
         "col": 12,
         "colMd": 6,
-        "colLg": 3,
-        "whiteSpace": "normal"
+        "colLg": 3
     },
     {
         "tag": "p",
@@ -78,8 +76,7 @@ export default function TestPage() {
         "bgColor": "info",
         "col": 12,
         "colMd": 6,
-        "colLg": 3,
-        "whiteSpace": "normal"
+        "colLg": 3
     },
     {
         "tag": "p",
@@ -97,8 +94,7 @@ export default function TestPage() {
         "bgColor": "transparent",
         "col": 12,
         "colMd": 6,
-        "colLg": 3,
-        "whiteSpace": "normal"
+        "colLg": 3
     },
     {
         "tag": "p",
@@ -116,8 +112,7 @@ export default function TestPage() {
         "bgColor": "transparent",
         "col": 12,
         "colMd": 6,
-        "colLg": 6,
-        "whiteSpace": "normal"
+        "colLg": 6
     },
     {
         "tag": "img",
@@ -167,8 +162,7 @@ export default function TestPage() {
                 "bgColor": "transparent",
                 "col": 12,
                 "colMd": 12,
-                "colLg": 12,
-                "whiteSpace": "normal"
+                "colLg": 12
             },
             {
                 "tag": "button",
@@ -228,8 +222,7 @@ export default function TestPage() {
         "bgColor": "transparent",
         "col": 12,
         "colMd": 6,
-        "colLg": 6,
-        "whiteSpace": "normal"
+        "colLg": 6
     },
     {
         "tag": "hr",
@@ -331,8 +324,7 @@ export default function TestPage() {
         "bgColor": "transparent",
         "col": 12,
         "colMd": 12,
-        "colLg": 12,
-        "whiteSpace": "normal"
+        "colLg": 12
     },
     {
         "tag": "socialbtns",
@@ -390,8 +382,7 @@ export default function TestPage() {
         "bgColor": "transparent",
         "col": 12,
         "colMd": 12,
-        "colLg": 12,
-        "whiteSpace": "normal"
+        "colLg": 12
     }
 ]`)
   const [ElementArray, setElementArray] = useState(temp)

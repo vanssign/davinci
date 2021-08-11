@@ -121,6 +121,11 @@ function aspectValueToRatio(value) {
     return ratio;
 }
 
+function handleWhiteSpaceSwitch(val) {
+    if (val == "normal") return "prewap";
+    else return "normal";
+}
+
 function Example() {
     const [show, setShow] = useState(false);
 
@@ -336,6 +341,21 @@ export default function FormatTab(props) {
                     </DropdownButton>
                 </div>) : (<></>)}
 
+
+            {props.element.whiteSpace ? (<div className="px-2 text-center">
+                <small>On Enter Key</small>
+                <div className="form-check py-0 ">
+                    <DropdownButton title={props.element.whiteSpace} variant="light" size="sm">
+                        <Dropdown.Item onClick={() => props.updateElement(props.index, "whiteSpace", "", "", "prewrap")} active={props.element.whiteSpace == "prewrap"}>
+                            Line
+                        </Dropdown.Item>
+                        <Dropdown.Item onClick={() => props.updateElement(props.index, "whiteSpace", "", "", "normal")} active={props.element.whiteSpace == "normal"}>
+                            Paragraph
+                        </Dropdown.Item>
+                    </DropdownButton>
+                </div>
+            </div>
+            ) : (<></>)}
             {props.element.size ? (
                 <div className="px-2 text-center">
                     <small>Size</small>

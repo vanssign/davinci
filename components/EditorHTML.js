@@ -93,16 +93,11 @@ export default function EditorHTML(props) {
     useEffect(() => {
         if (FocusedElement.current) {
             FocusedElement.current.focus();
+            FocusedElement.current.scrollIntoView({block:'nearest'});
         }
-    }, [props.focusedIndex])
+    }, [props.focusedIndex,props.lastIndex])
 
     useEffect(() => {
-        //new added scroll into view
-        // if (!(props.index < props.lastIndex)) {
-        //     if (FocusedElement.current) {
-        //         FocusedElement.current.scrollIntoView();
-        //     }
-        // }
 
         //window width and height for carousel -- update needed
         if (windowWidth == 0) {
