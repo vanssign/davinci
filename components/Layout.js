@@ -1,9 +1,26 @@
 import Link from 'next/link'
-import { useState } from 'react';
-import fire from '../config/fire-config';
-import { Nav, Navbar, NavDropdown } from 'react-bootstrap'
+import { Nav, Navbar } from 'react-bootstrap'
+import firebase from 'firebase';
 
-export default function Layout({ children, loginStatus, visible }) {
+export default function Layout({ children, loginStatus, visible, loginPagePath, signupPagePath, apiKey, authDomain, projectId, storageBucket, messagingSenderId, appId, measurementId }) {
+    const firebaseConfig = {
+        apiKey,
+        authDomain,
+        projectId,
+        storageBucket,
+        messagingSenderId,
+        appId,
+        measurementId
+    };
+
+    try {
+        firebase.initializeApp(firebaseConfig);
+    } catch (err) {
+        if (!/already exists/.test(err.message)) {
+            console.error('Firebase initialization error', err.stack)
+        }
+    }
+    const fire = firebase;
 
     const handleLogout = () => {
         console.log("logout");
@@ -32,16 +49,16 @@ export default function Layout({ children, loginStatus, visible }) {
                             {loginStatus === true ? (
                                 <button className="btn btn-danger btn-sm" onClick={() => handleLogout()}>
 
-                                <i className="bi bi-person-x-fill"></i>{" "}Logout
+                                    <i className="bi bi-person-x-fill"></i>{" "}Logout
 
-                            </button>) : (
+                                </button>) : (
                                 <>
-                                    <Link href="/auth/login">
+                                    <Link href={`${loginPagePath}`}>
                                         <button className="btn btn-info btn-sm">
                                             <i className="bi bi-person-badge"></i>{" "}Login
                                         </button>
                                     </Link>
-                                    <Link href="/auth/register">
+                                    <Link href={`${signupPagePath}`}>
                                         <button className="btn btn-secondary ml-1 btn-sm">
                                             <i className="bi bi-person-plus-fill"></i>{" "}Signup
                                         </button>

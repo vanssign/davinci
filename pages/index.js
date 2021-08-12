@@ -406,7 +406,7 @@ export default function TestPage() {
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
         <div>
-      <Editor elementArray={ElementArray} LoginStatus={LoginStatus} PreviewStatus={false} updateelementArray={setElementArray} pageInfo={PageInfo} updatepageInfo={setPageInfo} Notification={Notification} LiveBlogId={LiveBlogId} />
+      <Editor elementArray={ElementArray} LoginStatus={LoginStatus} updateelementArray={setElementArray} pageInfo={PageInfo} updatepageInfo={setPageInfo} Notification={Notification} LiveBlogId={LiveBlogId} />
     </div>
 </>
   )

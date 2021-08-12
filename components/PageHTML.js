@@ -2,7 +2,7 @@ import { Carousel } from 'react-bootstrap'
 import { useState, useEffect } from 'react';
 import { buildClassName, buildElementContainerClasses } from '../functions/BuildFunctions';
 //BUILD HTML
-var SocialLinks = [
+let SocialLinks = [
     { name: 'instagram' },
     { name: 'facebook' },
     { name: 'twitter' },

@@ -6,7 +6,7 @@ import TextareaAutosize from 'react-textarea-autosize';
 import { Nav, Navbar, NavDropdown, DropdownButton, Dropdown, Carousel } from 'react-bootstrap';
 import styles from '../styles/Davinci.module.css'
 
-var BootstrapColors = [
+let BootstrapColors = [
     {
         name: 'primary',
     },
@@ -34,7 +34,7 @@ var BootstrapColors = [
     }
 ]
 
-var SocialLinks = [
+let SocialLinks = [
     { name: 'instagram' },
     { name: 'facebook' },
     { name: 'twitter' },
@@ -49,19 +49,21 @@ var SocialLinks = [
     { name: 'twitch' }
 ]
 
+
 //Build Element
 export default function EditorHTML(props) {
 
+
     //blue active outline for focused element
     const activeClass = () => {
-        if(props.parentActive){
+        if (props.parentActive) {
             if (props.index == props.focusedIndex)
-            return " borderPrimary my-1 zIndex5 "
+                return " borderPrimary my-1 zIndex5 "
         }
         else return ""
     }
     let activeBorder = activeClass();
-    
+
     //visible utility class to hide and show items
     const visibleClass = () => {
         if (props.index !== props.focusedIndex)
@@ -75,7 +77,7 @@ export default function EditorHTML(props) {
 
     let tag = props.element.tag;
     let content = props.element.content;
-    
+
     //building all classes as per attributes
     let allClasses = buildClassName(props.element, props.index)
     let containerClasses = buildElementContainerClasses(props.element);
@@ -93,9 +95,9 @@ export default function EditorHTML(props) {
     useEffect(() => {
         if (FocusedElement.current) {
             FocusedElement.current.focus();
-            FocusedElement.current.scrollIntoView({block:'nearest'});
+            FocusedElement.current.scrollIntoView({ block: 'nearest' });
         }
-    }, [props.focusedIndex,props.lastIndex])
+    }, [props.focusedIndex, props.lastIndex])
 
     useEffect(() => {
 
@@ -107,24 +109,26 @@ export default function EditorHTML(props) {
         window.addEventListener("resize", handleResize)
     })
 
+    function KeyDown(e, tag) {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            props.addElement("p");
+        }
+        if ((e.key === 'Backspace' || e.key === 'Delete') && content === "") {
+            e.preventDefault();
+            props.deleteElement(props.index);
+        }
+        if (e.key === "Control" && e.key === "Delete") {
+            e.preventDefault();
+            props.deleteElement(props.index);
+        }
+    }
     //TEXT
     if (tag == "h1") {
         return (
             <div className={containerClasses + activeBorder} onClick={() => props.handleFocus(props.index)}>
-                <h1 className={allClasses + `w-100 align-self-${props.element.alignSelf}`}><TextareaAutosize style={{ overflow: 'hidden' }} value={content} ref={props.focusedIndex == props.index ? (FocusedElement) : (null)} className={styles.textareaInherit} onChange={(e) => props.updateElement(props.index, "content", "", "", e.target.value)} placeholder="H1 heading. Type here.." onKeyDown={function (e) {
-                    if (e.key === 'Enter') {
-                        e.preventDefault();
-                        props.addElement("p");
-                    }
-                    if ((e.key === 'Backspace' || e.key === 'Delete') && content === "") {
-                        e.preventDefault();
-                        props.deleteElement(props.index);
-                    }
-                    if (e.key === "Control" && e.key === "Shift" && e.key === "Delete") {
-                        e.preventDefault();
-                        props.deleteElement(props.index);
-                    }
-                }} onFocus={() => props.handleFocus(props.index)} /></h1>
+                <h1 className={allClasses + `w-100 align-self-${props.element.alignSelf}`}><TextareaAutosize style={{ overflow: 'hidden' }} value={content} ref={props.focusedIndex == props.index ? (FocusedElement) : (null)} className={styles.textareaInherit} onChange={(e) => props.updateElement(props.index, "content", "", "", e.target.value)} placeholder="H1 heading. Type here.."
+                    onKeyDown={(e) => KeyDown(e)} onFocus={() => props.handleFocus(props.index)} /></h1>
             </div>)
     }
 
@@ -132,20 +136,8 @@ export default function EditorHTML(props) {
     else if (tag == "h2") {
         return (
             <div className={containerClasses + activeBorder} onClick={() => props.handleFocus(props.index)}>
-                <h2 className={allClasses + `w-100 align-self-${props.element.alignSelf}`}><TextareaAutosize style={{ overflow: 'hidden' }} value={content} ref={props.focusedIndex == props.index ? (FocusedElement) : (null)} className={styles.textareaInherit} onChange={(e) => props.updateElement(props.index, "content", "", "", e.target.value)} placeholder="H2 Heading. Type here ..." onKeyDown={function (e) {
-                    if (e.key === 'Enter') {
-                        e.preventDefault();
-                        props.addElement("p");
-                    }
-                    if ((e.key === 'Backspace' || e.key === 'Delete') && content === "") {
-                        e.preventDefault();
-                        props.deleteElement(props.index);
-                    }
-                    if (e.key === "Control" && e.key === "Shift" && e.key === "Delete") {
-                        e.preventDefault();
-                        props.deleteElement(props.index);
-                    }
-                }} onFocus={() => props.handleFocus(props.index)} /></h2>
+                <h2 className={allClasses + `w-100 align-self-${props.element.alignSelf}`}><TextareaAutosize style={{ overflow: 'hidden' }} value={content} ref={props.focusedIndex == props.index ? (FocusedElement) : (null)} className={styles.textareaInherit} onChange={(e) => props.updateElement(props.index, "content", "", "", e.target.value)} placeholder="H2 Heading. Type here ..."
+                    onKeyDown={(e) => KeyDown(e)} onFocus={() => props.handleFocus(props.index)} /></h2>
             </div>)
     }
 
@@ -153,20 +145,8 @@ export default function EditorHTML(props) {
     else if (tag == "p") {
         return (
             <div className={containerClasses + activeBorder} onClick={() => props.handleFocus(props.index)}>
-                <p className={allClasses + `w-100 align-self-${props.element.alignSelf}`}><TextareaAutosize style={{ overflow: 'hidden' }} ref={props.focusedIndex == props.index ? (FocusedElement) : (null)} value={content} className={styles.textareaInherit} onChange={(e) => props.updateElement(props.index, "content", "", "", e.target.value)} placeholder="Paragraph. Type here ..." onKeyDown={function (e) {
-                    if (e.key === 'Enter') {
-                        e.preventDefault();
-                        props.addElement("p");
-                    }
-                    if ((e.key === 'Backspace' || e.key === 'Delete') && content === "") {
-                        e.preventDefault();
-                        props.deleteElement(props.index);
-                    }
-                    if (e.key === "Control" && e.key === "Shift" && e.key === "Delete") {
-                        e.preventDefault();
-                        props.deleteElement(props.index);
-                    }
-                }} onFocus={() => props.handleFocus(props.index)} />
+                <p className={allClasses + `w-100 align-self-${props.element.alignSelf}`}><TextareaAutosize style={{ overflow: 'hidden' }} ref={props.focusedIndex == props.index ? (FocusedElement) : (null)} value={content} className={styles.textareaInherit} onChange={(e) => props.updateElement(props.index, "content", "", "", e.target.value)} placeholder="Paragraph. Type here ..."
+                    onKeyDown={(e) => KeyDown(e)} onFocus={() => props.handleFocus(props.index)} />
                 </p>
             </div>
 
@@ -177,20 +157,8 @@ export default function EditorHTML(props) {
     else if (tag == "h3") {
         return (
             <div className={containerClasses + activeBorder} onClick={() => props.handleFocus(props.index)}>
-                <h3 className={allClasses + `w-100 align-self-${props.element.alignSelf}`}><TextareaAutosize style={{ overflow: 'hidden' }} value={content} ref={props.focusedIndex == props.index ? (FocusedElement) : (null)} className={styles.textareaInherit} onChange={(e) => props.updateElement(props.index, "content", "", "", e.target.value)} placeholder="H3 Heading. Type here ..." onKeyDown={function (e) {
-                    if (e.key === "Enter") {
-                        e.preventDefault();
-                        props.addElement("p");
-                    }
-                    if ((e.key === 'Backspace' || e.key === 'Delete') && content === "") {
-                        e.preventDefault();
-                        props.deleteElement(props.index);
-                    }
-                    if (e.key === "Control" && e.key === "Shift" && e.key === "Delete") {
-                        e.preventDefault();
-                        props.deleteElement(props.index);
-                    }
-                }} onFocus={() => props.handleFocus(props.index)} />
+                <h3 className={allClasses + `w-100 align-self-${props.element.alignSelf}`}><TextareaAutosize style={{ overflow: 'hidden' }} value={content} ref={props.focusedIndex == props.index ? (FocusedElement) : (null)} className={styles.textareaInherit} onChange={(e) => props.updateElement(props.index, "content", "", "", e.target.value)} placeholder="H3 Heading. Type here ..."
+                    onKeyDown={(e) => KeyDown(e)} onFocus={() => props.handleFocus(props.index)} />
                 </h3>
             </div>)
     }
@@ -199,20 +167,8 @@ export default function EditorHTML(props) {
     else if (tag == "h4") {
         return (
             <div className={containerClasses + activeBorder} onClick={() => props.handleFocus(props.index)}>
-                <h4 className={allClasses + `w-100 align-self-${props.element.alignSelf}`}><TextareaAutosize style={{ overflow: 'hidden' }} value={content} ref={props.focusedIndex == props.index ? (FocusedElement) : (null)} className={styles.textareaInherit} onChange={(e) => props.updateElement(props.index, "content", "", "", e.target.value)} placeholder="H4 Heading. Type here ..." onKeyDown={function (e) {
-                    if (e.key === 'Enter') {
-                        e.preventDefault();
-                        props.addElement("p");
-                    }
-                    if ((e.key === 'Backspace' || e.key === 'Delete') && content === "") {
-                        e.preventDefault();
-                        props.deleteElement(props.index);
-                    }
-                    if (e.key === "Control" && e.key === "Shift" && e.key === "Delete") {
-                        e.preventDefault();
-                        props.deleteElement(props.index);
-                    }
-                }} onFocus={() => props.handleFocus(props.index)} />
+                <h4 className={allClasses + `w-100 align-self-${props.element.alignSelf}`}><TextareaAutosize style={{ overflow: 'hidden' }} value={content} ref={props.focusedIndex == props.index ? (FocusedElement) : (null)} className={styles.textareaInherit} onChange={(e) => props.updateElement(props.index, "content", "", "", e.target.value)} placeholder="H4 Heading. Type here ..."
+                    onKeyDown={(e) => KeyDown(e)} onFocus={() => props.handleFocus(props.index)} />
                 </h4>
             </div>)
     }
@@ -221,20 +177,8 @@ export default function EditorHTML(props) {
     else if (tag == "h5") {
         return (
             <div className={containerClasses + activeBorder} onClick={() => props.handleFocus(props.index)}>
-                <h5 className={allClasses + `w-100 align-self-${props.element.alignSelf}`}><TextareaAutosize style={{ overflow: 'hidden' }} value={content} ref={props.focusedIndex == props.index ? (FocusedElement) : (null)} className={styles.textareaInherit} onChange={(e) => props.updateElement(props.index, "content", "", "", e.target.value)} placeholder="H5 heading. Type here ..." onKeyDown={function (e) {
-                    if (e.key === 'Enter') {
-                        e.preventDefault();
-                        props.addElement("p");
-                    }
-                    if ((e.key === 'Backspace' || e.key === 'Delete') && content === "") {
-                        e.preventDefault();
-                        props.deleteElement(props.index);
-                    }
-                    if (e.key === "Control" && e.key === "Shift" && e.key === "Delete") {
-                        e.preventDefault();
-                        props.deleteElement(props.index);
-                    }
-                }} onFocus={() => props.handleFocus(props.index)} />
+                <h5 className={allClasses + `w-100 align-self-${props.element.alignSelf}`}><TextareaAutosize style={{ overflow: 'hidden' }} value={content} ref={props.focusedIndex == props.index ? (FocusedElement) : (null)} className={styles.textareaInherit} onChange={(e) => props.updateElement(props.index, "content", "", "", e.target.value)} placeholder="H5 heading. Type here ..."
+                    onKeyDown={(e) => KeyDown(e)} onFocus={() => props.handleFocus(props.index)} />
                 </h5>
             </div>)
     }
@@ -243,20 +187,8 @@ export default function EditorHTML(props) {
     else if (tag == "h6") {
         return (
             <div className={containerClasses + activeBorder} onClick={() => props.handleFocus(props.index)}>
-                <h6 className={allClasses + `w-100 align-self-${props.element.alignSelf}`}><TextareaAutosize style={{ overflow: 'hidden' }} value={content} ref={props.focusedIndex == props.index ? (FocusedElement) : (null)} className={styles.textareaInherit} onChange={(e) => props.updateElement(props.index, "content", "", "", e.target.value)} placeholder="H6 Heading. Type here ..." onKeyDown={function (e) {
-                    if (e.key === 'Enter') {
-                        e.preventDefault();
-                        props.addElement("p");
-                    }
-                    if ((e.key === 'Backspace' || e.key === 'Delete') && content === "") {
-                        e.preventDefault();
-                        props.deleteElement(props.index);
-                    }
-                    if (e.key === "Control" && e.key === "Shift" && e.key === "Delete") {
-                        e.preventDefault();
-                        props.deleteElement(props.index);
-                    }
-                }} onFocus={() => props.handleFocus(props.index)} />
+                <h6 className={allClasses + `w-100 align-self-${props.element.alignSelf}`}><TextareaAutosize style={{ overflow: 'hidden' }} value={content} ref={props.focusedIndex == props.index ? (FocusedElement) : (null)} className={styles.textareaInherit} onChange={(e) => props.updateElement(props.index, "content", "", "", e.target.value)} placeholder="H6 Heading. Type here ..."
+                    onKeyDown={(e) => KeyDown(e)} onFocus={() => props.handleFocus(props.index)} />
                 </h6>
             </div>)
     }
@@ -272,7 +204,7 @@ export default function EditorHTML(props) {
                                 e.preventDefault();
                                 props.deleteElement(props.index);
                             }
-                            if (e.key === "Control" && e.key === "Shift" && e.key === "Delete") {
+                            if (e.key === "Control" && e.key === "Delete") {
                                 e.preventDefault();
                                 props.deleteElement(props.index);
                             }
@@ -290,26 +222,13 @@ export default function EditorHTML(props) {
                     <blockquote className={allClasses + " blockquote"}>
                         <p className="mb-0">
                             <TextareaAutosize style={{ overflow: 'hidden' }} value={content} ref={props.focusedIndex == props.index ? (FocusedElement) : (null)} className={styles.textareaInherit} onChange={(e) => props.updateElement(props.index, "content", "", "", e.target.value)} placeholder="BlockQuote text. Type here ..."
-                                onKeyDown={function (e) {
-                                    if (e.key === "Enter") {
-                                        e.preventDefault();
-                                        props.addElement("p");
-                                    }
-                                    if ((e.key === 'Backspace' || e.key === 'Delete') && content === "") {
-                                        e.preventDefault();
-                                        props.deleteElement(props.index);
-                                    }
-                                    if (e.key === "Control" && e.key === "Shift" && e.key === "Delete") {
-                                        e.preventDefault();
-                                        props.deleteElement(props.index);
-                                    }
-                                }}
+                                onKeyDown={(e) => KeyDown(e)}
                                 onFocus={() => props.handleFocus(props.index)} />
                         </p>
                         <footer className="blockquote-footer">
                             <TextareaAutosize style={{ overflow: 'hidden', width: '20vw' }} value={props.element.cite} className={styles.textareaInherit} onChange={(e) => props.updateElement(props.index, "cite", "", "", e.target.value)} placeholder="Cite Title here..."
                                 onKeyDown={function (e) {
-                                    if (e.key === "Control" && e.key === "Shift" && e.key === "Delete") {
+                                    if (e.key === "Control" && e.key === "Delete") {
                                         e.preventDefault();
                                         props.deleteElement(props.index);
                                     }
@@ -401,16 +320,7 @@ export default function EditorHTML(props) {
                                 <i className={`bi bi-${props.element.iconName} font-weight-bolder`}></i>{" "}
                             </>
                         ) : (<></>)}
-                        <TextareaAutosize style={{ overflow: 'hidden' }} value={content} className={styles.textareaInheritBtn} onChange={(e) => props.updateElement(props.index, "content", "", "", e.target.value)} ref={props.focusedIndex == props.index ? (FocusedElement) : (null)} placeholder="Button Text. Type here ..." onFocus={() => props.handleFocus(props.index)} onKeyDown={function (e) {
-                            if ((e.key === 'Backspace' || e.key === 'Delete') && content === "") {
-                                e.preventDefault();
-                                props.deleteElement(props.index);
-                            }
-                            if (e.key === "Control" && e.key === "Shift" && e.key === "Delete") {
-                                e.preventDefault();
-                                props.deleteElement(props.index);
-                            }
-                        }} />
+                        <TextareaAutosize style={{ overflow: 'hidden' }} value={content} className={styles.textareaInheritBtn} onChange={(e) => props.updateElement(props.index, "content", "", "", e.target.value)} ref={props.focusedIndex == props.index ? (FocusedElement) : (null)} placeholder="Button Text. Type here ..." onFocus={() => props.handleFocus(props.index)} onKeyDown={(e) => KeyDown(e)} />
                         {(props.element.iconName && props.element.iconPosition == "end") ? (
                             <>
                                 {" "}
@@ -433,8 +343,8 @@ export default function EditorHTML(props) {
                         {SocialLinks.filter((s, i) => props.element[s.name] !== "")
                             .map((sb, i) =>
                                 <button key={tag + sb.name + props.index} type="button" className="btn btn-secondary"><a className="text-reset" href={props.element[sb.name]} target="_blank">
-                                <i className={`bi bi-${sb.name} lead`}></i>
-                            </a></button>)
+                                    <i className={`bi bi-${sb.name} lead`}></i>
+                                </a></button>)
                         }
                     </div>
                     <button type="button" className={"btn btn-danger py-0 px-1" + visibleClass()} onClick={() => props.deleteElement(props.index)}>
@@ -532,7 +442,7 @@ export default function EditorHTML(props) {
             </span>
         )
     }
-    
+
     //LISTS
     else if (tag == "li") {
         return (
@@ -587,7 +497,7 @@ export default function EditorHTML(props) {
         }
         //nested elements of custom element
         const nestedItems = props.element.elementArray.map((e, i) => {
-            return <EditorHTML key={props.element.tag + "children" + i} element={e} index={i} focusedIndex={props.innerFocusedIndex} handleFocus={props.handleInnerFocus} updateElement={updateChildElement} deleteElement={deleteChildElement} addElement={addChildElement} parentActive={props.index==props.focusedIndex} />
+            return <EditorHTML key={props.element.tag + "children" + i} element={e} index={i} focusedIndex={props.innerFocusedIndex} handleFocus={props.handleInnerFocus} updateElement={updateChildElement} deleteElement={deleteChildElement} addElement={addChildElement} parentActive={props.index == props.focusedIndex} />
         });
         return (
             <>

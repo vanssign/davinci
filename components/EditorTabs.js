@@ -1,12 +1,12 @@
-import { DropdownButton, Dropdown, SplitButton, Tabs, Tab, Tooltip, OverlayTrigger, Popover, Carousel } from 'react-bootstrap';
-import FormatTab from '../components/FormatTab';
-import GridTab from '../components/GridTab';
-import InsertTab from '../components/InsertTab';
+import { Tabs, Tab, Tooltip, OverlayTrigger } from 'react-bootstrap';
+import FormatTab from './FormatTab';
+import GridTab from './GridTab';
+import InsertTab from './InsertTab';
 export default function EditorTabs(props) {
     return (
-        <Tabs defaultActiveKey="insert" id="uncontrolled-tab-example" variant={props.customDisabled?("pills"):("tabs")}>
+        <Tabs defaultActiveKey="insert" id="uncontrolled-tab-example" variant={props.customDisabled ? ("pills") : ("tabs")}>
             <Tab eventKey="insert" title="Insert" style={{ backgroundColor: '#ffffff' }}>
-                {props.elementArray[props.focusedIndex]||props.focusedIndex<1 ? (
+                {props.elementArray[props.focusedIndex] || props.focusedIndex < 1 ? (
                     <InsertTab addElement={props.addElement} customDisabled={props.customDisabled} />
                 ) : (<div className="text-center py-3">
                     Select an Element after which you want to insert new Element
@@ -16,7 +16,7 @@ export default function EditorTabs(props) {
                 <Tab eventKey="format" title="Format" style={{ backgroundColor: '#ffffff' }}>
                     <div className="pb-1">
                         <FormatTab element={props.elementArray[props.focusedIndex]} index={props.focusedIndex} updateElement={props.updateElement} changeElementIndex={props.changeElementIndex}
-                        lastIndex={props.lastIndex} />
+                            lastIndex={props.lastIndex} />
                     </div>
                 </Tab>
             ) : (<></>)}
@@ -30,7 +30,7 @@ export default function EditorTabs(props) {
                             delay={{ show: 150, hide: 1500 }}
                             overlay={<Tooltip id="button-grid-tooltip">
                                 Entire screen width is divided into 12 columns. If the value is 12, the block will cover entire screen width, if 6 it will cover half and so on. Other elements fit accordingly to cover the screen.<br /><br />
-                                                    Choose separately for mobile, tablets and laptops as per your convenience and design. Read about <a href="https://www.tutorialrepublic.com/twitter-bootstrap-tutorial/bootstrap-grid-system.php" target="_blank">Bootstrap Grid System</a>
+                                Choose separately for mobile, tablets and laptops as per your convenience and design. Read about <a href="https://www.tutorialrepublic.com/twitter-bootstrap-tutorial/bootstrap-grid-system.php" target="_blank">Bootstrap Grid System</a>
                             </Tooltip>}
                         >
                             <i className="bi bi-question-circle-fill"></i>

@@ -1,6 +1,6 @@
-import { DropdownButton, Dropdown, SplitButton, Tabs, Tab, Tooltip, OverlayTrigger, Popover, Carousel, Modal } from 'react-bootstrap';
+import { DropdownButton, Dropdown, Tooltip, OverlayTrigger, Popover, Modal } from 'react-bootstrap';
 import ColorPicker from './ColorPicker';
-var TextTags = [
+let TextTags = [
     {
         tag: "h1",
         shortName: "H1",
@@ -43,7 +43,7 @@ var TextTags = [
     }
 ];
 
-var BootstrapColors = [
+let BootstrapColors = [
     {
         name: 'primary',
     },

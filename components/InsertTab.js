@@ -1,6 +1,6 @@
 import { DropdownButton, Dropdown, SplitButton, Tooltip, OverlayTrigger } from 'react-bootstrap';
 
-var TextTags = [
+let TextTags = [
     {
         tag: "h1",
         shortName: "H1",
@@ -104,7 +104,7 @@ export default function InsertTab(props) {
                     <SplitButton variant="light" title={<i className="bi bi-image"></i>} onClick={() => props.addElement("img")}>
                         <Dropdown.Item onClick={() => props.addElement("carousel")}>
                             <i className="bi bi-collection-play-fill"></i>{" "}Carousel
-                                             </Dropdown.Item>
+                        </Dropdown.Item>
                     </SplitButton>
                 )
                 }
@@ -118,7 +118,7 @@ export default function InsertTab(props) {
                 overlay={
                     < Tooltip >
                         Button and Button Groups
-                                                </Tooltip >
+                    </Tooltip >
                 }
             >
                 <SplitButton id="dropdown-split-button" variant="light" title={
@@ -141,7 +141,7 @@ export default function InsertTab(props) {
                 overlay={
                     <Tooltip>
                         Design Elements
-                     </Tooltip>
+                    </Tooltip>
                 }
             >
                 <DropdownButton id="dropdown-basic-design" variant="light" title={<i className="bi bi-brush"></i>}>
@@ -155,12 +155,12 @@ export default function InsertTab(props) {
                 overlay={
                     <Tooltip>
                         Embed videos, urls and images
-                     </Tooltip>
+                    </Tooltip>
                 }
             >
-              <button className="btn btn-light" onClick={()=>props.addElement("embed")}>
-                  <i className="bi bi-code-square"></i>
-              </button>
+                <button className="btn btn-light" onClick={() => props.addElement("embed")}>
+                    <i className="bi bi-code-square"></i>
+                </button>
             </OverlayTrigger>
 
             {props.customDisabled ? (<></>) : (
@@ -183,7 +183,7 @@ export default function InsertTab(props) {
                             <Tooltip>
                                 Custom Block <br />
                                 Build your own element based on basic elements
-                        </Tooltip>
+                            </Tooltip>
                         }
                     >
                         <button className="btn btn-light" onClick={() => props.addElement("custom")}>

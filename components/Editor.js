@@ -1,11 +1,9 @@
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
-
 import { determineElementStructure } from '../functions/BuildFunctions';
-
 import EditorHTML from './EditorHTML';
 import EditorTabs from './EditorTabs';
-import { DropdownButton, Dropdown, SplitButton, Tabs, Tab, Tooltip, OverlayTrigger, Popover, Carousel } from 'react-bootstrap';
+import { OverlayTrigger, Popover } from 'react-bootstrap';
 
 import PageAttributes from '../components/PageAttributes';
 export default function Davinci({ LoginStatus, elementArray, updateelementArray, LiveBlogId, Notification, pageInfo, updatepageInfo, handlePublish }) {
@@ -80,7 +78,7 @@ export default function Davinci({ LoginStatus, elementArray, updateelementArray,
         }
         setElementArray(newElementArray);
     }
-    
+
     //update element
     function updateElement(index, key, index2, key2, value) {
         let newElementArray = [...ElementArray];
@@ -233,7 +231,7 @@ export default function Davinci({ LoginStatus, elementArray, updateelementArray,
             <div className="container-fluid pb-3">
                 <div className="row px-1">
                     {ElementArray.map((element, index) =>
-                        <EditorHTML key={element.tag + index} element={element} index={index} focusedIndex={FocusedIndex} handleFocus={handleFocus} innerFocusedIndex={InnerFocusedIndex} handleInnerFocus={handleInnerFocus} updateElement={updateElement} deleteElement={deleteElement} addElement={addElement} innerLastIndex={InnerLastIndex} parentActive={true}/>
+                        <EditorHTML key={element.tag + index} element={element} index={index} focusedIndex={FocusedIndex} handleFocus={handleFocus} innerFocusedIndex={InnerFocusedIndex} handleInnerFocus={handleInnerFocus} updateElement={updateElement} deleteElement={deleteElement} addElement={addElement} innerLastIndex={InnerLastIndex} parentActive={true} />
                     )
                     }
                 </div>
