@@ -35,15 +35,6 @@ export default function Layout({ children, loginStatus, visible, loginPagePath, 
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
                     <Navbar.Collapse id="basic-navbar-nav">
                         <Nav className="mr-auto">
-                            {/* <Nav.Link href="#home" disabled>Home</Nav.Link>
-                        <Nav.Link href="#link" disabled>Link</Nav.Link>
-                        <NavDropdown title="" disabled id="basic-nav-dropdown">
-                            <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
-                            <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>
-                            <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
-                            <NavDropdown.Divider />
-                            <NavDropdown.Item href="#action/3.4">Separated link</NavDropdown.Item>
-                        </NavDropdown> */}
                         </Nav>
                         <Navbar.Text className="py-0">
                             {loginStatus === true ? (
@@ -53,16 +44,6 @@ export default function Layout({ children, loginStatus, visible, loginPagePath, 
 
                                 </button>) : (
                                 <>
-                                    <Link href={`${loginPagePath}`}>
-                                        <button className="btn btn-info btn-sm">
-                                            <i className="bi bi-person-badge"></i>{" "}Login
-                                        </button>
-                                    </Link>
-                                    <Link href={`${signupPagePath}`}>
-                                        <button className="btn btn-secondary ml-1 btn-sm">
-                                            <i className="bi bi-person-plus-fill"></i>{" "}Signup
-                                        </button>
-                                    </Link>
                                 </>
 
                             )}

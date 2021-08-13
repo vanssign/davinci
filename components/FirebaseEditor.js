@@ -1,11 +1,10 @@
 import Link from 'next/link';
-
 import { useState } from 'react';
 import Layout from './Layout';
 import Editor from './Editor';
 import firebase from 'firebase';
-
-export default function FirebaseEditor({ loginPagePath, apiKey, authDomain, projectId, storageBucket, messagingSenderId, appId, measurementId,signupPagePath }) {
+import FirebaseAuthPageBuilder from './FirebaseAuthPage'
+export default function FirebaseEditor({ apiKey, authDomain, projectId, storageBucket, messagingSenderId, appId, measurementId, signupPagePath }) {
     //states
     const firebaseConfig = {
         apiKey,
@@ -97,7 +96,6 @@ export default function FirebaseEditor({ loginPagePath, apiKey, authDomain, proj
 
     return (
         <Layout loginStatus={LoginStatus} visible={LoginStatus === true || LoginStatus === "failure"}
-            loginPagePath={loginPagePath}
             signupPagePath={signupPagePath}
             apiKey={apiKey}
             authDomain={authDomain}
@@ -124,12 +122,14 @@ export default function FirebaseEditor({ loginPagePath, apiKey, authDomain, proj
                             </div>
                         </div>) : (
                         //NOT LOGGED IN
-                        <div className="container d-flex align-items-center justify-content-center text-center" style={{ height: '90vh', width: '100vw' }}>
-                            <div className=""><i className="display-4 bi bi-door-open-fill"></i>
-                                <h4>NOT LOGGED IN</h4>
-                                <h5><Link href={`${loginPagePath}`}><a>Login here</a></Link></h5>
-                            </div>
-                        </div>)
+                        <FirebaseAuthPageBuilder
+                            apiKey={apiKey}
+                            authDomain={authDomain}
+                            projectId={projectId}
+                            storageBucket={storageBucket}
+                            messagingSenderId={messagingSenderId}
+                            appId={appId}
+                            measurementId={measurementId} />)
                 )
             }
         </Layout >

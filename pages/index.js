@@ -1,11 +1,11 @@
 import Head from 'next/head'
-import Link from 'next/link';
-
+import { useRouter } from 'next/router';
 import { useState, useEffect } from 'react';
 import Editor from '../components/Editor';
 
 export default function TestPage() {
-  const temp=JSON.parse(`[
+    const router = useRouter();
+    const temp = JSON.parse(`[
     {
         "tag": "h1",
         "content": "Welcome to Davinci Editor",
@@ -385,29 +385,32 @@ export default function TestPage() {
         "colLg": 12
     }
 ]`)
-  const [ElementArray, setElementArray] = useState(temp)
-  const [PageInfo, setPageInfo] = useState(
-    {
-      title: "Davinci preview",
-      excerpt: "Davinci is a visual block editor inspired by Gutenberg Editor (by wordpress)",
-      tags: "next.js, firebase, react hooks, WYSIWYG",
-      feautredImage: "https://images.theconversation.com/files/272504/original/file-20190503-103045-ahb7af.jpg?ixlib=rb-1.1.0&q=45&auto=format&w=1000&fit=clip",
-    }
-  )
-  const [LoginStatus, setLoginStatus] = useState("preview");
+    const [ElementArray, setElementArray] = useState(temp)
+    const [PageInfo, setPageInfo] = useState(
+        {
+            title: "Davinci preview",
+            excerpt: "Davinci is a visual block editor inspired by Gutenberg Editor (by wordpress)",
+            tags: "next.js, firebase, react hooks, WYSIWYG",
+            feautredImage: "https://images.theconversation.com/files/272504/original/file-20190503-103045-ahb7af.jpg?ixlib=rb-1.1.0&q=45&auto=format&w=1000&fit=clip",
+        }
+    )
+    const [LoginStatus, setLoginStatus] = useState("preview");
 
-  const [Notification, setNotification] = useState("This is just preview of Editor. Login or head to Editor to actually post. Check out all blogs painted through davinci at ");
-  const [LiveBlogId, setLiveBlogId] = useState(" ");
-  console.log(ElementArray);
-  return (
-    <>
-      <Head>
-        <title>DaVinci | Paint your blog ideas</title>
-        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
-      </Head>
-        <div>
-      <Editor elementArray={ElementArray} LoginStatus={LoginStatus} updateelementArray={setElementArray} pageInfo={PageInfo} updatepageInfo={setPageInfo} Notification={Notification} LiveBlogId={LiveBlogId} />
-    </div>
-</>
-  )
+    const [Notification, setNotification] = useState("This is just preview of Editor. Click on Publish to head to the Real Editor. Check out all blogs painted through davinci at ");
+    const [LiveBlogId, setLiveBlogId] = useState(" ");
+    function handlePublish() {
+        router.push("/davinci");
+    }
+
+    return (
+        <>
+            <Head>
+                <title>DaVinci | Paint your blog ideas</title>
+                <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+            </Head>
+            <div>
+                <Editor elementArray={ElementArray} LoginStatus={LoginStatus} updateelementArray={setElementArray} pageInfo={PageInfo} updatepageInfo={setPageInfo} Notification={Notification} LiveBlogId={LiveBlogId} handlePublish={handlePublish} />
+            </div>
+        </>
+    )
 }

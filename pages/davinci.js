@@ -9,7 +9,7 @@ export default function Davinci() {
                 <meta name="viewport" content="initial-scale=1.0, width=device-width" />
             </Head>
             <FirebaseEditor
-                loginPagePath="/auth/login"
+                signupPagePath="/auth/register"
                 apiKey={`${process.env.NEXT_PUBLIC_API_KEY}`}
                 authDomain={`${process.env.NEXT_PUBLIC_AUTH_DOMAIN}`}
                 projectId={`${process.env.NEXT_PUBLIC_PROJECT_ID}`}

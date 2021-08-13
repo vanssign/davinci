@@ -6,7 +6,7 @@ import EditorTabs from './EditorTabs';
 import { OverlayTrigger, Popover } from 'react-bootstrap';
 
 import PageAttributes from '../components/PageAttributes';
-export default function Davinci({ LoginStatus, elementArray, updateelementArray, LiveBlogId, Notification, pageInfo, updatepageInfo, handlePublish }) {
+export default function Davinci({ elementArray, updateelementArray, LiveBlogId, Notification, pageInfo, updatepageInfo, handlePublish }) {
 
     const [ElementArray, setElementArray] = useState(elementArray)
     const [PageInfo, setPageInfo] = useState(
@@ -19,20 +19,18 @@ export default function Davinci({ LoginStatus, elementArray, updateelementArray,
     const [PreviewStatus, setPreviewStatus] = useState(false);
 
     useEffect(() => {
-        if (LoginStatus === true) {
-            updateelementArray(ElementArray);
-            setLastIndex(ElementArray.length - 1);
-            if (ElementArray[FocusedIndex]) {
-                if (ElementArray[FocusedIndex].tag != "custom") {
-                    setInnerFocusedIndex(-1);
-                    setInnerLastIndex(-1)
-                }
-                else {
-                    setInnerLastIndex(ElementArray[FocusedIndex].elementArray.length - 1)
-                }
+        updateelementArray(ElementArray);
+        setLastIndex(ElementArray.length - 1);
+        if (ElementArray[FocusedIndex]) {
+            if (ElementArray[FocusedIndex].tag != "custom") {
+                setInnerFocusedIndex(-1);
+                setInnerLastIndex(-1)
+            }
+            else {
+                setInnerLastIndex(ElementArray[FocusedIndex].elementArray.length - 1)
             }
         }
-    }, [ElementArray, LoginStatus])
+    }, [ElementArray])
 
 
     useEffect(() => {
@@ -161,7 +159,6 @@ export default function Davinci({ LoginStatus, elementArray, updateelementArray,
         newPageInfo[key] = value;
         setPageInfo(newPageInfo);
     }
-    console.log(ElementArray);
     return (
         <>
 
@@ -197,28 +194,11 @@ export default function Davinci({ LoginStatus, elementArray, updateelementArray,
                             >
                                 <button type="button" className="btn px-1 py-0">
                                     <i className="bi bi-gear-fill lead"></i></button></OverlayTrigger>
-                            {LoginStatus == 'preview' ? (
-                                //For preview landing page
-                                <>
-                                    <Link href={`/auth/login`}>
-                                        <a className="btn btn-info m-1">
-                                            Login
-                                        </a>
-                                    </Link>
-                                    <Link href={`/davinci`}>
-                                        <a className="btn btn-primary-x m-1">
-                                            Editor
-                                        </a>
-                                    </Link>
-                                </>
 
-                            ) : (
-                                <button className="btn btn-primary-x m-1" onClick={() => handlePublish()}
-                                >
-                                    Publish
-                                </button>
-                            )}
-
+                            <button className="btn btn-primary-x m-1" onClick={() => handlePublish()}
+                            >
+                                Publish
+                            </button>
                         </div>
                     </div>
 
