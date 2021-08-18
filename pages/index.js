@@ -1,390 +1,443 @@
 import Head from 'next/head'
 import { useRouter } from 'next/router';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import Editor from '../components/Editor';
 
 export default function TestPage() {
     const router = useRouter();
     const temp = JSON.parse(`[
-    {
-        "tag": "h1",
-        "content": "Welcome to Davinci Editor",
-        "classes": "",
-        "typography": {
-            "bold": false,
-            "italic": false,
-            "underline": false,
-            "strikethrough": false
+        {
+            "tag": "h1",
+            "content": "Welcome to Davinci Editor",
+            "classes": "",
+            "typography": {
+                "bold": false,
+                "italic": false,
+                "underline": false,
+                "strikethrough": false
+            },
+            "textColor": "dark",
+            "alignment": "left",
+            "alignSelf": "center",
+            "bgColor": "transparent",
+            "col": 12,
+            "colMd": 12,
+            "colLg": 12
         },
-        "textColor": "dark",
-        "alignment": "left",
-        "alignSelf": "center",
-        "bgColor": "transparent",
-        "col": 12,
-        "colMd": 12,
-        "colLg": 12
-    },
-    {
-        "tag": "p",
-        "content": "A WYSIWYG Editor",
-        "classes": "",
-        "typography": {
-            "bold": false,
-            "italic": false,
-            "underline": false,
-            "strikethrough": false
+        {
+            "tag": "p",
+            "content": "Check Out the new react-davinci-editor npm package, an easy to integrate editor for your firebase react app. (Still in progress)",
+            "classes": "",
+            "typography": {
+                "bold": false,
+                "italic": true,
+                "underline": false,
+                "strikethrough": false
+            },
+            "textColor": "dark",
+            "alignment": "left",
+            "alignSelf": "center",
+            "bgColor": "transparent",
+            "col": 12,
+            "colMd": 12,
+            "colLg": 12
         },
-        "textColor": "success",
-        "alignment": "center",
-        "alignSelf": "center",
-        "bgColor": "transparent",
-        "col": 12,
-        "colMd": 6,
-        "colLg": 3
-    },
-    {
-        "tag": "p",
-        "content": "Interactive Interface",
-        "classes": "",
-        "typography": {
-            "bold": false,
-            "italic": true,
-            "underline": false,
-            "strikethrough": false
+        {
+            "tag": "button",
+            "href": "https://www.npmjs.com/package/react-davinci-editor",
+            "content": "React Davinci Editor",
+            "classes": "",
+            "btnColor": "link",
+            "btnOutline": false,
+            "iconName": "box",
+            "iconPosition": "start",
+            "alignment": "left",
+            "alignSelf": "center",
+            "bgColor": "transparent",
+            "size": "sm",
+            "col": 12,
+            "colMd": 12,
+            "colLg": 12
         },
-        "textColor": "dark",
-        "alignment": "center",
-        "alignSelf": "center",
-        "bgColor": "light",
-        "col": 12,
-        "colMd": 6,
-        "colLg": 3
-    },
-    {
-        "tag": "p",
-        "content": "Easy Formatting",
-        "classes": "",
-        "typography": {
-            "bold": false,
-            "italic": false,
-            "underline": true,
-            "strikethrough": false
+        {
+            "tag": "p",
+            "content": "A WYSIWYG Editor",
+            "classes": "",
+            "typography": {
+                "bold": false,
+                "italic": false,
+                "underline": false,
+                "strikethrough": false
+            },
+            "textColor": "success",
+            "alignment": "center",
+            "alignSelf": "center",
+            "bgColor": "transparent",
+            "col": 12,
+            "colMd": 6,
+            "colLg": 3
         },
-        "textColor": "white",
-        "alignment": "center",
-        "alignSelf": "center",
-        "bgColor": "info",
-        "col": 12,
-        "colMd": 6,
-        "colLg": 3
-    },
-    {
-        "tag": "p",
-        "content": "Responsive Design",
-        "classes": "",
-        "typography": {
-            "bold": true,
-            "italic": false,
-            "underline": false,
-            "strikethrough": false
+        {
+            "tag": "p",
+            "content": "Interactive Interface",
+            "classes": "",
+            "typography": {
+                "bold": false,
+                "italic": true,
+                "underline": false,
+                "strikethrough": false
+            },
+            "textColor": "dark",
+            "alignment": "center",
+            "alignSelf": "center",
+            "bgColor": "light",
+            "col": 12,
+            "colMd": 6,
+            "colLg": 3
         },
-        "textColor": "dark",
-        "alignment": "center",
-        "alignSelf": "center",
-        "bgColor": "transparent",
-        "col": 12,
-        "colMd": 6,
-        "colLg": 3
-    },
-    {
-        "tag": "p",
-        "content": "Add Images , upload them and change their responsive nature",
-        "classes": "",
-        "typography": {
-            "bold": false,
-            "italic": false,
-            "underline": false,
-            "strikethrough": false
+        {
+            "tag": "p",
+            "content": "Easy Formatting",
+            "classes": "",
+            "typography": {
+                "bold": false,
+                "italic": false,
+                "underline": true,
+                "strikethrough": false
+            },
+            "textColor": "white",
+            "alignment": "center",
+            "alignSelf": "center",
+            "bgColor": "info",
+            "col": 12,
+            "colMd": 6,
+            "colLg": 3
         },
-        "textColor": "dark",
-        "alignment": "center",
-        "alignSelf": "center",
-        "bgColor": "transparent",
-        "col": 12,
-        "colMd": 6,
-        "colLg": 6
-    },
-    {
-        "tag": "img",
-        "src": "https://images.unsplash.com/photo-1586672806791-3a67d24186c0?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8Y292ZXIlMjBhcnR8ZW58MHx8MHx8&ixlib=rb-1.2.1&w=1000&q=80",
-        "responsive": true,
-        "alignment": "center",
-        "alignSelf": "center",
-        "bgColor": "transparent",
-        "col": 12,
-        "colMd": 6,
-        "colLg": 6
-    },
-    {
-        "tag": "custom",
-        "elementArray": [
-            {
-                "tag": "h3",
-                "content": "Create your own custom elements",
-                "classes": "",
-                "typography": {
-                    "bold": false,
-                    "italic": false,
-                    "underline": false,
-                    "strikethrough": false
+        {
+            "tag": "p",
+            "content": "Responsive Design",
+            "classes": "",
+            "typography": {
+                "bold": true,
+                "italic": false,
+                "underline": false,
+                "strikethrough": false
+            },
+            "textColor": "danger",
+            "alignment": "center",
+            "alignSelf": "center",
+            "bgColor": "transparent",
+            "col": 12,
+            "colMd": 6,
+            "colLg": 3
+        },
+        {
+            "tag": "p",
+            "content": "For your next Bootstrap based React application",
+            "classes": "",
+            "typography": {
+                "bold": false,
+                "italic": false,
+                "underline": false,
+                "strikethrough": false
+            },
+            "textColor": "dark",
+            "alignment": "center",
+            "alignSelf": "center",
+            "bgColor": "transparent",
+            "col": 12,
+            "colMd": 12,
+            "colLg": 12
+        },
+        {
+            "tag": "p",
+            "content": "Add Images , upload them and change their responsive nature",
+            "classes": "",
+            "typography": {
+                "bold": false,
+                "italic": false,
+                "underline": false,
+                "strikethrough": false
+            },
+            "textColor": "dark",
+            "alignment": "center",
+            "alignSelf": "center",
+            "bgColor": "light",
+            "col": 12,
+            "colMd": 6,
+            "colLg": 6
+        },
+        {
+            "tag": "img",
+            "src": "https://images.unsplash.com/photo-1586672806791-3a67d24186c0?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8Y292ZXIlMjBhcnR8ZW58MHx8MHx8&ixlib=rb-1.2.1&w=1000&q=80",
+            "responsive": true,
+            "alignment": "center",
+            "alignSelf": "center",
+            "bgColor": "transparent",
+            "col": 12,
+            "colMd": 6,
+            "colLg": 6
+        },
+        {
+            "tag": "custom",
+            "elementArray": [
+                {
+                    "tag": "h3",
+                    "content": "Create your own custom elements for easy nesting and position",
+                    "classes": "",
+                    "typography": {
+                        "bold": false,
+                        "italic": false,
+                        "underline": false,
+                        "strikethrough": false
+                    },
+                    "textColor": "dark",
+                    "alignment": "left",
+                    "alignSelf": "center",
+                    "bgColor": "transparent",
+                    "col": 12,
+                    "colMd": 12,
+                    "colLg": 12
                 },
-                "textColor": "dark",
-                "alignment": "left",
-                "alignSelf": "center",
-                "bgColor": "transparent",
-                "col": 12,
-                "colMd": 12,
-                "colLg": 12
-            },
-            {
-                "tag": "p",
-                "content": "It is built using simple Recursion",
-                "classes": "",
-                "typography": {
-                    "bold": false,
-                    "italic": false,
-                    "underline": false,
-                    "strikethrough": false
+                {
+                    "tag": "p",
+                    "content": "Built using simple Recursion",
+                    "classes": "",
+                    "typography": {
+                        "bold": false,
+                        "italic": false,
+                        "underline": false,
+                        "strikethrough": false
+                    },
+                    "textColor": "dark",
+                    "alignment": "left",
+                    "alignSelf": "center",
+                    "bgColor": "transparent",
+                    "col": 12,
+                    "colMd": 12,
+                    "colLg": 12
                 },
-                "textColor": "dark",
-                "alignment": "left",
-                "alignSelf": "center",
-                "bgColor": "transparent",
-                "col": 12,
-                "colMd": 12,
-                "colLg": 12
+                {
+                    "tag": "button",
+                    "href": "",
+                    "content": "Add Buttons",
+                    "classes": "",
+                    "btnColor": "primary",
+                    "btnOutline": false,
+                    "iconName": "",
+                    "iconPosition": "start",
+                    "alignment": "center",
+                    "alignSelf": "center",
+                    "bgColor": "transparent",
+                    "size": "rg",
+                    "col": 12,
+                    "colMd": 12,
+                    "colLg": 6
+                },
+                {
+                    "tag": "button",
+                    "href": "",
+                    "content": "Format them",
+                    "classes": "",
+                    "btnColor": "secondary",
+                    "btnOutline": false,
+                    "iconName": "pen",
+                    "iconPosition": "start",
+                    "alignment": "center",
+                    "alignSelf": "center",
+                    "bgColor": "transparent",
+                    "size": "rg",
+                    "col": 12,
+                    "colMd": 12,
+                    "colLg": 6
+                }
+            ],
+            "alignment": "left",
+            "alignSelf": "center",
+            "bgColor": "transparent",
+            "col": 12,
+            "colMd": 6,
+            "colLg": 6
+        },
+        {
+            "tag": "p",
+            "content": "Reorder elements, Change their type without changing content and use Design elements to build the way you want it to be seen",
+            "classes": "",
+            "typography": {
+                "bold": false,
+                "italic": false,
+                "underline": false,
+                "strikethrough": false
             },
-            {
-                "tag": "button",
-                "href": "",
-                "content": "Add Buttons",
-                "classes": "",
-                "btnColor": "primary",
-                "btnOutline": false,
-                "iconName": "",
-                "iconPosition": "start",
-                "alignment": "center",
-                "alignSelf": "center",
-                "bgColor": "transparent",
-                "size": "rg",
-                "col": 12,
-                "colMd": 12,
-                "colLg": 6
+            "textColor": "dark",
+            "alignment": "left",
+            "alignSelf": "center",
+            "bgColor": "transparent",
+            "col": 12,
+            "colMd": 6,
+            "colLg": 6
+        },
+        {
+            "tag": "hr",
+            "bgColor": "transparent"
+        },
+        {
+            "tag": "blockquote",
+            "content": "It is really easy to add blockquotes and vertical space in Davinci",
+            "cite": "Vansh Singh",
+            "footerContent": "",
+            "classes": "",
+            "typography": {
+                "bold": false,
+                "italic": false,
+                "underline": false,
+                "strikethrough": false
             },
-            {
-                "tag": "button",
-                "href": "",
-                "content": "Format them",
-                "classes": "",
-                "btnColor": "secondary",
-                "btnOutline": false,
-                "iconName": "pen",
-                "iconPosition": "start",
-                "alignment": "center",
-                "alignSelf": "center",
-                "bgColor": "transparent",
-                "size": "rg",
-                "col": 12,
-                "colMd": 12,
-                "colLg": 6
-            }
-        ],
-        "alignment": "left",
-        "alignSelf": "center",
-        "bgColor": "transparent",
-        "col": 12,
-        "colMd": 6,
-        "colLg": 6
-    },
-    {
-        "tag": "p",
-        "content": "Reorder elements, Change their type without changing content and use Design elements to build the way you want it to be seen",
-        "classes": "",
-        "typography": {
-            "bold": false,
-            "italic": false,
-            "underline": false,
-            "strikethrough": false
+            "textColor": "dark",
+            "alignment": "left",
+            "alignSelf": "center",
+            "bgColor": "transparent",
+            "col": 12,
+            "colMd": 12,
+            "colLg": 12
         },
-        "textColor": "dark",
-        "alignment": "left",
-        "alignSelf": "center",
-        "bgColor": "transparent",
-        "col": 12,
-        "colMd": 6,
-        "colLg": 6
-    },
-    {
-        "tag": "hr",
-        "bgColor": "transparent"
-    },
-    {
-        "tag": "blockquote",
-        "content": "It is really easy to add blockquotes and vertical space in Davinci",
-        "cite": "Vansh Singh",
-        "footerContent": "",
-        "classes": "",
-        "typography": {
-            "bold": false,
-            "italic": false,
-            "underline": false,
-            "strikethrough": false
+        {
+            "tag": "spacer",
+            "height": "50",
+            "bgColor": "light"
         },
-        "textColor": "dark",
-        "alignment": "left",
-        "alignSelf": "center",
-        "bgColor": "transparent",
-        "col": 12,
-        "colMd": 12,
-        "colLg": 12
-    },
-    {
-        "tag": "spacer",
-        "height": "50",
-        "bgColor": "light"
-    },
-    {
-        "tag": "h5",
-        "content": "Embed Images, videos , Urls and easily change the aspect ratio of embed",
-        "classes": "",
-        "typography": {
-            "bold": false,
-            "italic": false,
-            "underline": false,
-            "strikethrough": false
-        },
-        "textColor": "dark",
-        "alignment": "left",
-        "alignSelf": "center",
-        "bgColor": "transparent",
-        "col": 12,
-        "colMd": 12,
-        "colLg": 12
-    },
-    {
-        "tag": "embed",
-        "src": "https://www.youtube.com/embed/_bzATDSKuVs",
-        "alignment": "center",
-        "alignSelf": "center",
-        "bgColor": "transparent",
-        "col": 12,
-        "colMd": 12,
-        "colLg": 12,
-        "aspectRatio": "16by9"
-    },
-    {
-        "tag": "carousel",
-        "slides": [
-            {
-                "src": "https://timelinecovers.pro/facebook-cover/download/stunning-little-flowers-facebook-cover.jpg",
-                "label": "Add Slide labels",
-                "caption": "",
-                "textColor": "light"
+        {
+            "tag": "h4",
+            "content": "Embed Images, videos , Urls and easily change the aspect ratio of embed",
+            "classes": "",
+            "typography": {
+                "bold": false,
+                "italic": false,
+                "underline": false,
+                "strikethrough": false
             },
-            {
-                "src": "https://thumbs.dreamstime.com/b/baby-s-hand-dark-covers-colored-water-light-shadow-123921865.jpg",
-                "label": "Add Carousel",
-                "caption": "Change its transition, interval, hide controls indicators",
-                "textColor": "light"
-            }
-        ],
-        "animation": "slide",
-        "interval": "500",
-        "controls": true,
-        "indicators": true,
-        "alignSelf": "center",
-        "bgColor": "transparent",
-        "col": 12,
-        "colMd": 12,
-        "colLg": 12
-    },
-    {
-        "tag": "h5",
-        "content": "Add all your social links at a time",
-        "classes": "",
-        "typography": {
-            "bold": false,
-            "italic": false,
-            "underline": false,
-            "strikethrough": false
+            "textColor": "dark",
+            "alignment": "left",
+            "alignSelf": "center",
+            "bgColor": "transparent",
+            "col": 12,
+            "colMd": 12,
+            "colLg": 12
         },
-        "textColor": "info",
-        "alignment": "center",
-        "alignSelf": "center",
-        "bgColor": "transparent",
-        "col": 12,
-        "colMd": 12,
-        "colLg": 12
-    },
-    {
-        "tag": "socialbtns",
-        "instagram": "",
-        "facebook": "",
-        "twitter": "",
-        "whatsapp": "https://wa.me/918279762669",
-        "github": "https://github.com/vanssign",
-        "linkedin": "https://www.linkedin.com/in/vansh-singh/",
-        "youtube": "",
-        "google": "",
-        "telegram": "",
-        "slack": "",
-        "discord": "",
-        "twitch": "",
-        "alignment": "center",
-        "alignSelf": "center",
-        "bgColor": "transparent",
-        "size": "rg",
-        "col": 12,
-        "colMd": 12,
-        "colLg": 12
-    },
-    {
-        "tag": "h3",
-        "content": "Whats the end goal of this Project?",
-        "classes": "",
-        "typography": {
-            "bold": false,
-            "italic": false,
-            "underline": false,
-            "strikethrough": false
+        {
+            "tag": "embed",
+            "src": "https://www.youtube.com/embed/_bzATDSKuVs",
+            "alignment": "center",
+            "alignSelf": "center",
+            "bgColor": "transparent",
+            "col": 12,
+            "colMd": 12,
+            "colLg": 12,
+            "aspectRatio": "16by9"
         },
-        "textColor": "dark",
-        "alignment": "left",
-        "alignSelf": "center",
-        "bgColor": "transparent",
-        "col": 12,
-        "colMd": 12,
-        "colLg": 12
-    },
-    {
-        "tag": "p",
-        "content": "Build a Node Package for developers to add blog posting feature to their nextjs sites in a go by just integrating firebase",
-        "classes": "",
-        "typography": {
-            "bold": false,
-            "italic": false,
-            "underline": false,
-            "strikethrough": false
+        {
+            "tag": "carousel",
+            "slides": [
+                {
+                    "src": "https://timelinecovers.pro/facebook-cover/download/stunning-little-flowers-facebook-cover.jpg",
+                    "label": "Add Slide labels",
+                    "caption": "",
+                    "textColor": "light"
+                },
+                {
+                    "src": "https://thumbs.dreamstime.com/b/baby-s-hand-dark-covers-colored-water-light-shadow-123921865.jpg",
+                    "label": "Add Carousel",
+                    "caption": "Change its transition, interval, hide controls indicators",
+                    "textColor": "light"
+                }
+            ],
+            "animation": "slide",
+            "interval": "500",
+            "controls": true,
+            "indicators": true,
+            "alignSelf": "center",
+            "bgColor": "transparent",
+            "col": 12,
+            "colMd": 12,
+            "colLg": 12
         },
-        "textColor": "dark",
-        "alignment": "left",
-        "alignSelf": "center",
-        "bgColor": "transparent",
-        "col": 12,
-        "colMd": 12,
-        "colLg": 12
-    }
-]`)
+        {
+            "tag": "h5",
+            "content": "Add all your social links at a time",
+            "classes": "",
+            "typography": {
+                "bold": false,
+                "italic": false,
+                "underline": false,
+                "strikethrough": false
+            },
+            "textColor": "info",
+            "alignment": "center",
+            "alignSelf": "center",
+            "bgColor": "transparent",
+            "col": 12,
+            "colMd": 12,
+            "colLg": 12
+        },
+        {
+            "tag": "socialbtns",
+            "instagram": "",
+            "facebook": "",
+            "twitter": "",
+            "whatsapp": "https://wa.me/918279762669",
+            "github": "https://github.com/vanssign",
+            "linkedin": "https://www.linkedin.com/in/vansh-singh/",
+            "youtube": "",
+            "google": "",
+            "telegram": "",
+            "slack": "",
+            "discord": "",
+            "twitch": "",
+            "alignment": "center",
+            "alignSelf": "center",
+            "bgColor": "transparent",
+            "size": "rg",
+            "col": 12,
+            "colMd": 12,
+            "colLg": 12
+        },
+        {
+            "tag": "h3",
+            "content": "Whats the end goal of this Project?",
+            "classes": "",
+            "typography": {
+                "bold": false,
+                "italic": false,
+                "underline": false,
+                "strikethrough": false
+            },
+            "textColor": "dark",
+            "alignment": "left",
+            "alignSelf": "center",
+            "bgColor": "transparent",
+            "col": 12,
+            "colMd": 12,
+            "colLg": 12
+        },
+        {
+            "tag": "p",
+            "content": "Build a Node Package for developers to add blog posting feature to their nextjs sites in a go by just integrating firebase",
+            "classes": "",
+            "typography": {
+                "bold": false,
+                "italic": false,
+                "underline": false,
+                "strikethrough": false
+            },
+            "textColor": "dark",
+            "alignment": "left",
+            "alignSelf": "center",
+            "bgColor": "transparent",
+            "col": 12,
+            "colMd": 12,
+            "colLg": 12
+        }
+    ]`)
     const [ElementArray, setElementArray] = useState(temp)
     const [PageInfo, setPageInfo] = useState(
         {
@@ -401,7 +454,7 @@ export default function TestPage() {
     function handlePublish() {
         router.push("/davinci");
     }
-
+    console.log(ElementArray);
     return (
         <>
             <Head>
