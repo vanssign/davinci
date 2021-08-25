@@ -14,7 +14,7 @@ export default function BlogIndex({ allPostsData }) {
                     <div className="col-md-6 px-0">
                         <h1 className="display-4 font-italic">All the blogs posted through Davinci Editor</h1>
                         <p className="lead my-3">Now easily post blogs as if you are painting on a canvas.</p>
-                        <Link href="/auth/register">
+                        <Link href="/davinci">
                             <p className="lead mb-0"><a href="#" className="text-white font-weight-bold">Get Started...</a></p>
                         </Link>
                     </div>
